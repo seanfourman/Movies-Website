@@ -56,20 +56,88 @@ button {
   padding-left: 60px;
 }
 
+.tag {
+  border-radius: 15px;
+  background-color: lightgrey;
+  padding: 6px;
+  font-size: 10px;
+}
+
 .movieCard {
-  height: 400px;
-  width: 250px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 450px;
+  width: 230px;
   background-color: var(--cardBackground);
   border-radius: 5px;
   box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.5);
   overflow: hidden;
 }
 
-.movieCard > img {
-  height: 30%;
+.movieCard * {
+  color: black;
 }
 
-#noMovies {
+.movieCard .movieCardImageContainer {
+  height: 45%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.movieCard .movieCardImageContainer img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.movieCard .movieCardTitle {
+  font-weight: 600;
+}
+
+.movieCard .movieCardStats {
+  display: flex;
+  gap: 12px;
+}
+
+.movieCard .movieCardTextContainer {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.movieCard .movieCardStats span {
+  color: grey;
+  font-size: 12px;
+}
+
+.movieCard .movieCardTextContent p {
+  font-size: 12px;
+}
+
+.movieCard .movieCardTextTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.movieCard .movieCardTag {
+  position: absolute;
+  top: 10px;
+  z-index: 2;
+}
+
+.movieCard .movieCardTag.movieCardAddToCart {
+  left: 10px;
+}
+
+.movieCard .movieCardTag.movieCardRating {
+  right: 10px;
+}
+
+/* gay*/
+.movieCardTag #noMovies {
   position: absolute;
   top: 50%;
 }

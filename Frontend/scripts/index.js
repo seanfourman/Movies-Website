@@ -1,8 +1,25 @@
 $(document).ready(init);
 
+function loadSnippet(name, type, ...followups) {
+  const prefixTypes = {
+    element: "",
+    class: ".",
+    id: "#"
+  };
+  const prefix = prefixTypes[type];
+
+  $.get(`../html/${name}.html`, (data) => {
+    $(`${prefix}${name}`).html(data);
+
+    for (const followup of followups) {
+      followup();
+    }
+  });
+}
+
 function init() {
-  $("nav").load("../html/navbar.html", swapLogoLink);
-  $("footer").load("../html/footer.html");
+  // loadSnippet("nav", "element", swapLogoLink);
+  // loadSnippet("footer", "element");
 
   if ($("#loadMovies-btn")) {
     $("#loadMovies-btn").click(loadMovies);
@@ -18,7 +35,7 @@ function swapLogoLink() {
 }
 
 function loadMovies() {
-  let filteredMovies = movies.map((movie) => ({
+  filteredMovies = movies.map((movie) => ({
     id: movie.id,
     url: movie.url,
     primaryTitle: movie.primaryTitle,
@@ -36,17 +53,21 @@ function loadMovies() {
     numVotes: movie.numVotes
   }));
 
+  $(this).hide();
+
   if (filteredMovies.length === 0) {
-    const $noMoviesText = $("<h1></h1>").attr("id", "noMovies").text("No Movies Available");
-    $("container").append($noMoviesText);
+    return showNoMoviesMessage();
   }
 
   for (movie of filteredMovies) {
     createMovieCard(movie);
   }
-  $(this).hide();
+}
+
+function showNoMoviesMessage() {
+  $("container").append($("<h1></h1>").attr("id", "noMovies").text("No Movies Available"));
 }
 
 function createMovieCard(movie) {
-  console.log(movie.primaryTitle);
+  console.log(movie);
 }
