@@ -13,7 +13,7 @@
 }
 
 * {
-  font-family: "Helvetica", "Arial", sans-serif;
+  font-family: "Gloria Hallelujah", cursive;
   color: var(--text);
   scroll-behavior: smooth;
 }
@@ -57,7 +57,7 @@ container {
   gap: 30px;
   align-items: center;
   justify-content: center;
-  padding: 50px 20px 150px 20px;
+  padding: 20px;
   flex-wrap: wrap;
 }
 
@@ -73,7 +73,6 @@ a {
 }
 
 button {
-  font-family: "Gloria Hallelujah", cursive;
   padding: 5px;
   background-color: transparent;
   border: none;
@@ -159,6 +158,7 @@ button:not(:hover)::after {
 
 .movieCard * {
   color: black;
+  font-family: "Helvetica", "Arial", sans-serif;
 }
 
 .movieCard .movieCardImageContainer {
@@ -283,7 +283,6 @@ button:not(:hover)::after {
 }
 
 #noMovies {
-  font-family: "Gloria Hallelujah", cursive;
   position: absolute;
   top: 45%;
 }
@@ -301,6 +300,10 @@ footer {
 
 footer p {
   color: var(--text);
+}
+
+footer.relative {
+  position: relative;
 }
 
 .add-button {

@@ -5,15 +5,23 @@
   padding: 0px 100px;
 }
 
+#searchInputs div {
+  display: flex;
+  justify-content: end;
+}
+
 #searchInputs input {
   background-color: transparent;
   border: none;
   border-bottom: 2px solid white;
   color: white;
   font-weight: bold;
-  font-family: "Gloria Hallelujah", cursive;
   text-align: center;
   transition: border-color 0.3s ease;
+}
+
+#searchByDate span {
+  font-weight: bold;
 }
 
 #searchInputs input::placeholder {

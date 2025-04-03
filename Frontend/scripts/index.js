@@ -66,6 +66,8 @@ function loadMovies(arr) {
 
   if (filteredMovies.length === 0) {
     return showNoMoviesMessage();
+  } else {
+    updateFooterPosition();
   }
 
   for (movie of filteredMovies) {
@@ -75,6 +77,7 @@ function loadMovies(arr) {
 
 function showNoMoviesMessage() {
   $("container").append($("<h1></h1>").attr("id", "noMovies").text("No Movies Available"));
+  updateFooterPosition();
 }
 
 function createMovieCard(movie) {
@@ -284,3 +287,17 @@ function showPopup(message, flag) {
     $popup.removeClass("failure");
   }, 2000);
 }
+
+function updateFooterPosition() {
+  setTimeout(() => {
+    const isScrollable = $(document).height() > $(window).height();
+
+    if (isScrollable) {
+      $("footer").addClass("relative");
+    } else {
+      $("footer").removeClass("relative");
+    }
+  }, 1);
+}
+
+$(window).on("load resize", updateFooterPosition);
