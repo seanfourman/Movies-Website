@@ -9,8 +9,11 @@ function getUserMovies() {
 }
 
 function readSCB(res) {
-  console.log(res);
+  //console.log(res);
   loadMovies(res); // Wait until the data is ready
+  if (res.length != 0) {
+    console.log("no null");
+  }
 }
 
 function readECB(err) {

@@ -5,9 +5,8 @@ const url = `https://localhost:${port}/api/Movies`;
 
 const htmlSnippets = {
   nav: `
-    <a id="logo" href="./index.html">
-      <img id="logo" src="../sources/LOGO-white.png" />
-    </a>
+    <a href="./index.html"><button>Home</button></a>
+    <img id="logo" src="../sources/LOGO-ducktape.png" />
     <a href="./myMovies.html"><button>My Movies</button></a>
   `,
   footer: `
@@ -22,9 +21,7 @@ function init() {
   for (const element in htmlSnippets) {
     injectSnippet(element);
   }
-  swapLogoHref();
 
-  // Length is needed because jquery always returns true without
   if ($("#loadMoviesButton").length) {
     $("#loadMoviesButton").click(function () {
       loadMovies(movies);
@@ -39,16 +36,6 @@ function injectSnippet(element) {
     $(`${element}`).html(htmlSnippets[element]);
   } else {
     console.error(`injectSnippet: Element '${element}' not found in DOM.`);
-  }
-}
-
-function swapLogoHref() {
-  if (page === "index.html") {
-    if ($("#logo").length) {
-      $("#logo").attr("href", "#");
-    } else {
-      console.error(`loadMovies: Element '#logo' not found in DOM.`);
-    }
   }
 }
 
@@ -205,15 +192,19 @@ function onImageHover(movie) {
         let $btn = null;
 
         if (page === "index.html") {
-          $btn = $('<div class="add-button"><span>+</span></div>');
+          $btn = $('<div class="add-button"><span>❤</span></div>');
           $btn.on("click", function () {
             sendToServer(movie);
           });
         } else if (page === "myMovies.html") {
-          $btn = $('<div class="add-button remove"><span>⮿</span></div>');
+          $btn = $('<div class="add-button remove"><span>✘</span></div>');
           $btn.on("click", function () {
             deleteMovie(movie.id);
-            $btn.parent().parent().remove();
+            const card = $btn.closest(".movieCard");
+            card.fadeOut(300, function () {
+              card.remove();
+              ajaxCall("GET", url, "", checkIfArrayIsNull, checkIfArrayIsNull);
+            });
           });
         }
 
@@ -234,7 +225,12 @@ function onImageHover(movie) {
   );
 }
 
-// Send data to server
+function checkIfArrayIsNull(res) {
+  if (res.length === 0) {
+    return showNoMoviesMessage();
+  }
+}
+
 function sendToServer(selectedMovie) {
   let movie = {
     id: selectedMovie.id,
@@ -263,10 +259,8 @@ function deleteMovie(movieId) {
 
 function insertSCB(res) {
   if (res === false) {
-    console.error("[HTTP Request]: Movie is already in library.");
     showPopup("Movie is already in your library!", false);
   } else {
-    console.log("[HTTP Request]: Movie added to user library.");
     showPopup("Added to your library!", true);
   }
 }
@@ -279,7 +273,6 @@ function showPopup(message, flag) {
   const $popup = $("#popup");
   $popup.text(message).addClass("show");
   if (flag === true) {
-    console.log("alo");
     $popup.addClass("success");
   } else {
     $popup.addClass("failure");
