@@ -114,6 +114,7 @@ button {
   width: 100%;
   object-fit: cover;
   transition: transform 1s ease-in-out, filter 1s ease-in-out;
+  user-select: none;
 }
 
 .movieCard .movieCardTitle {
@@ -259,6 +260,7 @@ footer p {
   line-height: 45px; /* vertically center the + sign */
   text-align: center;
   color: var(--text);
+  user-select: none;
 }
 
 .add-button span {
@@ -272,4 +274,33 @@ footer p {
 
 .remove span {
   color: red;
+}
+
+.popup {
+  position: fixed;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--text);
+  padding: 12px 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.popup.success {
+  background-color: rgba(125, 255, 120, 0.8);
+}
+
+.popup.failure {
+  background-color: rgba(255, 120, 120, 0.8);
+}
+
+.popup.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-10px);
+  pointer-events: auto;
 }
