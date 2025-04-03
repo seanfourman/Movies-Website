@@ -23,17 +23,23 @@ body {
 
 nav {
   height: 100px;
+  width: 100%;
   background-color: var(--navbar);
   display: flex;
+  position: fixed;
   align-items: center;
   justify-content: space-between;
+  z-index: 1000;
 }
 
 container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 30px;
   align-items: center;
   justify-content: center;
+  padding: 200px;
+  flex-wrap: wrap;
 }
 
 a {
@@ -74,6 +80,10 @@ button {
   color: var(--darkgray) !important;
   padding: 6px;
   font-size: 10px;
+
+  user-select: none; /* Standard */
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE/Edge */
 }
 
 .movieCard {
@@ -94,7 +104,8 @@ button {
 }
 
 .movieCard .movieCardImageContainer {
-  height: 45%;
+  max-height: 200px;
+  height: 47.5%;
   width: 100%;
   overflow: hidden;
 }
@@ -102,10 +113,15 @@ button {
 .movieCard .movieCardImageContainer img {
   width: 100%;
   object-fit: cover;
+  transition: transform 1s ease-in-out, filter 1s ease-in-out;
 }
 
 .movieCard .movieCardTitle {
-  font-weight: 600;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .movieCard .movieCardStats {
@@ -157,6 +173,19 @@ button {
   overflow-y: hidden;
   gap: 8px;
   padding: 10px 0;
+  cursor: grab;
+  user-select: none;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.movieCard .movieCardTextTags::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.movieCard .movieCardTextTags:active {
+  cursor: grabbing;
 }
 
 .movieCard .movieCardTag {
@@ -183,7 +212,8 @@ button {
 
 .movieCard .movieCardFooter .footerTitle {
   color: darkgray;
-  margin: 5px 0 0 0;
+  margin: 0px;
+  white-space: nowrap;
 }
 
 .movieCard .movieCardFooter .footerText {
@@ -202,12 +232,44 @@ footer {
   width: 100%;
   height: 75px;
   background-color: var(--navbar);
-  z-index: 1;
+  z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-footer > p {
+footer p {
   color: var(--text-secondary);
+}
+
+.add-button {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+  cursor: pointer;
+  line-height: 45px; /* vertically center the + sign */
+  text-align: center;
+  color: var(--text);
+}
+
+.add-button span {
+  color: var(--highlight);
+}
+
+.remove {
+  font-size: 50px;
+  line-height: 50px;
+}
+
+.remove span {
+  color: red;
 }
