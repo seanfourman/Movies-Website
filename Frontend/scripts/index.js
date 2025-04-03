@@ -262,9 +262,32 @@ function deleteMovie(movieId) {
 }
 
 function insertSCB(res) {
-  console.log(res);
+  if (res === false) {
+    console.error("[HTTP Request]: Movie is already in library.");
+    showPopup("Movie is already in your library!", false);
+  } else {
+    console.log("[HTTP Request]: Movie added to user library.");
+    showPopup("Added to your library!", true);
+  }
 }
 
 function insertECB(err) {
   console.log(err);
+}
+
+function showPopup(message, flag) {
+  const $popup = $("#popup");
+  $popup.text(message).addClass("show");
+  if (flag === true) {
+    console.log("alo");
+    $popup.addClass("success");
+  } else {
+    $popup.addClass("failure");
+  }
+
+  setTimeout(() => {
+    $popup.removeClass("show");
+    $popup.removeClass("success");
+    $popup.removeClass("failure");
+  }, 2000);
 }
