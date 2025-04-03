@@ -35,6 +35,7 @@ function triggerSearch() {
   const startDate = $("#startDate").val();
   const endDate = $("#endDate").val();
 
+  $("#noMovies").remove();
   $(".movieCard").remove();
   if (title) {
     ajaxCall("GET", `${url}/searchByTitle`, { title }, successCB, errorCB);
