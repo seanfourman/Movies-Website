@@ -1,4 +1,41 @@
-#loadMovies-btn {
-  position: absolute;
-  top: 50%;
+#searchInputs {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 100px;
+}
+
+#searchInputs input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid white;
+  color: white;
+  font-weight: bold;
+  font-family: "Gloria Hallelujah", cursive;
+  text-align: center;
+  transition: border-color 0.3s ease;
+}
+
+#searchInputs input::placeholder {
+  color: rgba(255, 255, 255, 0.75); /* Safari, Chrome, Firefox */
+  font-weight: bold;
+}
+
+#searchInputs input:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.75); /* IE */
+}
+
+#searchInputs input::-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.75); /* Edge */
+}
+
+#searchInputs input:focus {
+  outline: none;
+  border-bottom: 2px solid #dc2d32;
+}
+
+#searchByDate {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
