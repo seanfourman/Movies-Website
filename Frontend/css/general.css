@@ -5,11 +5,15 @@
   --text: #ffffff;
   --text-secondary: #666666;
   --accent: #0391fc;
+  --highlight: #ffd600;
+  --lightgray: #e3e3e3;
+  --darkgray: #7e7e7e;
 }
 
 * {
   font-family: "Helvetica", "Arial", sans-serif;
   color: var(--text);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -56,9 +60,18 @@ button {
   padding-left: 60px;
 }
 
+#rating {
+  border-radius: 5px;
+  background-color: red;
+  color: var(--text);
+  font-weight: bold;
+  padding: 2px 5px;
+}
+
 .tag {
   border-radius: 15px;
-  background-color: lightgrey;
+  background-color: #eeefef;
+  color: var(--darkgray) !important;
   padding: 6px;
   font-size: 10px;
 }
@@ -67,9 +80,9 @@ button {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   height: 450px;
-  width: 230px;
+  width: 225px;
   background-color: var(--cardBackground);
   border-radius: 5px;
   box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.5);
@@ -97,6 +110,7 @@ button {
 
 .movieCard .movieCardStats {
   display: flex;
+  align-items: center;
   gap: 12px;
 }
 
@@ -104,7 +118,7 @@ button {
   padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
 }
 
 .movieCard .movieCardStats span {
@@ -112,31 +126,71 @@ button {
   font-size: 12px;
 }
 
-.movieCard .movieCardTextContent p {
+.movieCard .movieCardTextContent {
+  max-height: 70px;
+  height: 70px;
+  overflow-y: auto;
   font-size: 12px;
 }
 
+.movieCard .movieCardTextContent p {
+  margin: 5px;
+}
+
+/* Scroll bar webkit */
+.movieCardTextContent::-webkit-scrollbar {
+  width: 6px;
+}
+.movieCardTextContent::-webkit-scrollbar-thumb {
+  background-color: var(--lightgray);
+  border-radius: 4px;
+}
+.movieCardTextContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+/* ----------------- */
+
 .movieCard .movieCardTextTags {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
   gap: 8px;
+  padding: 10px 0;
 }
 
 .movieCard .movieCardTag {
   position: absolute;
-  top: 10px;
+  top: 5px;
   z-index: 2;
-}
-
-.movieCard .movieCardTag.movieCardAddToCart {
-  left: 10px;
 }
 
 .movieCard .movieCardTag.movieCardRating {
   right: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--highlight) !important;
+  background-color: black;
 }
 
-/* gay*/
+.movieCard .movieCardFooter {
+  display: flex;
+  gap: 30px;
+  font-size: 12px;
+  justify-content: center;
+  text-align: center;
+}
+
+.movieCard .movieCardFooter .footerTitle {
+  color: darkgray;
+  margin: 5px 0 0 0;
+}
+
+.movieCard .movieCardFooter .footerText {
+  color: black;
+  margin: 3px;
+}
+
 .movieCardTag #noMovies {
   position: absolute;
   top: 50%;

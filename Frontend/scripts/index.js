@@ -1,36 +1,48 @@
 $(document).ready(init);
 
-function loadSnippet(name, type, ...followups) {
-  const prefixTypes = {
-    element: "",
-    class: ".",
-    id: "#"
-  };
-  const prefix = prefixTypes[type];
-
-  $.get(`../html/${name}.html`, (data) => {
-    $(`${prefix}${name}`).html(data);
-
-    for (const followup of followups) {
-      followup();
-    }
-  });
-}
+const htmlSnippets = {
+  nav: `
+    <a id="logo" href="./index.html">
+      <img id="logo" src="../sources/LOGO-white.png" />
+    </a>
+    <a href="./myMovies.html"><button>My Movies</button></a>
+  `,
+  footer: `
+    <p>&copy; 2025 The Reel Deal, All rights reserved.</p>
+  `
+};
 
 function init() {
-  // loadSnippet("nav", "element", swapLogoLink);
-  // loadSnippet("footer", "element");
+  for (const element in htmlSnippets) {
+    injectSnippet(element);
+  }
+  swapLogoHref();
 
-  if ($("#loadMovies-btn")) {
-    $("#loadMovies-btn").click(loadMovies);
+  // Length is needed because jquery always returns true without
+  if ($("#loadMoviesButton").length) {
+    $("#loadMoviesButton").click(loadMovies);
+  } else {
+    console.error(`loadMovies: Element '#loadMoviesButton' not found in DOM.`);
   }
 }
 
-function swapLogoLink() {
+function injectSnippet(element) {
+  if ($(`${element}`).length) {
+    $(`${element}`).html(htmlSnippets[element]);
+  } else {
+    console.error(`injectSnippet: Element '${element}' not found in DOM.`);
+  }
+}
+
+function swapLogoHref() {
   var path = window.location.pathname;
   var page = path.split("/").pop();
   if (page === "index.html") {
-    $("#logo").attr("href", "#");
+    if ($("#logo").length) {
+      $("#logo").attr("href", "#");
+    } else {
+      console.error(`loadMovies: Element '#logo' not found in DOM.`);
+    }
   }
 }
 
