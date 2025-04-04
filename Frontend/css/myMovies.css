@@ -2,7 +2,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 0px 100px;
+  padding: 0px 5%;
 }
 
 #searchInputs div {
@@ -18,6 +18,11 @@
   font-weight: bold;
   text-align: center;
   transition: border-color 0.3s ease;
+  height: fit-content;
+}
+
+#searchByName {
+  align-items: end;
 }
 
 #searchByDate span {
