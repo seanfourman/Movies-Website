@@ -16,6 +16,7 @@
   font-family: "Gloria Hallelujah", cursive;
   color: var(--text);
   scroll-behavior: smooth;
+  box-sizing: border-box;
 }
 
 ::-webkit-scrollbar {
@@ -40,15 +41,20 @@
 body {
   margin: 0px;
   background-image: url(../sources/cardboard-bg.jpg);
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 nav {
-  height: 200px;
+  height: auto;
+  min-height: 120px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   z-index: 1000;
+  flex-wrap: wrap;
+  padding: 10px 0;
 }
 
 container {
@@ -58,18 +64,23 @@ container {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  padding-bottom: 75px;
   flex-wrap: wrap;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 container img {
-  height: 400px;
+  height: auto;
+  max-height: 400px;
+  max-width: 100%;
 }
 
 a {
   text-decoration: none;
   color: var(--text);
   font-weight: bold;
-  padding: 50px;
 }
 
 button {
@@ -77,12 +88,13 @@ button {
   background-color: transparent;
   border: none;
   color: var(--text);
-  font-size: 24px;
+  font-size: clamp(16px, 5vw, 24px);
   font-weight: bold;
   cursor: pointer;
   width: fit-content;
   position: relative;
   overflow: hidden;
+  margin: 10px;
 }
 
 button::after {
@@ -113,14 +125,18 @@ button:not(:hover)::after {
 #loadMoviesButton {
   cursor: pointer;
   position: absolute;
-  top: 45%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -35%);
+  width: 80%;
+  max-width: 300px;
 }
 
 #logo {
-  height: 200px;
-  padding-left: 60px;
+  height: auto;
+  max-height: 150px;
+  max-width: 90%;
+  padding: 0;
 }
 
 #rating {
@@ -137,7 +153,6 @@ button:not(:hover)::after {
   color: var(--darkgray) !important;
   padding: 6px;
   font-size: 10px;
-
   user-select: none; /* Standard */
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE/Edge */
@@ -149,7 +164,8 @@ button:not(:hover)::after {
   flex-direction: column;
   gap: 10px;
   height: 450px;
-  width: 225px;
+  width: 100%;
+  max-width: 225px;
   background-color: var(--cardBackground);
   border-radius: 10px;
   box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.5);
@@ -170,6 +186,7 @@ button:not(:hover)::after {
 
 .movieCard .movieCardImageContainer img {
   width: 100%;
+  height: 100%;
   object-fit: cover;
   transition: transform 1s ease-in-out, filter 1s ease-in-out;
   user-select: none;
@@ -185,8 +202,9 @@ button:not(:hover)::after {
 
 .movieCard .movieCardStats {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .movieCard .movieCardTextContainer {
@@ -236,7 +254,6 @@ button:not(:hover)::after {
   padding: 10px 0;
   cursor: grab;
   user-select: none;
-
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
 }
@@ -265,10 +282,11 @@ button:not(:hover)::after {
 
 .movieCard .movieCardFooter {
   display: flex;
-  gap: 30px;
+  gap: 15px;
   font-size: 12px;
   justify-content: center;
   text-align: center;
+  flex-wrap: wrap;
 }
 
 .movieCard .movieCardFooter .footerTitle {
@@ -285,6 +303,10 @@ button:not(:hover)::after {
 #noMovies {
   position: absolute;
   top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  text-align: center;
 }
 
 footer {
@@ -296,10 +318,13 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  padding: 0 15px;
 }
 
 footer p {
   color: var(--text);
+  font-size: clamp(12px, 3vw, 16px);
 }
 
 footer.relative {
@@ -354,6 +379,8 @@ footer.relative {
   transition: opacity 0.5s ease, transform 0.5s ease;
   font-weight: bold;
   font-family: "Helvetica", "Arial", sans-serif;
+  text-align: center;
+  max-width: 90%;
 }
 
 .popup.success {
@@ -368,4 +395,146 @@ footer.relative {
   opacity: 1;
   transform: translateX(-50%) translateY(-10px);
   pointer-events: auto;
+}
+
+@media screen and (min-width: 769px) and (max-width: 1280px) {
+  container {
+    max-width: 95%;
+  }
+
+  nav {
+    flex-direction: column;
+    padding: 0px;
+  }
+
+  .movieCard {
+    max-width: 200px;
+  }
+
+  .movieCard .movieCardTextContainer {
+    padding: 5px;
+  }
+
+  .movieCard .movieCardTitle {
+    text-align: center;
+    font-size: 18px;
+    padding-bottom: 5px;
+  }
+
+  .movieCard .movieCardStats {
+    justify-content: center;
+  }
+
+  .movieCard .movieCardStats span {
+    font-size: 14px;
+  }
+
+  .movieCardTextContent p {
+    font-size: 14px;
+  }
+
+  .movieCard .movieCardTextTags {
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .movieCard .movieCardTextTags .tag {
+    font-size: 12px;
+  }
+
+  .movieCard .movieCardFooter {
+    gap: 7px;
+  }
+
+  .movieCard .movieCardFooter * {
+    font-size: 13px;
+  }
+
+  #logo {
+    max-height: 120px;
+  }
+
+  #loadMoviesButton {
+    width: auto;
+    max-width: none;
+  }
+
+  button {
+    font-size: 32px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  a {
+    font-size: 24px;
+    padding: 0px;
+  }
+
+  button {
+    padding: 0px;
+  }
+
+  button::after {
+    background: none;
+  }
+
+  .movieCard {
+    max-width: 80%;
+    height: auto;
+    min-height: 450px;
+  }
+
+  .movieCard .movieCardTag .movieCardRating {
+    font-size: 14px;
+  }
+
+  .movieCard .movieCardTitle {
+    text-align: center;
+    font-size: 18px;
+    padding-bottom: 5px;
+  }
+
+  .movieCard .movieCardTextContent {
+    overflow-y: visible;
+    max-height: none;
+    height: auto;
+    text-align: center;
+  }
+
+  .movieCardTextContent p {
+    font-size: 14px;
+  }
+
+  .movieCard .movieCardTextTags {
+    justify-content: center;
+  }
+
+  .movieCard .movieCardTextTags .tag {
+    font-size: 12px;
+  }
+
+  .movieCard .movieCardFooter {
+    font-size: 16px;
+    gap: 25px !important;
+  }
+
+  container {
+    gap: 30px;
+    padding: 15px 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  button {
+    font-size: 24px;
+    padding: 3px;
+  }
+
+  .movieCard .movieCardFooter {
+    gap: 10px;
+  }
+
+  .movieCard .movieCardStats {
+    justify-content: center;
+  }
 }

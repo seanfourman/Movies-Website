@@ -92,7 +92,11 @@ function loadMovies(arr) {
 }
 
 function showNoMoviesMessage(text = noMoviesMessages[Math.floor(Math.random() * noMoviesMessages.length)]) {
-  $("container").append($("<h1></h1>").attr("id", "noMovies").text(text));
+  if ($("#noMovies").length === 0) {
+    $("container").append($("<h1></h1>").attr("id", "noMovies").text(text));
+  } else {
+    $("#noMovies").text(text);
+  }
   updateFooterPosition();
 }
 
@@ -284,7 +288,9 @@ function insertSCB(res) {
   if (res === false) {
     showPopup("Movie is already in your library!", false);
   } else {
-    showPopup("Added to your library!", true);
+    if (page === "index.html") {
+      showPopup("Added to your library!", true);
+    }
   }
 }
 
@@ -293,18 +299,29 @@ function insertECB() {
 }
 
 function showPopup(message, flag) {
-  const $popup = $("#popup");
-  $popup.text(message).addClass("show");
+  let $popup = $("#popup");
+  if ($popup.length > 0) {
+    $popup.remove();
+  }
+
+  $popup = $("<div></div>").attr("id", "popup").addClass("popup").text(message);
+
   if (flag === true) {
     $popup.addClass("success");
   } else {
     $popup.addClass("failure");
   }
+  $("body").append($popup);
+
+  $popup[0].offsetHeight; // Trigger reflow to ensure animation works
+  $popup.addClass("show");
 
   setTimeout(() => {
     $popup.removeClass("show");
-    $popup.removeClass("success");
-    $popup.removeClass("failure");
+
+    setTimeout(() => {
+      $popup.remove();
+    }, 500);
   }, 2000);
 }
 
