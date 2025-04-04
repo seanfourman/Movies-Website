@@ -14,6 +14,22 @@ const htmlSnippets = {
   `
 };
 
+const noMoviesMessages = [
+  "No movies? That's suspicious.",
+  "The shelf is empty.",
+  "Nothing to see here.",
+  "The plot is missing.",
+  "Silence... no titles found.",
+  "Cue the crickets...",
+  "Zero films. Drama incoming!",
+  "No scenes, just vibes.",
+  "Oops! No reels today.",
+  "Hollywood took the day off.",
+  "Your list is on vacation.",
+  "Still rolling… with no film.",
+  "Popcorn's ready. But nothing's playing."
+];
+
 var path = window.location.pathname;
 var page = path.split("/").pop();
 
@@ -75,8 +91,8 @@ function loadMovies(arr) {
   }
 }
 
-function showNoMoviesMessage() {
-  $("container").append($("<h1></h1>").attr("id", "noMovies").text("No Movies Available"));
+function showNoMoviesMessage(text = noMoviesMessages[Math.floor(Math.random() * noMoviesMessages.length)]) {
+  $("container").append($("<h1></h1>").attr("id", "noMovies").text(text));
   updateFooterPosition();
 }
 
@@ -206,7 +222,7 @@ function onImageHover(movie) {
             const card = $btn.closest(".movieCard");
             card.fadeOut(300, function () {
               card.remove();
-              ajaxCall("GET", url, "", checkIfArrayIsNull, checkIfArrayIsNull);
+              ajaxCall("GET", url, "", checkIfArrayIsNull, handleServerError);
             });
           });
         }
@@ -232,6 +248,10 @@ function checkIfArrayIsNull(res) {
   if (res.length === 0) {
     return showNoMoviesMessage();
   }
+}
+
+function handleServerError() {
+  showPopup("Failed to reach server. Please try again later!", false);
 }
 
 function sendToServer(selectedMovie) {
@@ -268,8 +288,8 @@ function insertSCB(res) {
   }
 }
 
-function insertECB(err) {
-  console.log(err);
+function insertECB() {
+  showPopup("Failed to reach server. Please try again later!", false);
 }
 
 function showPopup(message, flag) {
