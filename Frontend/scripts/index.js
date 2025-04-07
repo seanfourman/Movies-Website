@@ -108,10 +108,7 @@ function loadMovies(arr) {
 
 function showNoMoviesMessage(text = noMoviesMessages[Math.floor(Math.random() * noMoviesMessages.length)]) {
   if ($("#noMovies").length === 0) {
-    const wrapperDiv = $("<div></div>");
-    const h1 = $("<h1></h1>").attr("id", "noMovies").text(text);
-    wrapperDiv.append(h1);
-    $("container").append(wrapperDiv);
+    $("container").append($("<h1></h1>").attr("id", "noMovies").text(text));
   } else {
     $("#noMovies").text(text);
   }
