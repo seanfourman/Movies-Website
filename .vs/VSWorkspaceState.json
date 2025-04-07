@@ -3,6 +3,7 @@
     "",
     "\\Backend",
     "\\Backend\\Controllers",
+    "\\Backend\\Models",
     "\\Frontend"
   ],
   "SelectedNode": "\\Backend\\Controllers\\MoviesController.cs",
