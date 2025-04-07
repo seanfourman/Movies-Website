@@ -39,7 +39,7 @@ namespace IMDBTask.Controllers
 
 		// DELETE api/<MovieController>/5
 		[HttpDelete("{id}")]
-		public bool Delete(string id)
+		public bool Delete(int id)
 		{
             return Movie.Delete(id);
 		}

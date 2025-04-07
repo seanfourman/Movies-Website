@@ -56,23 +56,38 @@ function injectSnippet(element) {
 }
 
 function loadMovies(arr) {
-  filteredMovies = arr.map((movie) => ({
-    id: movie.id,
-    url: movie.url,
-    primaryTitle: movie.primaryTitle,
-    description: movie.description,
-    primaryImage: movie.primaryImage,
-    year: movie.startYear || movie.year,
-    releaseDate: movie.releaseDate,
-    language: movie.language,
-    budget: movie.budget,
-    grossWorldwide: movie.grossWorldwide,
-    genres: movie.genres,
-    isAdult: movie.isAdult,
-    runtimeMinutes: movie.runtimeMinutes,
-    averageRating: movie.averageRating,
-    numVotes: movie.numVotes
-  }));
+  filteredMovies = arr.map((movie) => {
+    let genres;
+    if (movie.genres) {
+      if (Array.isArray(movie.genres)) {
+        genres = movie.genres;
+      } else if (typeof movie.genres === "string") {
+        genres = movie.genres.split(",").map((genre) => genre.trim());
+      } else {
+        genres = []; // For unexpected types
+      }
+    } else {
+      genres = []; //For undefined or null
+    }
+
+    return {
+      id: movie.id,
+      url: movie.url,
+      primaryTitle: movie.primaryTitle,
+      description: movie.description,
+      primaryImage: movie.primaryImage,
+      year: movie.startYear || movie.year,
+      releaseDate: movie.releaseDate,
+      language: movie.language,
+      budget: movie.budget,
+      grossWorldwide: movie.grossWorldwide,
+      genres: genres,
+      isAdult: movie.isAdult,
+      runtimeMinutes: movie.runtimeMinutes,
+      averageRating: movie.averageRating,
+      numVotes: movie.numVotes
+    };
+  });
 
   if ($("#loadMoviesButton").length) {
     $("#loadMoviesButton").hide();
@@ -93,7 +108,10 @@ function loadMovies(arr) {
 
 function showNoMoviesMessage(text = noMoviesMessages[Math.floor(Math.random() * noMoviesMessages.length)]) {
   if ($("#noMovies").length === 0) {
-    $("container").append($("<h1></h1>").attr("id", "noMovies").text(text));
+    const wrapperDiv = $("<div></div>");
+    const h1 = $("<h1></h1>").attr("id", "noMovies").text(text);
+    wrapperDiv.append(h1);
+    $("container").append(wrapperDiv);
   } else {
     $("#noMovies").text(text);
   }
@@ -260,7 +278,6 @@ function handleServerError() {
 
 function sendToServer(selectedMovie) {
   let movie = {
-    id: selectedMovie.id,
     url: selectedMovie.url,
     primaryTitle: selectedMovie.primaryTitle,
     description: selectedMovie.description,
@@ -270,7 +287,7 @@ function sendToServer(selectedMovie) {
     language: selectedMovie.language,
     budget: selectedMovie.budget,
     grossWorldwide: selectedMovie.grossWorldwide,
-    genres: selectedMovie.genres,
+    genres: selectedMovie.genres.join(", "),
     isAdult: selectedMovie.isAdult,
     runtimeMinutes: selectedMovie.runtimeMinutes,
     averageRating: selectedMovie.averageRating,

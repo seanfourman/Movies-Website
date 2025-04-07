@@ -2,7 +2,8 @@
 {
     public class Movie
     {
-        public string Id { get; set; }
+        private static int _nextId = 0;
+        public int Id { get; private set; }
         public string Url { get; set; }
         public string PrimaryTitle { get; set; }
         public string Description { get; set; }
@@ -12,7 +13,7 @@
         public string Language { get; set; }
         public double Budget { get; set; }
         public double GrossWorldwide { get; set; }
-        public string[] Genres { get; set; }
+        public string Genres { get; set; }
         public bool IsAdult { get; set; }
         public int RuntimeMinutes { get; set; }
         public float AverageRating { get; set; }
@@ -20,13 +21,13 @@
 
         static List<Movie> MoviesList = new List<Movie>();
 
-        public Movie() { }
+        public Movie() {
+            this.Id = _nextId++;
+        }
 
-        public Movie(string id, string url, string primaryTitle, string description, string primaryImage, int year,
-                     DateTime releaseDate, string language, double budget, double grossWorldwide, string[] genres, 
-                     bool isAdult, int runtimeMinutes, float averageRating, int numVotes)
-        {
-            Id = id;
+        public Movie(int id, string url, string primaryTitle, string description, string primaryImage, int year,
+                     DateTime releaseDate, string language, double budget, double grossWorldwide, string genres, 
+                     bool isAdult, int runtimeMinutes, float averageRating, int numVotes) : this() {
             Url = url;
             PrimaryTitle = primaryTitle;
             Description = description;
@@ -52,7 +53,7 @@
             return true;
         }
 
-        public static bool Delete(string movieId)
+        public static bool Delete(int movieId)
         {
             var movieToRemove = MoviesList.FirstOrDefault(movie => movie.Id == movieId);
             if (movieToRemove != null) {
