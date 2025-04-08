@@ -48,6 +48,20 @@ function init() {
   } else if (page === "index.html") {
     console.error(`loadMovies: Element '#loadMoviesButton' not found in DOM.`);
   }
+
+  let isLoading = false;
+
+  $(window).on("scroll", function () {
+    if (!isLoading && $(window).scrollTop() + $(window).height() >= $(document).height()) {
+      isLoading = true;
+
+      loadMovies(movies);
+
+      setTimeout(function () {
+        isLoading = false;
+      }, 500); // Prevent multiple triggers
+    }
+  });
 }
 
 function injectSnippet(element) {
@@ -111,8 +125,8 @@ function loadMovies(arr) {
     createMovieCard(movie);
   }
 
-  if (currentMovieIndex < arr.length) {
-    // add here
+  if (currentMovieIndex >= arr.length) {
+    $(window).off("scroll");
   }
 }
 
