@@ -186,7 +186,7 @@ function createMovieCard(movie) {
 
   movieCard.html(cardHTML);
   $("container").append(movieCard);
-  onImageHover(movie);
+  onImageHover(movie, movieCard);
   enableDragScroll();
 }
 
@@ -242,8 +242,8 @@ function enableDragScroll() {
   });
 }
 
-function onImageHover(movie) {
-  $(".movieCardImageContainer").hover(
+function onImageHover(movie, movieCard) {
+  movieCard.hover(
     function () {
       $(this).find("img").css({
         filter: "blur(5px)",
