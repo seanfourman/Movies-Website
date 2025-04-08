@@ -3,6 +3,9 @@ $(document).ready(init);
 const port = 5001;
 const url = `https://localhost:${port}/api/Movies`;
 
+const moviesPerPage = 20;
+let currentMovieIndex = 0;
+
 const htmlSnippets = {
   nav: `
     <a href="./index.html"><button>Home</button></a>
@@ -56,7 +59,10 @@ function injectSnippet(element) {
 }
 
 function loadMovies(arr) {
-  filteredMovies = arr.map((movie) => {
+  const nextBatch = arr.slice(currentMovieIndex, currentMovieIndex + moviesPerPage);
+  currentMovieIndex += moviesPerPage;
+
+  const filteredMovies = nextBatch.map((movie) => {
     let genres;
     if (movie.genres) {
       if (Array.isArray(movie.genres)) {
@@ -101,8 +107,12 @@ function loadMovies(arr) {
     updateFooterPosition();
   }
 
-  for (movie of filteredMovies) {
+  for (let movie of filteredMovies) {
     createMovieCard(movie);
+  }
+
+  if (currentMovieIndex < arr.length) {
+    // add here
   }
 }
 
