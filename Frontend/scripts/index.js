@@ -133,8 +133,6 @@ function loadMovies(arr) {
 function showNoMoviesMessage(text = noMoviesMessages[Math.floor(Math.random() * noMoviesMessages.length)]) {
   if ($("#noMovies").length === 0) {
     $("container").append($("<h1></h1>").attr("id", "noMovies").text(text));
-  } else {
-    $("#noMovies").text(text);
   }
   updateFooterPosition();
 }
