@@ -4,7 +4,7 @@ const port = 5001;
 const url = `https://localhost:${port}/api/Movies`;
 
 const moviesPerPage = 20;
-let currentMovieIndex = 0;
+var currentMovieIndex = 0;
 
 const htmlSnippets = {
   nav: `

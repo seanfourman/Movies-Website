@@ -19,15 +19,7 @@ const messages = [
 ];
 
 function init() {
-  $("#searchInputs input").on("keypress", function (e) {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      $(".movieCard").remove();
-      triggerSearch();
-    }
-  });
-
-  $("#searchInputs input").on("blur", function () {
+  $("#searchInputs input").on("input", function () {
     $(".movieCard").remove();
     triggerSearch();
   });
@@ -41,6 +33,7 @@ function getUserMovies() {
 }
 
 function readSCB(res) {
+  currentMovieIndex = 0;
   loadMovies(res);
 }
 
@@ -66,6 +59,7 @@ function triggerSearch() {
 }
 
 function successCB(res) {
+  currentMovieIndex = 0;
   $(".movieCard").remove();
   loadMovies(res);
 }
