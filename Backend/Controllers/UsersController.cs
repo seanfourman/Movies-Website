@@ -20,7 +20,7 @@ namespace IMDBTask.Controllers
         [HttpPost]
         public bool Post([FromBody] User user)
         {
-            return user.Insert();
+            return user.Register();
         }
     }
 }
