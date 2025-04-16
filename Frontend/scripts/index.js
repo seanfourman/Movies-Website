@@ -4,7 +4,7 @@ const port = 5001;
 const url = `https://localhost:${port}/api/Movies`;
 
 const moviesPerPage = 20;
-let currentMovieIndex = 0;
+var currentMovieIndex = 0;
 
 const htmlSnippets = {
   nav: `
@@ -133,8 +133,6 @@ function loadMovies(arr) {
 function showNoMoviesMessage(text = noMoviesMessages[Math.floor(Math.random() * noMoviesMessages.length)]) {
   if ($("#noMovies").length === 0) {
     $("container").append($("<h1></h1>").attr("id", "noMovies").text(text));
-  } else {
-    $("#noMovies").text(text);
   }
   updateFooterPosition();
 }
@@ -243,7 +241,7 @@ function enableDragScroll() {
 }
 
 function onImageHover(movie, movieCard) {
-  movieCard.hover(
+  movieCard.find(".movieCardImageContainer").hover(
     function () {
       $(this).find("img").css({
         filter: "blur(5px)",
