@@ -2,6 +2,7 @@ $(document).ready(init);
 
 const port = 5001;
 const url = `https://localhost:${port}/api/Movies`;
+//const url = "https://proj.ruppin.ac.il/cgroup7/test2/tar1/api/Movies";
 
 const moviesPerPage = 20;
 var currentMovieIndex = 0;

@@ -2,7 +2,6 @@
 {
     public class Movie
     {
-        private static int _nextId = 0;
         public int Id { get; private set; }
         public string Url { get; set; }
         public string PrimaryTitle { get; set; }
@@ -19,15 +18,15 @@
         public float AverageRating { get; set; }
         public int NumVotes { get; set; }
 
-        static List<Movie> MoviesList = new List<Movie>();
+        private static readonly List<Movie> _moviesList = new();
+        private static int _nextId = 1;
 
-        public Movie() {
-            this.Id = _nextId++;
-        }
+        public Movie() { }
 
-        public Movie(int id, string url, string primaryTitle, string description, string primaryImage, int year,
-                     DateTime releaseDate, string language, double budget, double grossWorldwide, string genres, 
-                     bool isAdult, int runtimeMinutes, float averageRating, int numVotes) : this() {
+        public Movie(string url, string primaryTitle, string description, string primaryImage, int year,
+                     DateTime releaseDate, string language, double budget, double grossWorldwide, string genres,
+                     bool isAdult, int runtimeMinutes, float averageRating, int numVotes)
+        {
             Url = url;
             PrimaryTitle = primaryTitle;
             Description = description;
@@ -44,45 +43,42 @@
             NumVotes = numVotes;
         }
 
-        public bool Insert() {
-            foreach(Movie movie in MoviesList) {
-                if (this.Id == movie.Id || this.PrimaryTitle == movie.PrimaryTitle)
-                    return false;
-            }
-            MoviesList.Add(this);
+        public bool Insert()
+        {
+            if (_moviesList.Any(movie => movie.PrimaryTitle == this.PrimaryTitle))
+                return false;
+
+            this.Id = _nextId++;
+            _moviesList.Add(this);
             return true;
         }
 
         public static bool Delete(int movieId)
         {
-            var movieToRemove = MoviesList.FirstOrDefault(movie => movie.Id == movieId);
-            if (movieToRemove != null) {
-                MoviesList.Remove(movieToRemove);
-                return true;
-            }
-            return false;
+            var movieToRemove = _moviesList.FirstOrDefault(movie => movie.Id == movieId);
+            if (movieToRemove == null)
+                return false;
+
+            return _moviesList.Remove(movieToRemove);
         }
 
-        public static List<Movie> Read() {
-            return MoviesList;
+        public static List<Movie> Read()
+        {
+            return new List<Movie>(_moviesList);
         }
 
-        public static List<Movie> GetByTitle(string title) {
-            List<Movie> filteredMovies = new List<Movie>();
-            foreach(Movie movie in MoviesList) {
-                if (movie.PrimaryTitle.ToLower().Contains(title.ToLower()))
-                    filteredMovies.Add(movie);
-            }
-            return filteredMovies;
+        public static List<Movie> GetByTitle(string title)
+        {
+            return _moviesList
+                .Where(movie => movie.PrimaryTitle.ToLower().Contains(title.ToLower()))
+                .ToList();
         }
 
-        public static List<Movie> GetByReleaseDate(DateTime startDate, DateTime endDate) {
-            List<Movie> filteredMovies = new List<Movie>();
-            foreach (Movie movie in MoviesList) {
-                if (movie.ReleaseDate >= startDate && movie.ReleaseDate <= endDate)
-                    filteredMovies.Add(movie);
-            }
-            return filteredMovies;
+        public static List<Movie> GetByReleaseDate(DateTime startDate, DateTime endDate)
+        {
+            return _moviesList
+                .Where(movie => movie.ReleaseDate >= startDate && movie.ReleaseDate <= endDate)
+                .ToList();
         }
     }
 }

@@ -3,9 +3,8 @@
     "",
     "\\Backend",
     "\\Backend\\Controllers",
-    "\\Backend\\Models",
-    "\\Frontend"
+    "\\Backend\\Models"
   ],
-  "SelectedNode": "\\Backend\\Controllers\\MoviesController.cs",
+  "SelectedNode": "\\Backend\\Models\\Movie.cs",
   "PreviewInSolutionExplorer": false
 }
