@@ -18,16 +18,10 @@ const messages = [
   "Couch potato panic mode!"
 ];
 
-function init() {
-  $("#searchInputs input").on("keypress", function (e) {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      $(".movieCard").remove();
-      triggerSearch();
-    }
-  });
+let currentDisplayedMovieIds = [];
 
-  $("#searchInputs input").on("blur", function () {
+function init() {
+  $("#searchInputs input").on("input", function () {
     $(".movieCard").remove();
     triggerSearch();
   });
@@ -41,6 +35,8 @@ function getUserMovies() {
 }
 
 function readSCB(res) {
+  currentMovieIndex = 0;
+  $("#noMovies").remove();
   loadMovies(res);
 }
 
@@ -54,7 +50,6 @@ function triggerSearch() {
   const startDate = $("#startDate").val();
   const endDate = $("#endDate").val();
 
-  $("#noMovies").remove();
   $(".movieCard").remove();
   if (title) {
     ajaxCall("GET", `${url}/searchByTitle`, { title }, successCB, errorCB);
@@ -66,12 +61,16 @@ function triggerSearch() {
 }
 
 function successCB(res) {
+  currentMovieIndex = 0;
+  if (Array.isArray(res) && res.length != 0) {
+    $("#noMovies").remove();
+  }
+
   $(".movieCard").remove();
   loadMovies(res);
 }
 
 function errorCB() {
-  console.log("alo");
   showPopup("Failed to reach server. Please try again later!", false);
 }
 
