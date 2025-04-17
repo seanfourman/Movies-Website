@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/nav.css" />
+    <link rel="stylesheet" href="../css/cards.css" />
+    <link rel="stylesheet" href="../css/forms.css" />
+    <link rel="stylesheet" href="../css/search.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="../data/movies.js"></script>
+    <script src="../scripts/utils.js"></script>
+    <script src="../scripts/api.js"></script>
+    <script src="../scripts/movieCard.js"></script>
+    <script src="../scripts/app.js"></script>
+    <script src="../scripts/home.js"></script>
+  </head>
+  <body>
+    <nav></nav>
+    <container>
+      <img id="formLetterImg" src="../sources/letter-bg.png" />
+      <form id="movieForm">
+        <h1 id="formTitle">Add New Movie:</h1>
+
+        <div class="form-group">
+          <p for="primaryTitleTB">Title:</p>
+          <input type="text" class="form-control" id="primaryTitleTB" placeholder="Enter movie title" autocomplete="off" required />
+        </div>
+
+        <div class="form-group">
+          <p for="descriptionTB">Description:</p>
+          <textarea class="form-control" id="descriptionTB" placeholder="Enter movie description" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <p for="urlTB">URL:</p>
+          <input type="text" class="form-control" id="urlTB" placeholder="Enter movie URL" autocomplete="off" />
+        </div>
+
+        <div class="form-group">
+          <p for="primaryImageTB">Primary Image URL:</p>
+          <input type="text" class="form-control" id="primaryImageTB" placeholder="Enter image URL" autocomplete="off" required />
+        </div>
+
+        <div class="form-group">
+          <p for="yearTB">Year:</p>
+          <input type="number" class="form-control" id="yearTB" placeholder="Enter release year" required />
+        </div>
+
+        <div class="form-group">
+          <p for="releaseDateTB">Release Date:</p>
+          <input type="date" class="form-control" id="releaseDateTB" required />
+        </div>
+
+        <div class="form-group">
+          <p for="languageTB">Language:</p>
+          <input type="text" class="form-control" id="languageTB" placeholder="Enter language" list="languageList" autocomplete="off" required />
+          <datalist id="languageList">
+            <option value="English"></option>
+            <option value="Spanish"></option>
+            <option value="French"></option>
+            <option value="German"></option>
+            <option value="Italian"></option>
+            <option value="Japanese"></option>
+            <option value="Korean"></option>
+            <option value="Chinese"></option>
+            <option value="Hindi"></option>
+            <option value="Russian"></option>
+          </datalist>
+        </div>
+
+        <div class="form-group">
+          <p for="budgetTB">Budget ($):</p>
+          <input type="number" class="form-control" id="budgetTB" placeholder="Enter budget amount" min="100000" step="0.01" />
+        </div>
+
+        <div class="form-group">
+          <p for="grossWorldwideTB">Gross Worldwide ($):</p>
+          <input type="number" class="form-control" id="grossWorldwideTB" placeholder="Enter worldwide gross" step="0.01" value="0" />
+        </div>
+
+        <div class="form-group">
+          <p for="genresTB">Genres:</p>
+          <input type="text" class="form-control" id="genresTB" placeholder="Enter genres separated by commas" list="genresList" autocomplete="off" />
+          <datalist id="genresList">
+            <option value="Action"></option>
+            <option value="Adventure"></option>
+            <option value="Animation"></option>
+            <option value="Biography"></option>
+            <option value="Comedy"></option>
+            <option value="Crime"></option>
+            <option value="Documentary"></option>
+            <option value="Drama"></option>
+            <option value="Family"></option>
+            <option value="Fantasy"></option>
+            <option value="History"></option>
+            <option value="Horror"></option>
+            <option value="Music"></option>
+            <option value="Musical"></option>
+            <option value="Mystery"></option>
+            <option value="Romance"></option>
+            <option value="Sci-Fi"></option>
+            <option value="Sport"></option>
+            <option value="Thriller"></option>
+            <option value="War"></option>
+            <option value="Western"></option>
+          </datalist>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <p for="isAdultCB">Adult Content?</p>
+          <input type="checkbox" id="isAdultCB" />
+        </div>
+
+        <div class="form-group">
+          <p for="runtimeMinutesTB">Runtime (minutes):</p>
+          <input type="number" class="form-control" id="runtimeMinutesTB" placeholder="Enter runtime in minutes" required />
+        </div>
+
+        <div class="form-group">
+          <p for="averageRatingTB">Average Rating:</p>
+          <input type="number" class="form-control" id="averageRatingTB" placeholder="Enter average rating" min="0" max="10" step="0.1" value="0" />
+        </div>
+
+        <div class="form-group">
+          <p for="numVotesTB">Number of Votes:</p>
+          <input type="number" class="form-control" id="numVotesTB" placeholder="Enter number of votes" value="0" />
+        </div>
+
+        <input type="submit" id="submitButton" value="Add Movie" />
+      </form>
+    </container>
+    <footer></footer>
+  </body>
+</html>

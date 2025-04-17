@@ -1,5 +1,6 @@
 /* Navigation bar */
 nav {
+  position: relative;
   height: auto;
   min-height: 120px;
   width: 100%;
