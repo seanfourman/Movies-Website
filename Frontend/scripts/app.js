@@ -10,7 +10,6 @@ const htmlSnippets = {
           <div class="account-dropdown">
             <img id="accountIcon" src="../sources/account-icon.png" />
             <div class="dropdown-menu">
-              <a href="./profile.html">Account Settings</a>
               <a href="#" id="logoutBtn">Logout</a>
             </div>
           </div>
@@ -138,31 +137,71 @@ function sendToServer(selectedMovie) {
 }
 
 function setupAccountDropdown() {
+  let isLoggedIn = localStorage.getItem("userEmail") !== null;
+  updateDropdownContent(isLoggedIn);
+
   $(document).on("click", "#accountIcon", function (e) {
     e.stopPropagation();
     $(".account-dropdown").toggleClass("active");
   });
 
-  // Close dropdown when clicking anywhere else on the page
+  // Close dropdown when clicking anywhere else
   $(document).on("click", function (e) {
     if (!$(e.target).closest(".account-dropdown").length) {
       $(".account-dropdown").removeClass("active");
     }
   });
 
+  // Signup
+  $(document).on("click", "#signupBtn", function (e) {
+    e.preventDefault();
+    window.location.href = "./signup.html";
+  });
+
+  // Login
+  $(document).on("click", "#loginBtn", function (e) {
+    e.preventDefault();
+    window.location.href = "./signin.html";
+  });
+
+  // Logout
   $(document).on("click", "#logoutBtn", function (e) {
     e.preventDefault();
     logout();
   });
 }
 
+function updateDropdownContent(isLoggedIn) {
+  const dropdownMenu = $(".dropdown-menu");
+  dropdownMenu.empty(); // clear the menu
+
+  if (isLoggedIn) {
+    const userEmail = localStorage.getItem("userEmail");
+    const userName = localStorage.getItem("userName") || "User";
+
+    dropdownMenu.append(`
+      <div class="user-info">
+        <p>Hello, ${userName}</p>
+        <small>${userEmail}</small>
+      </div>
+      <a href="./profile.html">Account Settings</a>
+      <a href="#" id="logoutBtn">Logout</a>
+    `);
+  } else {
+    dropdownMenu.append(`
+      <a href="#" id="loginBtn">Log in</a>
+      <a href="#" id="signupBtn">Sign up</a>
+    `);
+  }
+}
+
 function logout() {
   localStorage.removeItem("userEmail");
   localStorage.removeItem("userName");
 
+  updateDropdownContent(false);
   showPopup("You have been logged out successfully", true);
-
   setTimeout(function () {
-    window.location.href = "../html/signin.html";
-  }, 2000);
+    window.location.href = "./index.html";
+  }, 1500);
 }

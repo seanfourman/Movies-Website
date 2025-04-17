@@ -23,8 +23,18 @@ $(document).ready(function () {
       login();
     }
   });
+
+  swapWebsiteIcon();
 });
 
+function swapWebsiteIcon() {
+  const websiteLogo = $("#logo");
+  if (websiteLogo.length) {
+    websiteLogo.attr("src", "../sources/website-icon-white.png");
+  }
+}
+
+// Validations
 function setupFormValidation() {
   $("#nameTB").on("input", function () {
     const name = $(this).val().trim();

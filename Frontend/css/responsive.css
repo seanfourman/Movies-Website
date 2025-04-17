@@ -1,0 +1,159 @@
+/* Medium screens (tablet, small desktop) */
+@media screen and (min-width: 769px) and (max-width: 1280px) {
+  container {
+    max-width: 95%;
+  }
+
+  nav {
+    flex-direction: column;
+    padding: 0px;
+  }
+
+  .movieCard {
+    max-width: 200px;
+  }
+
+  .movieCard .movieCardTextContainer {
+    padding: 5px;
+  }
+
+  .movieCard .movieCardTitle {
+    text-align: center;
+    font-size: 18px;
+    padding-bottom: 5px;
+  }
+
+  .movieCard .movieCardStats {
+    justify-content: center;
+  }
+
+  .movieCard .movieCardStats span {
+    font-size: 14px;
+  }
+
+  .movieCardTextContent p {
+    font-size: 14px;
+  }
+
+  .movieCard .movieCardTextTags {
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .movieCard .movieCardTextTags .tag {
+    font-size: 12px;
+  }
+
+  .movieCard .movieCardFooter {
+    gap: 7px;
+  }
+
+  .movieCard .movieCardFooter * {
+    font-size: 13px;
+  }
+
+  #logo {
+    max-height: 120px;
+  }
+
+  #loadMoviesButton {
+    width: auto;
+    max-width: none;
+  }
+
+  button {
+    font-size: 32px;
+  }
+}
+
+/* Small screens (mobile) */
+@media screen and (max-width: 768px) {
+  .dropdown-menu a {
+    font-size: 14px;
+  }
+
+  a {
+    font-size: 24px;
+    padding: 0px;
+  }
+
+  button {
+    padding: 0px;
+  }
+
+  button::after {
+    background: none;
+  }
+
+  .movieCard {
+    max-width: 80%;
+    height: auto;
+    min-height: 450px;
+  }
+
+  .movieCard .movieCardTag .movieCardRating {
+    font-size: 14px;
+  }
+
+  .movieCard .movieCardTitle {
+    text-align: center;
+    font-size: 18px;
+    padding-bottom: 5px;
+  }
+
+  .movieCard .movieCardTextContent {
+    overflow-y: visible;
+    max-height: none;
+    height: auto;
+    text-align: center;
+  }
+
+  .movieCardTextContent p {
+    font-size: 14px;
+  }
+
+  .movieCard .movieCardTextTags {
+    justify-content: center;
+  }
+
+  .movieCard .movieCardTextTags .tag {
+    font-size: 12px;
+  }
+
+  .movieCard .movieCardFooter {
+    font-size: 16px;
+    gap: 25px !important;
+  }
+
+  container {
+    gap: 30px;
+    padding: 15px 10px;
+  }
+
+  /* Form responsiveness */
+  form {
+    width: 350px;
+    height: 350px;
+    max-width: 90%;
+  }
+
+  container h1 {
+    margin-top: 25px;
+  }
+}
+
+/* Extra small screens */
+@media screen and (max-width: 480px) {
+  button {
+    font-size: 16px;
+    padding: 3px;
+  }
+
+  .movieCard .movieCardFooter {
+    gap: 10px;
+  }
+
+  .movieCard .movieCardStats {
+    justify-content: center;
+  }
+}

@@ -1,0 +1,61 @@
+/* Container layout */
+container {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  padding-bottom: 75px;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+container img {
+  height: auto;
+  max-height: 400px;
+  max-width: 100%;
+}
+
+/* Footer */
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 75px;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 15px;
+}
+
+footer p {
+  color: var(--text);
+  font-size: clamp(12px, 3vw, 16px);
+}
+
+footer.relative {
+  position: relative;
+}
+
+/* Empty state message */
+#noMovies {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Load button */
+#loadMoviesButton {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -35%);
+}

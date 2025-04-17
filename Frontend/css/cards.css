@@ -1,0 +1,199 @@
+/* Movie cards */
+.movieCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 450px;
+  width: 100%;
+  max-width: 225px;
+  background-color: var(--cardBackground);
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.movieCard * {
+  color: black;
+  font-family: "Helvetica", "Arial", sans-serif;
+}
+
+/* Card image section */
+.movieCard .movieCardImageContainer {
+  max-height: 200px;
+  height: 47.5%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.movieCard .movieCardImageContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s ease-in-out, filter 1s ease-in-out;
+  user-select: none;
+}
+
+/* Card text section */
+.movieCard .movieCardTextContainer {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.movieCard .movieCardTitle {
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.movieCard .movieCardStats {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.movieCard .movieCardStats span {
+  color: grey;
+  font-size: 12px;
+}
+
+.movieCard .movieCardTextContent {
+  max-height: 70px;
+  height: 70px;
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+.movieCard .movieCardTextContent p {
+  margin: 5px;
+}
+
+/* Card text content scrollbar */
+.movieCardTextContent::-webkit-scrollbar {
+  width: 6px;
+}
+.movieCardTextContent::-webkit-scrollbar-thumb {
+  background-color: var(--lightgray);
+  border-radius: 4px;
+  border-radius: 10px;
+  border: none;
+}
+.movieCardTextContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Tags section */
+.tag {
+  border-radius: 15px;
+  background-color: #eeefef;
+  color: var(--darkgray) !important;
+  padding: 6px;
+  font-size: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.movieCard .movieCardTextTags {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 8px;
+  padding: 10px 0;
+  cursor: grab;
+  user-select: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.movieCard .movieCardTextTags::-webkit-scrollbar {
+  display: none;
+}
+
+.movieCard .movieCardTextTags:active {
+  cursor: grabbing;
+}
+
+/* Rating badge */
+#rating {
+  border-radius: 5px;
+  background-color: #883c9c;
+  color: var(--text);
+  font-weight: bold;
+  padding: 2px 5px;
+}
+
+.movieCard .movieCardTag {
+  position: absolute;
+  top: 5px;
+  z-index: 2;
+}
+
+.movieCard .movieCardTag.movieCardRating {
+  right: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--highlight) !important;
+  background-color: black;
+}
+
+/* Card footer */
+.movieCard .movieCardFooter {
+  display: flex;
+  gap: 15px;
+  font-size: 12px;
+  justify-content: center;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.movieCard .movieCardFooter .footerTitle {
+  color: darkgray;
+  margin: 0px;
+  white-space: nowrap;
+}
+
+.movieCard .movieCardFooter .footerText {
+  color: black;
+  margin: 3px;
+}
+
+/* Add/remove buttons */
+.add-button {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+  cursor: pointer;
+  line-height: 55px;
+  text-align: center;
+  color: var(--text);
+  user-select: none;
+}
+
+.add-button span {
+  color: hotpink;
+}
+
+.remove {
+  font-size: 35px;
+  line-height: 50px;
+}
+
+.remove span {
+  color: red;
+}

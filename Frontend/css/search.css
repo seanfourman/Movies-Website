@@ -1,3 +1,4 @@
+/* Search inputs container */
 #searchInputs {
   width: 100%;
   display: flex;
@@ -10,6 +11,7 @@
   justify-content: end;
 }
 
+/* Input styling */
 #searchInputs input {
   background-color: transparent;
   border: none;
@@ -21,34 +23,37 @@
   height: fit-content;
 }
 
-#searchByName {
-  align-items: end;
-}
-
-#searchByDate span {
-  font-weight: bold;
-}
-
-#searchInputs input::placeholder {
-  color: rgba(255, 255, 255, 0.75); /* Safari, Chrome, Firefox */
-  font-weight: bold;
-}
-
-#searchInputs input:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.75); /* IE */
-}
-
-#searchInputs input::-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.75); /* Edge */
-}
-
 #searchInputs input:focus {
   outline: none;
   border-bottom: 2px solid #dc2d32;
 }
 
+/* Placeholder styling */
+#searchInputs input::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: bold;
+}
+
+#searchInputs input:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+#searchInputs input::-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Search by name */
+#searchByName {
+  align-items: end;
+}
+
+/* Search by date */
 #searchByDate {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+#searchByDate span {
+  font-weight: bold;
 }
