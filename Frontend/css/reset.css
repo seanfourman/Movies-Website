@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap");
+
+/* Base reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+/* Root variables */
+:root {
+  --navbar: #080808;
+  --background: #1d1c1d;
+  --cardBackground: #ffffff;
+  --text: #ffffff;
+  --text-secondary: #666666;
+  --accent: #0391fc;
+  --highlight: #ffd600;
+  --lightgray: #e3e3e3;
+  --darkgray: #7e7e7e;
+}
+
+/* Base typography */
+* {
+  font-family: "Gloria Hallelujah", cursive;
+  color: var(--text);
+}
+
+body {
+  margin: 0;
+  background-image: url(../sources/cardboard-bg.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #d8c3a5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #a47148;
+  border-radius: 10px;
+  border: 2px solid #d8c3a5;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8b5a33;
+}

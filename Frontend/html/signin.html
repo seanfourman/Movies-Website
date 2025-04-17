@@ -3,9 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TRD / SIGN IN</title>
-    <link rel="stylesheet" href="../css/general.css" />
-    <link rel="stylesheet" href="../css/form.css" />
+    <title>TRD / Sign In</title>
+    <link rel="icon" type="image" href="../sources/website-icon-white.png" />
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/nav.css" />
+    <link rel="stylesheet" href="../css/cards.css" />
+    <link rel="stylesheet" href="../css/forms.css" />
+    <link rel="stylesheet" href="../css/search.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="../data/movies.js"></script>
     <script src="../scripts/utils.js"></script>
@@ -15,9 +22,10 @@
     <script src="../scripts/authentication.js"></script>
   </head>
   <body>
+    <nav></nav>
     <container>
       <form id="signinForm">
-        <h1>Login:</h1>
+        <h1 id="formTitle">Login:</h1>
         <div class="form-group">
           <p for="emailTB">Email:</p>
           <input type="text" class="form-control" id="emailTB" placeholder="Enter your email" autocomplete="off" required />

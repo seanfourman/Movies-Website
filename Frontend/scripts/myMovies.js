@@ -4,6 +4,14 @@ function initMyMoviesPage() {
     triggerSearch();
   });
 
+  const userEmail = localStorage.getItem("userEmail");
+  if (!userEmail) {
+    showPopup("Sign in to access your movies tab!", false);
+    setTimeout(function () {
+      window.location.href = "../html/signin.html";
+    }, 2000);
+  }
+
   setupSearchTitlePlaceholder();
   getAllMovies(readSCB, readECB);
 }

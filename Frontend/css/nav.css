@@ -1,13 +1,87 @@
-/* Account dropdown styles */
+/* Navigation bar */
+nav {
+  height: auto;
+  min-height: 120px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  z-index: 1000;
+  flex-wrap: wrap;
+  padding: 10px 0;
+}
+
+#logo {
+  height: auto;
+  max-height: 150px;
+  max-width: 90%;
+  padding: 0;
+}
+
+nav div {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+}
+
+nav img {
+  margin-bottom: 10px;
+}
+
+/* Navigation buttons */
+nav a button {
+  font-weight: 400;
+  margin-bottom: 0px;
+}
+
+button {
+  padding: 5px;
+  background-color: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  width: fit-content;
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
+}
+
+button::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: white;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease, transform-origin 0s 0.3s;
+}
+
+button:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+button:not(:hover)::after {
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease, transform-origin 0s;
+}
+
+/* Account dropdown */
 .account-dropdown {
   position: relative;
   display: inline-block;
 }
 
 #accountIcon {
-  cursor: pointer;
-  width: 30px;
   height: 30px;
+  cursor: pointer;
   vertical-align: middle;
 }
 
@@ -15,7 +89,7 @@
   display: none;
   position: absolute;
   right: 0;
-  background-color: #1a1a1a;
+  background-color: black;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
   border-radius: 5px;
@@ -24,18 +98,20 @@
 }
 
 .dropdown-menu a {
+  font-family: "Work Sans", sans-serif;
   color: white;
   padding: 12px 16px;
+  text-align: left;
+  font-weight: 400;
   text-decoration: none;
   display: block;
   transition: background-color 0.3s;
 }
 
 .dropdown-menu a:hover {
-  background-color: #333;
+  background-color: #222;
 }
 
-/* Show the dropdown menu when the account icon is clicked */
 .account-dropdown.active .dropdown-menu {
   display: block;
   animation: fadeIn 0.3s;
