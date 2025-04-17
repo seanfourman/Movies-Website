@@ -79,7 +79,12 @@ function setupCardInteraction(movie, movieCard) {
         if (currentPage === "index.html") {
           $btn = $('<div class="add-button"><span>❤</span></div>');
           $btn.on("click", function () {
-            sendToServer(movie);
+            let userEmail = localStorage.getItem("userEmail");
+            if (!userEmail) {
+              window.location.href = "../html/signin.html";
+            } else {
+              sendToServer(movie);
+            }
           });
         } else if (currentPage === "myMovies.html") {
           $btn = $('<div class="add-button remove"><span>✘</span></div>');

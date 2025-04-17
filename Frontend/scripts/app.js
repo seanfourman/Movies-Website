@@ -176,21 +176,13 @@ function updateDropdownContent(isLoggedIn) {
   dropdownMenu.empty(); // clear the menu
 
   if (isLoggedIn) {
-    const userEmail = localStorage.getItem("userEmail");
-    const userName = localStorage.getItem("userName") || "User";
-
     dropdownMenu.append(`
-      <div class="user-info">
-        <p>Hello, ${userName}</p>
-        <small>${userEmail}</small>
-      </div>
-      <a href="./profile.html">Account Settings</a>
-      <a href="#" id="logoutBtn">Logout</a>
+      <a href="#" id="logoutBtn"><img src="../sources/logout-icon.png" />Logout</a>
     `);
   } else {
     dropdownMenu.append(`
-      <a href="#" id="loginBtn">Log in</a>
-      <a href="#" id="signupBtn">Sign up</a>
+      <a href="#" id="loginBtn"><img src="../sources/login-icon.png" />Log in</a>
+      <a href="#" id="signupBtn"><img src="../sources/signup-icon.png" />Sign up</a>
     `);
   }
 }
