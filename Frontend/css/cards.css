@@ -121,9 +121,9 @@
 }
 
 /* Rating badge */
-#rating {
+.movieCard .movieCardStats .rating {
   border-radius: 5px;
-  background-color: #883c9c;
+  background-color: #777;
   color: var(--text);
   font-weight: bold;
   padding: 2px 5px;

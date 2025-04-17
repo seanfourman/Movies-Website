@@ -16,7 +16,7 @@ function createMovieCard(movie) {
                 <div class="movieCardStats">
                     <span>${movie.year || "N/A"}</span>
                     <span>${movie.runtimeMinutes ? movie.runtimeMinutes + " min" : "N/A"}</span>
-                    <span id="rating">${movie.isAdult ? "R" : "PG-13"}</span>
+                    <span class="rating">${movie.isAdult ? "R" : "PG-13"}</span>
                 </div>
             </div>
             <div class="movieCardTextContent">
@@ -40,12 +40,13 @@ function createMovieCard(movie) {
                 </div>
             </div>
         </div>
-        <div class="movieCardTag tag movieCardRating">★ ${movie.averageRating ? movie.averageRating.toFixed(1) : "N/A"}/10</div>
+        <div class="movieCardTag tag movieCardRating"> ★ ${movie.averageRating ? (movie.averageRating === 10 ? "10" : movie.averageRating.toFixed(1)) : "N/A"}/10</div>
     `;
 
   movieCard.html(cardHTML);
   $("container").append(movieCard);
   setupCardInteraction(movie, movieCard);
+  updateRatingBackground();
   enableDragScroll();
 
   return movieCard;
@@ -119,6 +120,17 @@ function setupCardInteraction(movie, movieCard) {
       $(this).find(".add-button").fadeOut(500);
     }
   );
+}
+
+function updateRatingBackground() {
+  $(".rating").each(function () {
+    const $rating = $(this);
+    if ($rating.text().trim() === "R") {
+      $rating.css("background-color", "#e33923");
+    } else {
+      $rating.css("background-color", "#a2d25e");
+    }
+  });
 }
 
 function enableDragScroll() {
