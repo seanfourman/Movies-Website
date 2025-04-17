@@ -3,6 +3,14 @@ function initHomePage() {
     $("#loadMoviesButton").click(function () {
       loadMovies(movies);
     });
+
+    let userEmail = localStorage.getItem("userEmail");
+    let userName = localStorage.getItem("userName");
+    if (userEmail) {
+      const container = $("container");
+      var welcomeText = "<h1>Welcome back, " + userName + "!</h1>";
+      container.append(welcomeText);
+    }
   }
 
   let isLoading = false;

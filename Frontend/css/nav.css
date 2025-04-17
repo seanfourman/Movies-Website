@@ -16,6 +16,9 @@ nav {
   max-height: 150px;
   max-width: 90%;
   padding: 0;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 nav div {
@@ -106,6 +109,14 @@ button:not(:hover)::after {
   text-decoration: none;
   display: block;
   transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-menu a img {
+  height: 20px;
+  margin: 0px;
+  margin-right: 10px;
 }
 
 .dropdown-menu a:hover {
