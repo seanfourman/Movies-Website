@@ -8,6 +8,9 @@ $(document).ready(function () {
     setupMovieFormValidation();
   }
 
+  populateLanguagesList();
+  populateGenresList();
+
   $("#movieForm").on("submit", function (e) {
     e.preventDefault();
     clearAllErrors();
@@ -21,6 +24,46 @@ $(document).ready(function () {
   });
 });
 
+// Fill Datalists
+function populateLanguagesList() {
+  const languages = new Set();
+
+  movies.forEach((movie) => {
+    if (movie.language) {
+      languages.add(movie.language.trim());
+    }
+  });
+
+  const languageList = $("#languageList");
+  languageList.empty();
+
+  [...languages].sort().forEach((language) => {
+    languageList.append(`<option value="${language}">`);
+  });
+}
+
+function populateGenresList() {
+  const genres = new Set();
+
+  movies.forEach((movie) => {
+    if (movie.genres && Array.isArray(movie.genres)) {
+      movie.genres.forEach((genre) => {
+        genres.add(genre.trim());
+      });
+    }
+  });
+
+  const genresList = $("#genresList");
+  genresList.empty();
+
+  const sortedGenres = [...genres].sort();
+
+  sortedGenres.forEach((genre) => {
+    genresList.append(`<option value="${genre}">`);
+  });
+}
+
+// Validations
 function setupMovieFormValidation() {
   // Title
   $("#primaryTitleTB").on("focusout", function () {
@@ -212,7 +255,7 @@ function validateMovieForm() {
   // Genres
   const genres = $("#genresTB").val().trim();
   if (genres !== "" && !isValidGenres(genres)) {
-    showFieldError($("#genresTB"), "Genres must be comma-separated (e.g., Action,Comedy,Drama)");
+    showFieldError($("#genresTB"), "Genres must be separated by a comma (e.g. Action,Comedy,Drama)");
     isValid = false;
   }
 
