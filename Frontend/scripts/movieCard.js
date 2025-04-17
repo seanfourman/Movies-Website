@@ -40,8 +40,8 @@ function createMovieCard(movie) {
                 </div>
             </div>
         </div>
-        <div class="movieCardTag tag movieCardRating"> ★ ${movie.averageRating ? (movie.averageRating === 10 ? "10" : movie.averageRating.toFixed(1)) : "N/A"}/10</div>
-    `;
+        <div class="movieCardTag tag movieCardRating"> ★ ${movie.averageRating === 10 ? "10" : movie.averageRating === 0 ? "0" : movie.averageRating.toFixed(1)}/10</div>
+  `;
 
   movieCard.html(cardHTML);
   $("container").append(movieCard);
