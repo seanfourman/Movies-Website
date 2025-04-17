@@ -5,6 +5,6 @@
     "\\Backend\\Controllers",
     "\\Backend\\Models"
   ],
-  "SelectedNode": "\\Backend\\Models\\Movie.cs",
+  "SelectedNode": "\\Backend\\Controllers\\UsersController.cs",
   "PreviewInSolutionExplorer": false
 }

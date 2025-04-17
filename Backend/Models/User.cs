@@ -17,7 +17,7 @@ namespace IMDBTask.Models
 
         public User() { }
 
-        public User(string name, string email, string password, bool active = true)
+        public User(string name, string email, string password, bool active)
         {
             Name = name;
             Email = email;
@@ -40,6 +40,7 @@ namespace IMDBTask.Models
 
             this.Id = _nextId++;
             this.Password = _hasher.HashPassword(this, this.Password);
+            this.Active = true;
             _usersList.Add(this);
             return true;
         }
