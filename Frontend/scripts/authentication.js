@@ -127,8 +127,6 @@ function registerCBError(xhr, status) {
     errorMessage += xhr.responseJSON.message || xhr.responseJSON.title || "Server error";
   } else if (xhr.status === 0) {
     errorMessage = "Cannot connect to server. Please check your internet connection.";
-  } else if (xhr.status === 409) {
-    errorMessage = "A user with this email already exists.";
   } else {
     errorMessage += status;
   }
@@ -176,12 +174,10 @@ function loginCBError(xhr, status) {
 
   let errorMessage = "Login failed: ";
 
-  if (xhr.status === 401) {
-    errorMessage = "Invalid email or password.";
+  if (xhr.responseJSON) {
+    errorMessage += xhr.responseJSON.message || xhr.responseJSON.title || "Server error";
   } else if (xhr.status === 0) {
     errorMessage = "Cannot connect to server. Please check your internet connection.";
-  } else if (xhr.responseJSON) {
-    errorMessage += xhr.responseJSON.message || xhr.responseJSON.title || "Server error";
   } else {
     errorMessage += status;
   }
