@@ -169,6 +169,21 @@ function setupAccountDropdown() {
     e.preventDefault();
     logout();
   });
+
+  // Add Movie
+  $(document).on("click", "#addMovieBtn", function (e) {
+    e.preventDefault();
+    window.location.href = "./addMovie.html";
+  });
+
+  // Disable background image right click menu
+  const img = $("#formLetterImg");
+  if (img.length) {
+    img.on("contextmenu", function (e) {
+      e.preventDefault();
+      console.log("alo");
+    });
+  }
 }
 
 function updateDropdownContent(isLoggedIn) {
@@ -177,6 +192,7 @@ function updateDropdownContent(isLoggedIn) {
 
   if (isLoggedIn) {
     dropdownMenu.append(`
+      <a href="#" id="addMovieBtn"><img src="../sources/plus-icon.png" />Add movie</a>
       <a href="#" id="logoutBtn"><img src="../sources/logout-icon.png" />Logout</a>
     `);
   } else {
@@ -190,6 +206,7 @@ function updateDropdownContent(isLoggedIn) {
 function logout() {
   localStorage.removeItem("userEmail");
   localStorage.removeItem("userName");
+  localStorage.removeItem("welcomeShown");
 
   updateDropdownContent(false);
   showPopup("You have been logged out successfully", true);

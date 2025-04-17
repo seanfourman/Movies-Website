@@ -23,6 +23,7 @@ form {
 
 /* Form inputs */
 form input {
+  /* font-family: "Works Sans", Arial; */
   background-color: transparent;
   border: none;
   border-bottom: 2px solid rgba(255, 255, 255, 0.7);
@@ -96,4 +97,72 @@ form a {
   margin-bottom: 0px;
   margin-top: 100px;
   padding-right: 60px;
+}
+
+/* Add Movie */
+#movieForm {
+  background-image: none;
+  overflow: auto;
+  overflow-x: hidden;
+  justify-content: flex-start;
+  width: 850px;
+  height: 600px;
+}
+
+#movieForm h1,
+#movieForm p {
+  color: #897b74;
+}
+
+#movieForm .form-group {
+  width: 400px;
+}
+
+#formLetterImg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: none;
+  height: 800px;
+  user-select: none;
+  -webkit-user-drag: none;
+  z-index: 0;
+}
+
+#movieForm input {
+  font-weight: bold;
+}
+
+#movieForm h1 {
+  margin: 0px;
+  padding-right: 250px;
+}
+
+textarea {
+  width: 400px;
+  height: 200px;
+  resize: none;
+  font-size: 16px;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #333;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}
+
+textarea:focus {
+  outline: none;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: baseline;
+}
+
+.checkbox-group input {
+  width: fit-content;
+  margin-left: 10px;
 }
