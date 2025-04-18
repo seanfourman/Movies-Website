@@ -7,9 +7,9 @@ function initHomePage() {
     let userEmail = localStorage.getItem("userEmail");
     let userName = localStorage.getItem("userName");
     if (userEmail) {
-      if (!localStorage.getItem("welcomeShown")) {
+      if (!localStorage.getItem("welcomeMessage")) {
         showWelcomeToast(userName);
-        localStorage.setItem("welcomeShown", "true");
+        localStorage.setItem("welcomeMessage", "true");
       }
     }
   }
