@@ -17,7 +17,7 @@ function ajaxCall(method, api, data, successCB, errorCB) {
   });
 }
 
-// Movie API functions
+// Movie API
 function getAllMovies(successCallback, errorCallback) {
   ajaxCall("GET", moviesEndpoint, "", successCallback, errorCallback);
 }
@@ -38,7 +38,7 @@ function deleteMovie(movieId, successCallback, errorCallback) {
   ajaxCall("DELETE", `${moviesEndpoint}/${movieId}`, null, successCallback, errorCallback);
 }
 
-// User API functions
+// User API
 function registerUser(user, successCallback, errorCallback) {
   ajaxCall("POST", usersEndpoint, JSON.stringify(user), successCallback, errorCallback);
 }
