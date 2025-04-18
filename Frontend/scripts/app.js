@@ -51,10 +51,10 @@ function loadMovies(arr) {
       } else if (typeof movie.genres === "string") {
         genres = movie.genres.split(",").map((genre) => genre.trim());
       } else {
-        genres = []; // For unexpected types
+        genres = []; // For unexpected types - probably pointless
       }
     } else {
-      genres = []; //For undefined or null
+      genres = [];
     }
 
     return {
@@ -90,6 +90,7 @@ function loadMovies(arr) {
     createMovieCard(movie);
   }
 
+  // Stop event listener when there are not movies left
   if (currentMovieIndex >= arr.length) {
     $(window).off("scroll");
   }
@@ -99,10 +100,6 @@ function checkIfArrayIsNull(res) {
   if (res.length === 0) {
     return showNoMoviesMessage();
   }
-}
-
-function handleServerError() {
-  showPopup("Failed to reach server. Please try again later!", false);
 }
 
 function sendToServer(selectedMovie) {
@@ -116,7 +113,7 @@ function sendToServer(selectedMovie) {
     language: selectedMovie.language,
     budget: selectedMovie.budget,
     grossWorldwide: selectedMovie.grossWorldwide,
-    genres: Array.isArray(selectedMovie.genres) ? selectedMovie.genres.join(", ") : selectedMovie.genres,
+    genres: Array.isArray(selectedMovie.genres) ? selectedMovie.genres.join(",") : selectedMovie.genres,
     isAdult: selectedMovie.isAdult,
     runtimeMinutes: selectedMovie.runtimeMinutes,
     averageRating: selectedMovie.averageRating,
@@ -136,12 +133,16 @@ function sendToServer(selectedMovie) {
   );
 }
 
+function handleServerError() {
+  showPopup("Failed to reach server. Please try again later!", false);
+}
+
 function setupAccountDropdown() {
-  let isLoggedIn = localStorage.getItem("userEmail") !== null;
+  const isLoggedIn = localStorage.getItem("userEmail") !== null;
   updateDropdownContent(isLoggedIn);
 
   $(document).on("click", "#accountIcon", function (e) {
-    e.stopPropagation();
+    e.stopPropagation(); // Prevents click from triggering other click events
     $(".account-dropdown").toggleClass("active");
   });
 
@@ -188,7 +189,7 @@ function setupAccountDropdown() {
 
 function updateDropdownContent(isLoggedIn) {
   const dropdownMenu = $(".dropdown-menu");
-  dropdownMenu.empty(); // clear the menu
+  dropdownMenu.empty();
 
   if (isLoggedIn) {
     dropdownMenu.append(`
@@ -206,7 +207,7 @@ function updateDropdownContent(isLoggedIn) {
 function logout() {
   localStorage.removeItem("userEmail");
   localStorage.removeItem("userName");
-  localStorage.removeItem("welcomeShown");
+  localStorage.removeItem("welcomeMessage");
 
   updateDropdownContent(false);
   showPopup("You have been logged out successfully", true);

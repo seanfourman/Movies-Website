@@ -1,22 +1,31 @@
 const MIN_TITLE_LENGTH = 2;
-const MIN_YEAR = 1900;
+const MIN_YEAR = 1888;
 const MIN_BUDGET = 100000;
+const MAX_RUNTIME = 1000;
 const MAX_RATING = 10;
 
+let allowedLanguages = [];
+let allowedGenres = [];
+
 $(document).ready(function () {
-  if ($("#movieForm").length) {
-    setupMovieFormValidation();
+  // *** swap to a function later for unauthorized pages without an account
+  let userEmail = localStorage.getItem("userEmail");
+  if (!userEmail) {
+    window.location.href = "../html/signin.html";
   }
 
-  populateLanguagesList();
-  populateGenresList();
+  if ($("#movieForm").length) {
+    setupMovieFormValidation();
+    populateLanguagesList();
+    populateGenresList();
+  }
 
   $("#movieForm").on("submit", function (e) {
     e.preventDefault();
     clearAllErrors();
 
     if (validateMovieForm()) {
-      $("#submitButton").val("Processing...").prop("disabled", true);
+      $("#submitButton").val("wait a sec...").prop("disabled", true);
       submitMovieForm();
     } else {
       showPopup("Required fields are missing from the form.", false);
@@ -24,7 +33,7 @@ $(document).ready(function () {
   });
 });
 
-// Fill Datalists
+// Fill Data lists - *** should probably make into a single function in the future
 function populateLanguagesList() {
   const languages = new Set();
 
@@ -34,10 +43,12 @@ function populateLanguagesList() {
     }
   });
 
+  allowedLanguages = [...languages].sort();
+
   const languageList = $("#languageList");
   languageList.empty();
 
-  [...languages].sort().forEach((language) => {
+  allowedLanguages.forEach((language) => {
     languageList.append(`<option value="${language}">`);
   });
 }
@@ -53,32 +64,32 @@ function populateGenresList() {
     }
   });
 
+  allowedGenres = [...genres].sort();
+
   const genresList = $("#genresList");
   genresList.empty();
 
-  const sortedGenres = [...genres].sort();
-
-  sortedGenres.forEach((genre) => {
+  allowedGenres.forEach((genre) => {
     genresList.append(`<option value="${genre}">`);
   });
 }
 
 // Validations
 function setupMovieFormValidation() {
-  // Title
+  // Title - empty, must be more than MIN_TITLE_LENGTH
   $("#primaryTitleTB").on("focusout", function () {
     const title = $(this).val().trim();
 
     if (title === "") {
       showFieldError($(this), "Title is required");
     } else if (title.length < MIN_TITLE_LENGTH) {
-      showFieldError($(this), "Title must be at least 2 characters long");
+      showFieldError($(this), `Title must be at least ${MIN_TITLE_LENGTH} characters long`);
     } else {
       removeFieldError($(this));
     }
   });
 
-  // Image
+  // Image - empty, isValidURL func
   $("#primaryImageTB").on("focusout", function () {
     const imageUrl = $(this).val().trim();
 
@@ -91,7 +102,7 @@ function setupMovieFormValidation() {
     }
   });
 
-  // URL
+  // URL - empty, isValidURL func
   $("#urlTB").on("focusout", function () {
     const url = $(this).val().trim();
 
@@ -102,21 +113,22 @@ function setupMovieFormValidation() {
     }
   });
 
-  // Year
+  // Year - empty, must be a number and between MIN_YEAR and currentYear
   $("#yearTB").on("focusout", function () {
     const year = parseInt($(this).val().trim());
     const currentYear = new Date().getFullYear();
 
     if ($(this).val().trim() === "") {
       showFieldError($(this), "Year is required");
-    } else if (isNaN(year) || year < MIN_YEAR || year > currentYear + 5) {
-      showFieldError($(this), `Year must be between ${MIN_YEAR} and ${currentYear + 5}`);
+    } else if (isNaN(year) || year < MIN_YEAR || year > currentYear) {
+      showFieldError($(this), `Year must be between ${MIN_YEAR} and ${currentYear}`);
     } else {
       removeFieldError($(this));
     }
   });
 
-  // Release date validation (maybe add a check if year == year from here? ***)
+  // Release date - empty
+  // (maybe add a check if year == year from here? ***)
   $("#releaseDateTB").on("focusout", function () {
     if ($(this).val().trim() === "") {
       showFieldError($(this), "Release date is required");
@@ -125,7 +137,7 @@ function setupMovieFormValidation() {
     }
   });
 
-  // Language
+  // Language - empty
   $("#languageTB").on("focusout", function () {
     if ($(this).val().trim() === "") {
       showFieldError($(this), "Language is required");
@@ -134,7 +146,7 @@ function setupMovieFormValidation() {
     }
   });
 
-  // Budget
+  // Budget - empty, must be a number and below MIN_BUDGET
   $("#budgetTB").on("focusout", function () {
     const budget = parseFloat($(this).val().trim());
 
@@ -145,7 +157,7 @@ function setupMovieFormValidation() {
     }
   });
 
-  // Gross WW
+  // Gross WW - empty, must be a number and positive
   $("#grossWorldwideTB").on("focusout", function () {
     const gross = parseFloat($(this).val().trim());
 
@@ -156,7 +168,7 @@ function setupMovieFormValidation() {
     }
   });
 
-  // Genres
+  // Genres - empty, isValidGenres func
   $("#genresTB").on("focusout", function () {
     const genres = $(this).val().trim();
 
@@ -167,20 +179,20 @@ function setupMovieFormValidation() {
     }
   });
 
-  // Runtime
+  // Runtime - empty, must be a number and between 0 and MAX_RUNTIME
   $("#runtimeMinutesTB").on("focusout", function () {
     const runtime = parseInt($(this).val().trim());
 
     if ($(this).val().trim() === "") {
       showFieldError($(this), "Runtime minutes is required");
-    } else if (isNaN(runtime) || runtime <= 0 || runtime > 1000) {
-      showFieldError($(this), "Runtime must be a positive number less than 1000 minutes");
+    } else if (isNaN(runtime) || runtime <= 0 || runtime > MAX_RUNTIME) {
+      showFieldError($(this), `Runtime must be a positive number less than ${MAX_RUNTIME} minutes`);
     } else {
       removeFieldError($(this));
     }
   });
 
-  // Average Rating
+  // Average Rating - empty, must be a number and between 0 and MAX_RATING
   $("#averageRatingTB").on("focusout", function () {
     const rating = parseFloat($(this).val().trim());
 
@@ -191,7 +203,7 @@ function setupMovieFormValidation() {
     }
   });
 
-  // Number of Votes
+  // Number of Votes - empty, must be a number and positive
   $("#numVotesTB").on("focusout", function () {
     const votes = parseInt($(this).val().trim());
 
@@ -312,7 +324,7 @@ function showFieldError(element, message) {
 
   element.css("border-color", "red");
 
-  // Append to closest father - .form-group
+  // Append to closest father by .form-group
   element.closest(".form-group").append(errorParagraph);
 }
 
@@ -329,7 +341,7 @@ function clearAllErrors() {
 // Movie Submission
 function submitMovieForm() {
   const movie = {
-    primaryTitle: $("#primaryTitleTB").val().trim(),
+    primaryTitle: toTitleCase($("#primaryTitleTB").val().trim()),
     description: $("#descriptionTB").val().trim(),
     url: $("#urlTB").val().trim(),
     primaryImage: $("#primaryImageTB").val().trim(),
@@ -338,14 +350,24 @@ function submitMovieForm() {
     language: $("#languageTB").val().trim(),
     budget: $("#budgetTB").val().trim() ? parseFloat($("#budgetTB").val().trim()) : 0,
     grossWorldwide: $("#grossWorldwideTB").val().trim() ? parseFloat($("#grossWorldwideTB").val().trim()) : 0,
-    genres: $("#genresTB").val().trim(),
+
+    genres: $("#genresTB").val().trim()
+      ? $("#genresTB")
+          .val()
+          .trim()
+          .split(",")
+          .map((g) => g.trim())
+          .sort((a, b) => a.localeCompare(b))
+          .join(",")
+      : "",
+
     isAdult: $("#isAdultCB").is(":checked"),
     runtimeMinutes: parseInt($("#runtimeMinutesTB").val().trim()),
     averageRating: $("#averageRatingTB").val().trim() ? parseFloat($("#averageRatingTB").val().trim()) : 0,
     numVotes: $("#numVotesTB").val().trim() ? parseInt($("#numVotesTB").val().trim()) : 0
   };
 
-  $("#submitButton").val("Processing...").prop("disabled", true);
+  $("#submitButton").val("wait a sec...").prop("disabled", true);
   addMovie(movie, submitMovieCBSuccess, submitMovieCBError);
 }
 

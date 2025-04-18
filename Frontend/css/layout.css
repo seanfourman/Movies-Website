@@ -42,7 +42,7 @@ footer.relative {
   position: relative;
 }
 
-/* Empty state message */
+/* No movies message */
 #noMovies {
   position: absolute;
   top: 50%;
@@ -61,7 +61,6 @@ footer.relative {
 }
 
 /* Greet Message */
-/* Welcome Toast Notification */
 .welcome-toast {
   position: fixed;
   bottom: 20px;
@@ -133,7 +132,7 @@ footer.relative {
   left: 0;
   height: 3px;
   width: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--highlight));
+  background: linear-gradient(90deg, var(--highlight-secondary), var(--highlight));
   transform-origin: left;
   transform: scaleX(0);
 }

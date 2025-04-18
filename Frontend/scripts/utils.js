@@ -83,3 +83,20 @@ function updateFooterPosition() {
     }
   }, 1);
 }
+
+function swapWebsiteIcon() {
+  const websiteLogo = $("#logo");
+  if (websiteLogo.length) {
+    websiteLogo.attr("src", "../sources/website-icon-white.png");
+  }
+}
+
+function toTitleCase(str) {
+  return str
+    .toLowerCase()
+    .split(" ")
+    .map((word) => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
+}

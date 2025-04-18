@@ -46,7 +46,7 @@
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; /* three dots when name is too long */
   width: 100%;
 }
 

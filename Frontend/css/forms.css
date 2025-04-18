@@ -139,7 +139,7 @@ form a {
   padding-right: 250px;
 }
 
-textarea {
+#movieForm textarea {
   width: 400px;
   height: 200px;
   resize: none;
@@ -153,16 +153,16 @@ textarea {
   font-weight: bold;
 }
 
-textarea:focus {
+#movieForm textarea:focus {
   outline: none;
 }
 
-.checkbox-group {
+#movieForm .checkbox-group {
   display: flex;
   align-items: baseline;
 }
 
-.checkbox-group input {
+#movieForm .checkbox-group input {
   width: fit-content;
   margin-left: 10px;
 }

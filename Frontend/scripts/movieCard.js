@@ -48,7 +48,6 @@ function createMovieCard(movie) {
   setupCardInteraction(movie, movieCard);
   updateRatingBackground();
   enableDragScroll();
-
   return movieCard;
 }
 

@@ -27,15 +27,9 @@ $(document).ready(function () {
   swapWebsiteIcon();
 });
 
-function swapWebsiteIcon() {
-  const websiteLogo = $("#logo");
-  if (websiteLogo.length) {
-    websiteLogo.attr("src", "../sources/website-icon-white.png");
-  }
-}
-
 // Validations
 function setupFormValidation() {
+  // Name - empty, at least 2 characters, only letters (space is possible)
   $("#nameTB").on("input", function () {
     const name = $(this).val().trim();
 
@@ -44,7 +38,7 @@ function setupFormValidation() {
     } else if (name.length < MIN_NAME_LENGTH) {
       this.setCustomValidity("Name must be at least 2 characters long");
     } else if (!/^[a-zA-Z\s]+$/.test(name)) {
-      this.setCustomValidity("Name should contain only letters and spaces");
+      this.setCustomValidity("Name should contain only letters");
     } else {
       this.setCustomValidity("");
     }
@@ -52,6 +46,7 @@ function setupFormValidation() {
     this.reportValidity();
   });
 
+  //  Email - empty, valid by emailRegex
   $("#emailTB").on("input", function () {
     const email = $(this).val().trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -67,6 +62,7 @@ function setupFormValidation() {
     this.reportValidity();
   });
 
+  // Password - empty, must be at least MIN_PASS_LENGTH and contain - number, uppercase letter
   $("#passwordTB").on("input", function () {
     const password = $(this).val();
 
@@ -84,10 +80,6 @@ function setupFormValidation() {
 
     this.reportValidity();
   });
-
-  $("#signupForm").on("submit", function () {
-    $("#nameTB, #emailTB, #passwordTB").trigger("focusout");
-  });
 }
 
 // Registration
@@ -99,7 +91,6 @@ function registerNewUser() {
   };
 
   $("#submitButton").val("wait a sec...").prop("disabled", true);
-
   registerUser(user, registerCBSuccess, registerCBError);
 }
 
@@ -142,7 +133,6 @@ function login() {
   };
 
   $("#submitButton").val("wait a sec...").prop("disabled", true);
-
   loginUser(credentials, loginCBSuccess, loginCBError);
 }
 
@@ -176,6 +166,8 @@ function loginCBError(xhr, status) {
 
   if (xhr.responseJSON) {
     errorMessage += xhr.responseJSON.message || xhr.responseJSON.title || "Server error";
+  } else if (xhr.status === 401) {
+    errorMessage = "Login failed. Invalid email or password.";
   } else if (xhr.status === 0) {
     errorMessage = "Cannot connect to server. Please check your internet connection.";
   } else {
