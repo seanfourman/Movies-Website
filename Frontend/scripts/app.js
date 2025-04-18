@@ -182,7 +182,6 @@ function setupAccountDropdown() {
   if (img.length) {
     img.on("contextmenu", function (e) {
       e.preventDefault();
-      console.log("alo");
     });
   }
 }
