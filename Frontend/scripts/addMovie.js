@@ -341,7 +341,7 @@ function clearAllErrors() {
 // Movie Submission
 function submitMovieForm() {
   const movie = {
-    primaryTitle: toTitleCase($("#primaryTitleTB").val().trim()),
+    primaryTitle: $("#primaryTitleTB").val().trim(),
     description: $("#descriptionTB").val().trim(),
     url: $("#urlTB").val().trim(),
     primaryImage: $("#primaryImageTB").val().trim(),
