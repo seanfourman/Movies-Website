@@ -1,13 +1,15 @@
+$(document).ready(function () {
+  let userEmail = localStorage.getItem("userEmail");
+  if (!userEmail) {
+    window.location.href = "../html/signin.html";
+  }
+});
+
 function initMyMoviesPage() {
   $("#searchInputs input").on("input", function () {
     $(".movieCard").remove();
     triggerSearch();
   });
-
-  let userEmail = localStorage.getItem("userEmail");
-  if (!userEmail) {
-    window.location.href = "../html/signin.html";
-  }
 
   setupSearchTitlePlaceholder();
   getAllMovies(readSCB, readECB);

@@ -139,8 +139,12 @@ function setupMovieFormValidation() {
 
   // Language - empty
   $("#languageTB").on("focusout", function () {
-    if ($(this).val().trim() === "") {
+    const language = $(this).val().trim();
+
+    if (language === "") {
       showFieldError($(this), "Language is required");
+    } else if (!isValidLanguage(language)) {
+      showFieldError($(this), "Please select a valid language from the list");
     } else {
       removeFieldError($(this));
     }
@@ -172,8 +176,12 @@ function setupMovieFormValidation() {
   $("#genresTB").on("focusout", function () {
     const genres = $(this).val().trim();
 
-    if (genres !== "" && !isValidGenres(genres)) {
-      showFieldError($(this), "Genres must be comma-separated (e.g., Action,Comedy,Drama)");
+    if (genres !== "") {
+      if (!isValidGenres(genres)) {
+        showFieldError($(this), "Please enter valid genres from the list, separated by commas");
+      } else {
+        removeFieldError($(this));
+      }
     } else {
       removeFieldError($(this));
     }
@@ -257,6 +265,13 @@ function validateMovieForm() {
     isValid = false;
   }
 
+  // Language
+  const language = $("#languageTB").val().trim();
+  if (language !== "" && !isValidLanguage(language)) {
+    showFieldError($("#languageTB"), "Please select a valid language from the list");
+    isValid = false;
+  }
+
   // Budget
   const budget = parseFloat($("#budgetTB").val().trim());
   if ($("#budgetTB").val().trim() !== "" && (isNaN(budget) || budget < MIN_BUDGET)) {
@@ -266,9 +281,11 @@ function validateMovieForm() {
 
   // Genres
   const genres = $("#genresTB").val().trim();
-  if (genres !== "" && !isValidGenres(genres)) {
-    showFieldError($("#genresTB"), "Genres must be separated by a comma (e.g. Action,Comedy,Drama)");
-    isValid = false;
+  if (genres !== "") {
+    if (!isValidGenres(genres)) {
+      showFieldError($("#genresTB"), "Please enter valid genres from the list, separated by commas");
+      isValid = false;
+    }
   }
 
   // Runtime
@@ -310,8 +327,19 @@ function isValidURL(url) {
 }
 
 // Helper function - Validate Genres Format
-function isValidGenres(genres) {
-  return /^[a-zA-Z]+(,[a-zA-Z]+)*$/.test(genres);
+function isValidGenres(genresString) {
+  if (!/^[a-zA-Z]+(,[a-zA-Z]+)*$/.test(genresString)) {
+    return false;
+  }
+
+  // Check if genre is in allowedGenres list
+  const enteredGenres = genresString.split(",");
+  return enteredGenres.every((genre) => allowedGenres.includes(genre.trim()));
+}
+
+// Helper function - Validate Language
+function isValidLanguage(language) {
+  return allowedLanguages.includes(language.trim());
 }
 
 function showFieldError(element, message) {
