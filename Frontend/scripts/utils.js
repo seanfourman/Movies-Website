@@ -74,6 +74,11 @@ function showNoMoviesMessage(text) {
 }
 
 function updateFooterPosition() {
+  const currentPage = window.location.pathname.split("/").pop();
+  if (currentPage === "signin.html" || currentPage === "signup.html") {
+    return;
+  }
+
   setTimeout(() => {
     const isScrollable = $(document).height() > $(window).height();
     if (isScrollable) {
