@@ -328,18 +328,18 @@ function isValidURL(url) {
 
 // Helper function - Validate Genres Format
 function isValidGenres(genresString) {
-  if (!/^[a-zA-Z]+(,[a-zA-Z]+)*$/.test(genresString)) {
+  if (!/^[a-zA-Z]+(\s*,\s*[a-zA-Z]+)*$/.test(genresString)) {
     return false;
   }
 
-  // Check if genre is in allowedGenres list
-  const enteredGenres = genresString.split(",");
-  return enteredGenres.every((genre) => allowedGenres.includes(genre.trim()));
+  // Check if each genre is in the allowedGenres list
+  const enteredGenres = genresString.split(",").map((genre) => genre.trim().toLowerCase());
+  return enteredGenres.every((genre) => allowedGenres.map((g) => g.toLowerCase()).includes(genre));
 }
 
 // Helper function - Validate Language
 function isValidLanguage(language) {
-  return allowedLanguages.includes(language.trim());
+  return allowedLanguages.map((lang) => lang.toLowerCase().trim()).includes(language.toLowerCase().trim());
 }
 
 function showFieldError(element, message) {
@@ -375,7 +375,7 @@ function submitMovieForm() {
     primaryImage: $("#primaryImageTB").val().trim(),
     year: parseInt($("#yearTB").val().trim()),
     releaseDate: $("#releaseDateTB").val(),
-    language: $("#languageTB").val().trim(),
+    language: toTitleCase($("#languageTB").val().trim()),
     budget: $("#budgetTB").val().trim() ? parseFloat($("#budgetTB").val().trim()) : 0,
     grossWorldwide: $("#grossWorldwideTB").val().trim() ? parseFloat($("#grossWorldwideTB").val().trim()) : 0,
 
@@ -384,7 +384,7 @@ function submitMovieForm() {
           .val()
           .trim()
           .split(",")
-          .map((g) => g.trim())
+          .map((g) => toTitleCase(g.trim()))
           .sort((a, b) => a.localeCompare(b))
           .join(",")
       : "",
