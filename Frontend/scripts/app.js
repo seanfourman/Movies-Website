@@ -39,6 +39,31 @@ $(document).ready(function () {
   $(window).on("load resize", updateFooterPosition);
 });
 
+function sendMoviesToServer() {
+  movies.forEach((movie) => {
+    const movieData = {
+      id: movie.id,
+      primaryTitle: movie.primaryTitle,
+      description: movie.description,
+      primaryImage: movie.primaryImage,
+      contentRating: movie.contentRating,
+      releaseDate: movie.releaseDate,
+      language: movie.language,
+      genres: movie.genres,
+      runtimeMinutes: movie.runtimeMinutes,
+      averageRating: movie.averageRating,
+      numVotes: movie.numVotes,
+      url: movie.url
+    };
+
+    addMovie(
+      movieData,
+      (response) => console.log("added movie" + response),
+      (error) => console.error("error" + error)
+    );
+  });
+}
+
 function loadMovies(arr) {
   const nextBatch = arr.slice(currentMovieIndex, currentMovieIndex + moviesPerPage);
   currentMovieIndex += moviesPerPage;
