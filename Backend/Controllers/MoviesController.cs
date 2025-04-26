@@ -9,6 +9,7 @@ namespace IMDBTask.Controllers
     [ApiController]
     public class MoviesController : ControllerBase
     {
+        /*
         // GET: api/<MovieController>
         [HttpGet]
         public IEnumerable<Movie> Get()
@@ -30,18 +31,19 @@ namespace IMDBTask.Controllers
             return Movie.GetByReleaseDate(startDate, endDate);
         }
 
+        // DELETE api/<MovieController>/5
+        [HttpDelete("{id}")]
+        public bool Delete(int id)
+        {
+            return Movie.Delete(id);
+        }
+        */
+
         // POST api/<MovieController>
         [HttpPost]
-        public bool Post([FromBody] Movie movie)
+        public int Post([FromBody] Movie movie)
         {
             return movie.Insert();
         }
-
-		// DELETE api/<MovieController>/5
-		[HttpDelete("{id}")]
-		public bool Delete(int id)
-		{
-            return Movie.Delete(id);
-		}
     }
 }

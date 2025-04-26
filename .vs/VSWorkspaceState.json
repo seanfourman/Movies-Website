@@ -3,8 +3,9 @@
     "",
     "\\Backend",
     "\\Backend\\Controllers",
+    "\\Backend\\DAL",
     "\\Backend\\Models"
   ],
-  "SelectedNode": "\\Backend\\Controllers\\MoviesController.cs",
+  "SelectedNode": "\\Backend\\DAL\\DBservices.cs",
   "PreviewInSolutionExplorer": false
 }

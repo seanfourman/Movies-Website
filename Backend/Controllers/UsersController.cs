@@ -9,18 +9,19 @@ namespace IMDBTask.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        // POST api/<UsersController>
+        [HttpPost]
+        public int Post([FromBody] User user)
+        {
+            return user.Insert();
+        }
+
+        /*
         // GET: api/<UsersController>
         [HttpGet]
         public IEnumerable<User> Get()
         {
             return Models.User.Read();
-        }
-
-        // POST api/<UsersController>
-        [HttpPost]
-        public bool Post([FromBody] User user)
-        {
-            return user.Register();
         }
 
         [HttpPost("login")]
@@ -32,6 +33,7 @@ namespace IMDBTask.Controllers
 
             return Ok(new UserDto(user));
         }
+        */
     }
 
     public class LoginModel
@@ -42,7 +44,6 @@ namespace IMDBTask.Controllers
 
     public class UserDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public bool Active { get; set; }
@@ -50,7 +51,6 @@ namespace IMDBTask.Controllers
         // copy constructor
         public UserDto(User user)
         {
-            Id = user.Id;
             Name = user.Name;
             Email = user.Email;
             Active = user.Active;

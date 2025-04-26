@@ -1,6 +1,4 @@
 function initHomePage() {
-  sendMoviesToServer(movies);
-
   if ($("#loadMoviesButton").length) {
     $("#loadMoviesButton").click(function () {
       loadMovies(movies);

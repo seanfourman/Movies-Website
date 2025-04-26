@@ -2,7 +2,6 @@
 {
     public class Movie
     {
-        public int Id { get; private set; }
         public string Url { get; set; }
         public string PrimaryTitle { get; set; }
         public string Description { get; set; }
@@ -17,9 +16,6 @@
         public int RuntimeMinutes { get; set; }
         public float AverageRating { get; set; }
         public int NumVotes { get; set; }
-
-        private static readonly List<Movie> _moviesList = new();
-        private static int _nextId = 1;
 
         public Movie() { }
 
@@ -43,6 +39,13 @@
             NumVotes = numVotes;
         }
 
+        public int Insert()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.Insert(this);
+        }
+
+        /*
         public bool Insert()
         {
             if (_moviesList.Any(movie => movie.PrimaryTitle == this.PrimaryTitle))
@@ -52,7 +55,7 @@
             _moviesList.Add(this);
             return true;
         }
-
+        
         public static bool Delete(int movieId)
         {
             var movieToRemove = _moviesList.FirstOrDefault(movie => movie.Id == movieId);
@@ -80,5 +83,6 @@
                 .Where(movie => movie.ReleaseDate >= startDate && movie.ReleaseDate <= endDate)
                 .ToList();
         }
+        */
     }
 }

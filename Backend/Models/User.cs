@@ -5,14 +5,11 @@ namespace IMDBTask.Models
 {
     public class User
     {
-        public int Id { get; private set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public bool Active { get; set; }
 
-        private static readonly List<User> _usersList = new();
-        private static int _nextId = 1;
         private static readonly PasswordHasher<User> _hasher = new PasswordHasher<User>();
 
         public User() { }
@@ -25,6 +22,13 @@ namespace IMDBTask.Models
             Active = active;
         }
 
+        public int Insert()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.Insert(this);
+        }
+
+        /*
         public static List<User> Read()
         {
             return new List<User>(_usersList);
@@ -54,6 +58,7 @@ namespace IMDBTask.Models
             var result = _hasher.VerifyHashedPassword(user, user.Password, password);
             return result == PasswordVerificationResult.Success ? user : null;
         }
+        */
 
         public static string ToTitleCase(string input)
         {
