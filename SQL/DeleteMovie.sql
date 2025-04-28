@@ -15,7 +15,7 @@ BEGIN
 
     UPDATE [MoviesTable]
     SET
-        [@deletedAt] = GETDATE()
+        [deletedAt] = GETDATE()
     WHERE [id] = @id;
 END
 GO

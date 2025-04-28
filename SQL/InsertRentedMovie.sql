@@ -16,31 +16,23 @@ GO
 -- =============================================
 -- Author:		<Noa Yarin Levi>
 -- Create date: <26/04/2025>
--- Description:	<Stored Procedure Insert for Users>
+-- Description:	<Stored Procedure Insert for RentedMovies>
 -- =============================================
-CREATE PROCEDURE SP_InsertUser
-	@name NVARCHAR(30),
-	@email NVARCHAR(255),
-	@password NVARCHAR(255),
-	@active BIT
+CREATE PROCEDURE SP_InsertRentedMovie
+    @userId INT,
+    @movieId INT
 AS
 BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
-	SET NOCOUNT ON;
+    SET NOCOUNT ON;
 
-    -- Insert statements for procedure here
-	INSERT INTO [UsersTable] (
-		[name],
-		[email],
-		[password],
-		[active]
+	INSERT INTO [RentedMoviesTable] (
+		[userId],
+		[movieId]
 	)
     VALUES (
-        @name,
-        @email,
-        @password,
-        @active
+        @userId,
+        @movieId
     );
 END
 GO
+

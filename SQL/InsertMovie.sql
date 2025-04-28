@@ -16,7 +16,7 @@ GO
 -- =============================================
 -- Author:		<Noa Yarin Levi>
 -- Create date: <26/04/2025>
--- Description:	<Stored Procedure for Movies>
+-- Description:	<Stored Procedure Insert for Movies>
 -- =============================================
 CREATE PROCEDURE SP_InsertMovie
     @url NVARCHAR(255),

@@ -17,14 +17,14 @@ namespace IMDBTask.Controllers
         }
         
         // PUT api/Users/{id}
-        [HttpPut("update/{id}")]
+        [HttpPut("{id}")]
         public int Put([FromBody] User user, int id)
         {
             return user.Update(user, id);
         }
 
-        // PUT api/Users/{id}
-        [HttpPut("delete/{id}")]
+        // DELETE api/Users/{id}
+        [HttpDelete("{id}")]
         public int Delete([FromBody] User user, int id)
         {
             return user.Delete(user, id);

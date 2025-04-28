@@ -16,15 +16,15 @@ namespace IMDBTask.Controllers
             return movie.Insert();
         }
         
-        // PUT api/Movies/{id}
-        [HttpPut("update/{id}")]
+        // PUT api/Movies/update/{id}
+        [HttpPut("{id}")]
         public int Put([FromBody] Movie movie, int id)
         {
             return movie.Update(movie, id);
         }
         
-        // PUT api/Movies/{id}
-        [HttpPut("delete/{id}")]
+        // DELETE api/Movies/delete/{id}
+        [HttpDelete("{id}")]
         public int Delete([FromBody] Movie movie, int id)
         {
             return movie.Delete(movie, id);
