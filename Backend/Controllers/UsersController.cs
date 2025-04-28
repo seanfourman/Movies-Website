@@ -15,6 +15,20 @@ namespace IMDBTask.Controllers
         {
             return user.Insert();
         }
+        
+        // PUT api/Users/{id}
+        [HttpPut("update/{id}")]
+        public int Put([FromBody] User user, int id)
+        {
+            return user.Update(user, id);
+        }
+
+        // PUT api/Users/{id}
+        [HttpPut("delete/{id}")]
+        public int Delete([FromBody] User user, int id)
+        {
+            return user.Delete(user, id);
+        }
 
         /*
         // GET: api/<UsersController>

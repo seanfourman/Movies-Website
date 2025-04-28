@@ -16,12 +16,14 @@
         public int RuntimeMinutes { get; set; }
         public float AverageRating { get; set; }
         public int NumVotes { get; set; }
+        public int PriceToRent { get; set; }
+        public int RentalCount { get; set; }
 
         public Movie() { }
 
         public Movie(string url, string primaryTitle, string description, string primaryImage, int year,
                      DateTime releaseDate, string language, double budget, double grossWorldwide, string genres,
-                     bool isAdult, int runtimeMinutes, float averageRating, int numVotes)
+                     bool isAdult, int runtimeMinutes, float averageRating, int numVotes, int priceToRent, int rentalCount)
         {
             Url = url;
             PrimaryTitle = primaryTitle;
@@ -37,6 +39,8 @@
             RuntimeMinutes = runtimeMinutes;
             AverageRating = averageRating;
             NumVotes = numVotes;
+            PriceToRent = priceToRent;
+            RentalCount = rentalCount;
         }
 
         public int Insert()
@@ -44,32 +48,20 @@
             DBservices dbs = new DBservices();
             return dbs.Insert(this);
         }
-
-        /*
-        public bool Insert()
+        
+        public int Update(Movie movie, int id)
         {
-            if (_moviesList.Any(movie => movie.PrimaryTitle == this.PrimaryTitle))
-                return false;
-
-            this.Id = _nextId++;
-            _moviesList.Add(this);
-            return true;
+            DBservices dbs = new DBservices();
+            return dbs.Update(movie, id);
         }
         
-        public static bool Delete(int movieId)
+        public int Delete(Movie movie, int id)
         {
-            var movieToRemove = _moviesList.FirstOrDefault(movie => movie.Id == movieId);
-            if (movieToRemove == null)
-                return false;
-
-            return _moviesList.Remove(movieToRemove);
+            DBservices dbs = new DBservices();
+            return dbs.Delete(movie, id);
         }
 
-        public static List<Movie> Read()
-        {
-            return new List<Movie>(_moviesList);
-        }
-
+        /*
         public static List<Movie> GetByTitle(string title)
         {
             return _moviesList

@@ -14,7 +14,7 @@ namespace IMDBTask.Models
 
         public User() { }
 
-        public User(string name, string email, string password, bool active)
+        public User(string name, string email, string password, bool active = true)
         {
             Name = name;
             Email = email;
@@ -25,15 +25,26 @@ namespace IMDBTask.Models
         public int Insert()
         {
             DBservices dbs = new DBservices();
+            this.Name = ToTitleCase(this.Name);
+            this.Email = this.Email.ToLower();
+            this.Password = _hasher.HashPassword(this, this.Password);
+            this.Active = true;
             return dbs.Insert(this);
+        }
+        
+        public int Update(User user, int id)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.Update(user, id);
+        }
+        
+        public int Delete(User user, int id)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.Delete(user, id);
         }
 
         /*
-        public static List<User> Read()
-        {
-            return new List<User>(_usersList);
-        }
-
         public bool Register()
         {
             this.Name = ToTitleCase(this.Name);

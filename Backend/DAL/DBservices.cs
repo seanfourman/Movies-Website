@@ -37,7 +37,6 @@ public class DBservices
     {
         SqlConnection con;
         SqlCommand cmd;
-
         try
         {
             con = connect("moviesDB"); // create the connection
@@ -68,6 +67,7 @@ public class DBservices
             paramDic.Add("@averageRating", movie.AverageRating);
             paramDic.Add("@numVotes", movie.NumVotes);
             paramDic.Add("@priceToRent", GenerateRandomPrice());
+            paramDic.Add("@rentalCount", movie.RentalCount);
             storedProcedureName = "SP_InsertMovie";
         }
 
@@ -79,7 +79,6 @@ public class DBservices
             paramDic.Add("@active", user.Active);
             storedProcedureName = "SP_InsertUser";
         }
-
         cmd = CreateCommandWithStoredProcedureGeneral(storedProcedureName, con, paramDic); // create the command
 
         try
@@ -92,7 +91,6 @@ public class DBservices
             // write to log
             throw (ex);
         }
-
         finally
         {
             if (con != null)
@@ -103,31 +101,140 @@ public class DBservices
         }
     }
 
+    public int Update<T>(T entity, int id)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        try
+        {
+            con = connect("moviesDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        string storedProcedureName = "";
+        if (entity is Movie movie)
+        {
+            paramDic.Add("@id", id);
+            paramDic.Add("@url", movie.Url);
+            paramDic.Add("@primaryTitle", movie.PrimaryTitle);
+            paramDic.Add("@description", movie.Description);
+            paramDic.Add("@primaryImage", movie.PrimaryImage);
+            paramDic.Add("@year", movie.Year);
+            paramDic.Add("@releaseDate", movie.ReleaseDate);
+            paramDic.Add("@language", movie.Language);
+            paramDic.Add("@budget", movie.Budget);
+            paramDic.Add("@grossWorldwide", movie.GrossWorldwide);
+            paramDic.Add("@genres", movie.Genres);
+            paramDic.Add("@isAdult", movie.IsAdult);
+            paramDic.Add("@runtimeMinutes", movie.RuntimeMinutes);
+            paramDic.Add("@averageRating", movie.AverageRating);
+            paramDic.Add("@numVotes", movie.NumVotes);
+            paramDic.Add("@priceToRent", movie.PriceToRent);
+            paramDic.Add("@rentalCount", movie.RentalCount);
+            storedProcedureName = "SP_UpdateMovie";
+        }
+
+        if (entity is User user)
+        {
+            paramDic.Add("@id", id);
+            paramDic.Add("@name", user.Name);
+            paramDic.Add("@email", user.Email);
+            paramDic.Add("@password", user.Password);
+            paramDic.Add("@active", user.Active);
+            storedProcedureName = "SP_UpdateUser";
+        }
+        cmd = CreateCommandWithStoredProcedureGeneral(storedProcedureName, con, paramDic); // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command -> return the number of affected rows
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    
+    public int Delete<T>(T entity, int id)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        try
+        {
+            con = connect("moviesDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        string storedProcedureName = "";
+        if (entity is Movie movie)
+        {
+            paramDic.Add("@id", id);
+            storedProcedureName = "SP_DeleteMovie";
+        }
+
+        if (entity is User user)
+        {
+            paramDic.Add("@id", id);
+            storedProcedureName = "SP_DeleteUser";
+        }
+        cmd = CreateCommandWithStoredProcedureGeneral(storedProcedureName, con, paramDic); // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command -> return the number of affected rows
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
 
     //---------------------------------------------------------------------------------
     // Create the SqlCommand
     //---------------------------------------------------------------------------------
     private SqlCommand CreateCommandWithStoredProcedureGeneral(String spName, SqlConnection con, Dictionary<string, object> paramDic)
     {
-
         SqlCommand cmd = new SqlCommand(); // create the command object
-
         cmd.Connection = con;              // assign the connection to the command object
-
         cmd.CommandText = spName;      // can be Select, Insert, Update, Delete 
-
-        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
-
+        cmd.CommandTimeout = 10;           // Time to wait for the execution The default is 30 seconds
         cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
-
         if (paramDic != null)
             foreach (KeyValuePair<string, object> param in paramDic)
             {
                 cmd.Parameters.AddWithValue(param.Key, param.Value);
 
             }
-
-
         return cmd;
     }
 
@@ -136,11 +243,4 @@ public class DBservices
         Random random = new Random();
         return random.Next(10, 31);
     }
-
-
-    //--------------------------------------------------------------------
-    // TODO Build the Flight Delete  method
-    // DeleteFlight(int id)
-    //--------------------------------------------------------------------
-
 }

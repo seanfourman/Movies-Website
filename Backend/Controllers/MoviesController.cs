@@ -9,6 +9,26 @@ namespace IMDBTask.Controllers
     [ApiController]
     public class MoviesController : ControllerBase
     {
+        // POST api/<MovieController>
+        [HttpPost]
+        public int Post([FromBody] Movie movie)
+        {
+            return movie.Insert();
+        }
+        
+        // PUT api/Movies/{id}
+        [HttpPut("update/{id}")]
+        public int Put([FromBody] Movie movie, int id)
+        {
+            return movie.Update(movie, id);
+        }
+        
+        // PUT api/Movies/{id}
+        [HttpPut("delete/{id}")]
+        public int Delete([FromBody] Movie movie, int id)
+        {
+            return movie.Delete(movie, id);
+        }
         /*
         // GET: api/<MovieController>
         [HttpGet]
@@ -38,12 +58,5 @@ namespace IMDBTask.Controllers
             return Movie.Delete(id);
         }
         */
-
-        // POST api/<MovieController>
-        [HttpPost]
-        public int Post([FromBody] Movie movie)
-        {
-            return movie.Insert();
-        }
     }
 }
