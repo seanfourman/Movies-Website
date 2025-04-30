@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Controllers\\MoviesController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\Controllers\\MoviesController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\DAL\\DBservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\DAL\\DBservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Controllers\\UsersController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\Controllers\\UsersController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Models\\Movie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -21,6 +13,14 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Models\\User.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\Models\\User.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Controllers\\MoviesController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\Controllers\\MoviesController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Controllers\\UsersController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\Controllers\\UsersController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -47,64 +47,64 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Movie.cs",
+              "DocumentMoniker": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Models\\Movie.cs",
+              "RelativeDocumentMoniker": "Backend\\Models\\Movie.cs",
+              "ToolTip": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Models\\Movie.cs",
+              "RelativeToolTip": "Backend\\Models\\Movie.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAADAAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-30T18:01:13.192Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MoviesController.cs",
+              "DocumentMoniker": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Controllers\\MoviesController.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\MoviesController.cs",
+              "ToolTip": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Controllers\\MoviesController.cs",
+              "RelativeToolTip": "Backend\\Controllers\\MoviesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-30T18:00:52.555Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "DBservices.cs",
               "DocumentMoniker": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\DAL\\DBservices.cs",
               "RelativeDocumentMoniker": "Backend\\DAL\\DBservices.cs",
               "ToolTip": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\DAL\\DBservices.cs",
               "RelativeToolTip": "Backend\\DAL\\DBservices.cs",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAAAFIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAswFsAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-26T20:45:45.801Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Models\\User.cs",
               "RelativeDocumentMoniker": "Backend\\Models\\User.cs",
               "ToolTip": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Models\\User.cs",
               "RelativeToolTip": "Backend\\Models\\User.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-26T20:38:04.082Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MoviesController.cs",
-              "DocumentMoniker": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Controllers\\MoviesController.cs",
-              "RelativeDocumentMoniker": "Backend\\Controllers\\MoviesController.cs",
-              "ToolTip": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Controllers\\MoviesController.cs",
-              "RelativeToolTip": "Backend\\Controllers\\MoviesController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-26T20:12:15.964Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "UsersController.cs",
               "DocumentMoniker": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Controllers\\UsersController.cs",
               "RelativeDocumentMoniker": "Backend\\Controllers\\UsersController.cs",
               "ToolTip": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Controllers\\UsersController.cs",
               "RelativeToolTip": "Backend\\Controllers\\UsersController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-26T20:00:06.452Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Movie.cs",
-              "DocumentMoniker": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Models\\Movie.cs",
-              "RelativeDocumentMoniker": "Backend\\Models\\Movie.cs",
-              "ToolTip": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Models\\Movie.cs",
-              "RelativeToolTip": "Backend\\Models\\Movie.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAAACkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-26T18:49:30.055Z"
             }
           ]
         }

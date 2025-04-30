@@ -1,5 +1,5 @@
 //const apiBaseUrl = "https://proj.ruppin.ac.il/cgroup7/test2/tar1/api";
-const port = 7268;
+const port = 5001;
 const apiBaseUrl = `https://localhost:${port}/api`;
 const moviesEndpoint = `${apiBaseUrl}/Movies`;
 const usersEndpoint = `${apiBaseUrl}/Users`;

@@ -21,8 +21,8 @@ GO
 CREATE PROCEDURE SP_InsertUser
 	@name NVARCHAR(30),
 	@email NVARCHAR(255),
-	@password NVARCHAR(255)
-	--@active BIT
+	@password NVARCHAR(255),
+	@active BIT
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -33,14 +33,14 @@ BEGIN
 	INSERT INTO [UsersTable] (
 		[name],
 		[email],
-		[password]
-		--[active]
+		[password],
+		[active]
 	)
     VALUES (
         @name,
         @email,
-        @password
-        --@active
+        @password,
+        @active
     );
 END
 GO

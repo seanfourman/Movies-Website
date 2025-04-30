@@ -52,7 +52,7 @@
               "RelativeDocumentMoniker": "Backend\\Models\\Movie.cs",
               "ToolTip": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\Models\\Movie.cs",
               "RelativeToolTip": "Backend\\Models\\Movie.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAADAAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-30T18:01:13.192Z",
               "EditorCaption": ""
@@ -67,8 +67,7 @@
               "RelativeToolTip": "Backend\\Controllers\\MoviesController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADMAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-30T18:00:52.555Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-30T18:00:52.555Z"
             },
             {
               "$type": "Document",
@@ -78,7 +77,7 @@
               "RelativeDocumentMoniker": "Backend\\DAL\\DBservices.cs",
               "ToolTip": "C:\\Users\\Sean-PC\\Desktop\\Backend\\Movies-Website\\Backend\\DAL\\DBservices.cs",
               "RelativeToolTip": "Backend\\DAL\\DBservices.cs",
-              "ViewState": "AgIAADAAAAAAAAAAAAAAAEUAAAA8AAAAAAAAAA==",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAswFsAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-26T20:45:45.801Z",
               "EditorCaption": ""
@@ -93,8 +92,7 @@
               "RelativeToolTip": "Backend\\Models\\User.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-26T20:38:04.082Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-26T20:38:04.082Z"
             },
             {
               "$type": "Document",
@@ -106,8 +104,7 @@
               "RelativeToolTip": "Backend\\Controllers\\UsersController.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-26T20:00:06.452Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-26T20:00:06.452Z"
             }
           ]
         }
