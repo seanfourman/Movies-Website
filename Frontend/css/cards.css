@@ -18,6 +18,11 @@
   font-family: "Helvetica", "Arial", sans-serif;
 }
 
+.movieCard #cartIcon {
+  object-fit: contain;
+  height: 35px;
+}
+
 /* Card image section */
 .movieCard .movieCardImageContainer {
   max-height: 200px;

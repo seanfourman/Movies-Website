@@ -35,9 +35,23 @@ $(document).ready(function () {
     initMyMoviesPage();
   }
 
+  pageAuthorizationSetup();
   setupAccountDropdown();
   $(window).on("load resize", updateFooterPosition);
 });
+
+function pageAuthorizationSetup() {
+  const restrictedPages = ["addmovie.html", "mymovies.html", "myprofile.html"];
+  const loggedPages = ["signin.html", "signup.html"];
+  const userEmail = localStorage.getItem("userEmail");
+  const pageName = window.location.pathname.split("/").pop().toLowerCase();
+
+  if (!userEmail && restrictedPages.includes(pageName)) {
+    window.location.href = "../html/signin.html";
+  } else if (userEmail && loggedPages.includes(pageName)) {
+    window.location.href = "../html/index.html";
+  }
+}
 
 function loadMovies(arr) {
   const nextBatch = arr.slice(currentMovieIndex, currentMovieIndex + moviesPerPage);
@@ -177,6 +191,12 @@ function setupAccountDropdown() {
     window.location.href = "./addMovie.html";
   });
 
+  // Edit Profile
+  $(document).on("click", "#myProfileBtn", function (e) {
+    e.preventDefault();
+    window.location.href = "./myProfile.html";
+  });
+
   // Disable background image right click menu
   const img = $("#formLetterImg");
   if (img.length) {
@@ -192,7 +212,8 @@ function updateDropdownContent(isLoggedIn) {
 
   if (isLoggedIn) {
     dropdownMenu.append(`
-      <a href="#" id="addMovieBtn"><img src="../sources/plus-icon.png" />Add movie</a>
+      <a href="#" id="addMovieBtn"><img src="../sources/plus-icon.png" />Add Movie</a>
+      <a href="#" id="myProfileBtn"><img src="../sources/myprofile-icon.png" />My Profile</a>
       <a href="#" id="logoutBtn"><img src="../sources/logout-icon.png" />Logout</a>
     `);
   } else {

@@ -9,19 +9,10 @@ using IMDBTask.Models;
 
 public class DBservices
 {
-    public DBservices()
-    {
-        //
-        // TODO: Add constructor logic here
-        //
-    }
+    public DBservices() { }
 
-    //--------------------------------------------------------------------------------------------------
-    // This method creates a connection to the database according to the connectionString name in the appsettings.json 
-    //--------------------------------------------------------------------------------------------------
     public SqlConnection connect(String conString)
     {
-        // read the connection string from the configuration file
         IConfigurationRoot configuration = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json").Build();
         string cStr = configuration.GetConnectionString("moviesDB");
@@ -30,20 +21,16 @@ public class DBservices
         return con;
     }
 
-    //--------------------------------------------------------------------------------------------------
-    // This method inserts a movie into the movies table 
-    //--------------------------------------------------------------------------------------------------
     public int Insert<T>(T entity)
     {
         SqlConnection con;
         SqlCommand cmd;
         try
         {
-            con = connect("moviesDB"); // create the connection
+            con = connect("moviesDB");
         }
         catch (Exception ex)
         {
-            // write to log
             throw (ex);
         }
 
@@ -79,23 +66,21 @@ public class DBservices
             paramDic.Add("@active", user.Active);
             storedProcedureName = "SP_InsertUser";
         }
-        cmd = CreateCommandWithStoredProcedureGeneral(storedProcedureName, con, paramDic); // create the command
+        cmd = CreateCommandWithStoredProcedureGeneral(storedProcedureName, con, paramDic);
 
         try
         {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command -> return the number of affected rows
+            int numEffected = cmd.ExecuteNonQuery();
             return numEffected;
         }
         catch (Exception ex)
         {
-            // write to log
             throw (ex);
         }
         finally
         {
             if (con != null)
             {
-                // close the db connection
                 con.Close();
             }
         }
@@ -107,11 +92,10 @@ public class DBservices
         SqlCommand cmd;
         try
         {
-            con = connect("moviesDB"); // create the connection
+            con = connect("moviesDB");
         }
         catch (Exception ex)
         {
-            // write to log
             throw (ex);
         }
 
@@ -148,23 +132,21 @@ public class DBservices
             paramDic.Add("@active", user.Active);
             storedProcedureName = "SP_UpdateUser";
         }
-        cmd = CreateCommandWithStoredProcedureGeneral(storedProcedureName, con, paramDic); // create the command
+        cmd = CreateCommandWithStoredProcedureGeneral(storedProcedureName, con, paramDic);
 
         try
         {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command -> return the number of affected rows
+            int numEffected = cmd.ExecuteNonQuery();
             return numEffected;
         }
         catch (Exception ex)
         {
-            // write to log
             throw (ex);
         }
         finally
         {
             if (con != null)
             {
-                // close the db connection
                 con.Close();
             }
         }
@@ -176,11 +158,10 @@ public class DBservices
         SqlCommand cmd;
         try
         {
-            con = connect("moviesDB"); // create the connection
+            con = connect("moviesDB");
         }
         catch (Exception ex)
         {
-            // write to log
             throw (ex);
         }
 
@@ -197,37 +178,32 @@ public class DBservices
             paramDic.Add("@id", id);
             storedProcedureName = "SP_DeleteUser";
         }
-        cmd = CreateCommandWithStoredProcedureGeneral(storedProcedureName, con, paramDic); // create the command
+        cmd = CreateCommandWithStoredProcedureGeneral(storedProcedureName, con, paramDic);
 
         try
         {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command -> return the number of affected rows
+            int numEffected = cmd.ExecuteNonQuery();
             return numEffected;
         }
         catch (Exception ex)
         {
-            // write to log
             throw (ex);
         }
         finally
         {
             if (con != null)
             {
-                // close the db connection
                 con.Close();
             }
         }
     }
 
-    //---------------------------------------------------------------------------------
-    // Create the SqlCommand
-    //---------------------------------------------------------------------------------
     private SqlCommand CreateCommandWithStoredProcedureGeneral(String spName, SqlConnection con, Dictionary<string, object> paramDic)
     {
-        SqlCommand cmd = new SqlCommand(); // create the command object
-        cmd.Connection = con;              // assign the connection to the command object
-        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete 
-        cmd.CommandTimeout = 10;           // Time to wait for the execution The default is 30 seconds
+        SqlCommand cmd = new SqlCommand();                         // create the command object
+        cmd.Connection = con;                                      // assign the connection to the command object
+        cmd.CommandText = spName;                                  // can be Select, Insert, Update, Delete 
+        cmd.CommandTimeout = 10;                                   // Time to wait for the execution The default is 30 seconds
         cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
         if (paramDic != null)
             foreach (KeyValuePair<string, object> param in paramDic)

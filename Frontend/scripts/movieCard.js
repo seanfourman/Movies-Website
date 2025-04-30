@@ -77,13 +77,15 @@ function setupCardInteraction(movie, movieCard) {
         let $btn = null;
 
         if (currentPage === "index.html") {
-          $btn = $('<div class="add-button"><span>❤</span></div>');
+          //$btn = $('<div class="add-button"><span>❤</span></div>');
+          $btn = $('<div class="add-button"><img id="cartIcon" src="../sources/cart-icon.png" /></div>');
           $btn.on("click", function () {
             let userEmail = localStorage.getItem("userEmail");
             if (!userEmail) {
               window.location.href = "../html/signin.html";
             } else {
-              sendToServer(movie);
+              //sendToServer(movie);
+              showPopup("This function is currently disabled!", false);
             }
           });
         } else if (currentPage === "myMovies.html") {

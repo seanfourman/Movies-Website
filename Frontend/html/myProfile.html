@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TRD / My Profile</title>
+    <link rel="icon" type="image" href="../sources/website-icon-white.png" />
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/nav.css" />
+    <link rel="stylesheet" href="../css/forms.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="../scripts/api.js"></script>
+    <script src="../scripts/app.js"></script>
+    <script src="../scripts/home.js"></script>
+    <script src="../scripts/authentication.js"></script>
+    <script src="../scripts/utils.js"></script>
+  </head>
+  <body>
+    <nav></nav>
+    <container>
+      <form id="myProfileForm">
+        <h1 id="formTitle">My Profile:</h1>
+        <div class="form-group">
+          <p for="nameTB">Name:</p>
+          <input type="text" class="form-control" id="nameTB" placeholder="Enter new name" autocomplete="off" required />
+        </div>
+        <div class="form-group">
+          <p for="emailTB">Email:</p>
+          <input type="text" class="form-control" id="emailTB" placeholder="Enter new email" autocomplete="off" required />
+        </div>
+        <div class="form-group">
+          <p for="passwordTB">Password:</p>
+          <input type="password" class="form-control" id="passwordTB" placeholder="Enter new password" autocomplete="new-password" required />
+        </div>
+        <input type="submit" id="submitButton" value="Save" />
+      </form>
+    </container>
+    <footer></footer>
+  </body>
+</html>

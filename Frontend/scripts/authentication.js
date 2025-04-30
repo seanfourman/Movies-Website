@@ -24,6 +24,20 @@ $(document).ready(function () {
     }
   });
 
+  // MY PROFILE
+  if ($("#myProfileForm").length) {
+    setupFormValidation();
+    $("#myProfileForm").css("background-image", "url(../sources/auth-bg3.png)");
+  }
+
+  $("#myProfileForm").on("submit", function (e) {
+    e.preventDefault();
+
+    if (this.checkValidity()) {
+      editUserProfile();
+    }
+  });
+
   swapWebsiteIcon();
 });
 
@@ -168,6 +182,51 @@ function loginCBError(xhr, status) {
     errorMessage += xhr.responseJSON.message || xhr.responseJSON.title || "Server error";
   } else if (xhr.status === 401) {
     errorMessage = "Login failed. Invalid email or password.";
+  } else if (xhr.status === 0) {
+    errorMessage = "Cannot connect to server. Please check your internet connection.";
+  } else {
+    errorMessage += status;
+  }
+
+  showPopup(errorMessage, false);
+}
+
+// My Profile
+function editUserProfile() {
+  //const userId = localStorage.getItem("userId");
+  const user = {
+    Name: $("#nameTB").val().trim(),
+    Email: $("#emailTB").val().trim(),
+    Password: $("#passwordTB").val(),
+    Active: true
+  };
+
+  $("#submitButton").val("wait a sec...").prop("disabled", true);
+  editUser(user, userId, editCBSuccess, editCBError);
+}
+
+function editCBSuccess(response) {
+  $("#submitButton").val("Save").prop("disabled", false);
+
+  if (response === false) {
+    showPopup("Failed to update profile. Please try again later.", false);
+    return;
+  }
+
+  $("#myProfileForm")[0].reset();
+  showPopup("Your profile has been successfully updated.", true);
+  setTimeout(function () {
+    window.location.href = "../html/myProfile.html";
+  }, 2000);
+}
+
+function editCBError(xhr, status) {
+  $("#submitButton").val("Save").prop("disabled", false);
+
+  let errorMessage = "Failed to update profile: ";
+
+  if (xhr.responseJSON) {
+    errorMessage += xhr.responseJSON.message || xhr.responseJSON.title || "Server error";
   } else if (xhr.status === 0) {
     errorMessage = "Cannot connect to server. Please check your internet connection.";
   } else {

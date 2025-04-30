@@ -43,6 +43,10 @@ function registerUser(user, successCallback, errorCallback) {
   ajaxCall("POST", usersEndpoint, JSON.stringify(user), successCallback, errorCallback);
 }
 
+function editUser(user, id, successCallback, errorCallback) {
+  ajaxCall("PUT", `${usersEndpoint}/${id}`, JSON.stringify(user), successCallback, errorCallback);
+}
+
 function loginUser(credentials, successCallback, errorCallback) {
   ajaxCall("POST", `${usersEndpoint}/login`, JSON.stringify(credentials), successCallback, errorCallback);
 }

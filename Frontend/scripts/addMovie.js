@@ -8,12 +8,6 @@ let allowedLanguages = [];
 let allowedGenres = [];
 
 $(document).ready(function () {
-  // *** swap to a function later for unauthorized pages without an account
-  let userEmail = localStorage.getItem("userEmail");
-  if (!userEmail) {
-    window.location.href = "../html/signin.html";
-  }
-
   if ($("#movieForm").length) {
     setupMovieFormValidation();
     populateLanguagesList();
