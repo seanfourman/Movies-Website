@@ -23,7 +23,6 @@ CREATE PROCEDURE SP_UpdateMovie
     @runtimeMinutes INT,
     @averageRating FLOAT,
     @numVotes INT,
-    @deletedAt DATE = NULL,
     @priceToRent INT,
     @rentalCount INT
 AS
@@ -46,7 +45,6 @@ BEGIN
         [runtimeMinutes] = @runtimeMinutes,
         [averageRating] = @averageRating,
         [numVotes] = @numVotes,
-        [deletedAt] = @deletedAt,
         [priceToRent] = @priceToRent,
         [rentalCount] = @rentalCount
     WHERE [id] = @id;

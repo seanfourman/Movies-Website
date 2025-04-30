@@ -15,8 +15,7 @@ CREATE PROCEDURE SP_InsertRentedMovie
     @movieId INT,
     @rentStart DATE,
     @rentEnd DATE,
-    @totalPrice FLOAT,
-    @deletedAt DATE = NULL
+    @totalPrice FLOAT
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -26,16 +25,14 @@ BEGIN
         [movieId],
         [rentStart],
         [rentEnd],
-        [totalPrice],
-        [deletedAt]
+        [totalPrice]
     )
     VALUES (
 		@userId,
         @movieId,
         @rentStart,
         @rentEnd,
-        @totalPrice,
-        @deletedAt
+        @totalPrice
     );
 
 	UPDATE [MoviesTable]

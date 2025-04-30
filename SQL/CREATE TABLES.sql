@@ -26,9 +26,9 @@ CREATE TABLE [MoviesTable] (
     [runtimeMinutes] INT NOT NULL,
     [averageRating] FLOAT NOT NULL,
     [numVotes] INT NOT NULL,
-	[deletedAt] DATE DEFAULT NULL,
 	[priceToRent] INT NOT NULL,
-    [rentalCount] INT NOT NULL DEFAULT 0
+    [rentalCount] INT NOT NULL DEFAULT 0,
+	[deletedAt] DATE DEFAULT NULL
 );
 
 CREATE TABLE [UsersTable] (
@@ -46,7 +46,7 @@ CREATE TABLE [RentedMoviesTable] (
     [rentStart] DATE NOT NULL,
     [rentEnd] DATE NOT NULL,
     [totalPrice] FLOAT NOT NULL,
-    [deletedAt] DATE NULL,
+    [deletedAt] DATE DEFAULT NULL,
     PRIMARY KEY ([userId], [movieId]),
     FOREIGN KEY ([userId]) REFERENCES [UsersTable]([id]) ON DELETE CASCADE,
     FOREIGN KEY ([movieId]) REFERENCES [MoviesTable]([id]) ON DELETE CASCADE

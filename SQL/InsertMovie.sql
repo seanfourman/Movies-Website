@@ -33,9 +33,9 @@ CREATE PROCEDURE SP_InsertMovie
     @runtimeMinutes INT,
     @averageRating FLOAT,
     @numVotes INT,
-    @deletedAt DATE = NULL,
-    @priceToRent INT,
-    @rentalCount INT = 0
+    @priceToRent INT
+    --@rentalCount INT = 0,
+	--@deletedAt DATE = NULL
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -55,9 +55,9 @@ BEGIN
 		[runtimeMinutes],
 		[averageRating],
 		[numVotes],
-		[deletedAt],
-		[priceToRent],
-		[rentalCount]
+		[priceToRent]
+		--[rentalCount],
+		--[deletedAt]
 	)
     VALUES (
         @url,
@@ -74,9 +74,9 @@ BEGIN
         @runtimeMinutes,
         @averageRating,
         @numVotes,
-        @deletedAt,
-        @priceToRent,
-        @rentalCount
+        @priceToRent
+        --@rentalCount,
+		--@deletedAt
     );
 END
 GO
