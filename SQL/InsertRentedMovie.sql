@@ -1,14 +1,6 @@
--- ================================================
--- Template generated from Template Explorer using:
--- Create Procedure (New Menu).SQL
---
--- Use the Specify Values for Template Parameters 
--- command (Ctrl-Shift-M) to fill in the parameter 
--- values below.
---
--- This block of comments will not be included in
--- the definition of the procedure.
--- ================================================
+USE [igroup107_test2]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_InsertMovie]    Script Date: 30/04/2025 20:29:25 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -19,20 +11,36 @@ GO
 -- Description:	<Stored Procedure Insert for RentedMovies>
 -- =============================================
 CREATE PROCEDURE SP_InsertRentedMovie
-    @userId INT,
-    @movieId INT
+	@userId INT,
+    @movieId INT,
+    @rentStart DATE,
+    @rentEnd DATE,
+    @totalPrice FLOAT,
+    @deletedAt DATE = NULL
 AS
 BEGIN
     SET NOCOUNT ON;
 
-	INSERT INTO [RentedMoviesTable] (
+    INSERT INTO [RentedMoviesTable] (
 		[userId],
-		[movieId]
-	)
+        [movieId],
+        [rentStart],
+        [rentEnd],
+        [totalPrice],
+        [deletedAt]
+    )
     VALUES (
-        @userId,
-        @movieId
+		@userId,
+        @movieId,
+        @rentStart,
+        @rentEnd,
+        @totalPrice,
+        @deletedAt
     );
-END
-GO
 
+	UPDATE [MoviesTable]
+	SET
+        [rentalCount] = [rentalCount] + 1,
+        [grossWorldwide] = [grossWorldwide] + @totalPrice
+	WHERE [id] = @movieId;
+END

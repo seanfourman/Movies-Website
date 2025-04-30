@@ -50,13 +50,6 @@ namespace IMDBTask.Controllers
         {
             return Movie.GetByReleaseDate(startDate, endDate);
         }
-
-        // DELETE api/<MovieController>/5
-        [HttpDelete("{id}")]
-        public bool Delete(int id)
-        {
-            return Movie.Delete(id);
-        }
         */
     }
 }

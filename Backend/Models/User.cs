@@ -45,21 +45,6 @@ namespace IMDBTask.Models
         }
 
         /*
-        public bool Register()
-        {
-            this.Name = ToTitleCase(this.Name);
-            this.Email = this.Email.ToLower();
-
-            if (_usersList.Any(user => user.Email == this.Email))
-                return false;
-
-            this.Id = _nextId++;
-            this.Password = _hasher.HashPassword(this, this.Password);
-            this.Active = true;
-            _usersList.Add(this);
-            return true;
-        }
-
         public static User? Login(string email, string password)
         {
             var user = _usersList.FirstOrDefault(u => u.Email.ToLower() == email.ToLower());

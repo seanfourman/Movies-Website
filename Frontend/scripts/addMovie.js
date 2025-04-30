@@ -393,6 +393,7 @@ function submitMovieForm() {
     runtimeMinutes: parseInt($("#runtimeMinutesTB").val().trim()),
     averageRating: $("#averageRatingTB").val().trim() ? parseFloat($("#averageRatingTB").val().trim()) : 0,
     numVotes: $("#numVotesTB").val().trim() ? parseInt($("#numVotesTB").val().trim()) : 0
+    // CHECK ***
   };
 
   $("#submitButton").val("wait a sec...").prop("disabled", true);
