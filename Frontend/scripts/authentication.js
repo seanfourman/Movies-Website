@@ -214,6 +214,7 @@ function editCBSuccess(response) {
   }
 
   $("#myProfileForm")[0].reset();
+  // Update local storage keys here (***)
   showPopup("Your profile has been successfully updated.", true);
   setTimeout(function () {
     window.location.href = "../html/myProfile.html";

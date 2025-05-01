@@ -6,6 +6,6 @@
     "\\Backend\\DAL",
     "\\Backend\\Models"
   ],
-  "SelectedNode": "\\Backend\\DAL\\DBservices.cs",
+  "SelectedNode": "\\Backend\\Models\\User.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -37,7 +37,7 @@ namespace IMDBTask.Models
             DBservices dbs = new DBservices();
             // Id is missing - no clue how to get it without returning the object itself from the DB.
             // I think he said not to return the object because of whatever reason.
-            // If it is possible, need to change this - cmd.ExecuteNonQuery(); to someother query, don't remember which.
+            // If it is possible, need to change this - cmd.ExecuteNonQuery(); to someother query, don't remember which. (***)
             this.Name = ToTitleCase(this.Name);
             this.Email = this.Email.ToLower();
             this.Password = _hasher.HashPassword(this, this.Password);
