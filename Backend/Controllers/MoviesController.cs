@@ -1,7 +1,7 @@
 ﻿using IMDBTask.Models;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System;
+using System.Collections.Generic;
 
 namespace IMDBTask.Controllers
 {
@@ -15,40 +15,45 @@ namespace IMDBTask.Controllers
         {
             return movie.Insert();
         }
-        
-        // PUT api/Movies/update/{id}
+
+        // PUT api/Movies/{id}
         [HttpPut("{id}")]
         public int Put([FromBody] Movie movie, int id)
         {
-            return movie.Update(movie, id);
+            return movie.Update(id);
         }
-        
-        // DELETE api/Movies/delete/{id}
+
+        // DELETE api/Movies/{id}
         [HttpDelete("{id}")]
-        public int Delete([FromBody] Movie movie, int id)
+        public int Delete(int id)
         {
-            return movie.Delete(movie, id);
+            Movie movie = new Movie();
+            return movie.Delete(id);
         }
+
+        // GET: api/Movies/searchByTitle
+        [HttpGet("searchByTitle")]
+        public ActionResult<Movie> GetByTitle(string title)
+        {
+            var movie = Movie.GetByTitle(title);
+            if (movie == null)
+                return NotFound($"No movie found with title '{title}'");
+            return Ok(movie);
+        }
+
         /*
         // GET: api/<MovieController>
         [HttpGet]
         public IEnumerable<Movie> Get()
         {
-            return Movie.Read();
-        }
-
-        // Get by queryString
-        [HttpGet("searchByTitle")]
-        public IEnumerable<Movie> GetByTitle(string title)
-        {
-            return Movie.GetByTitle(title);
+            return new List<Movie>();
         }
 
         // Get by Routing
         [HttpGet("searchByReleaseDate/startDate/{startDate}/endDate/{endDate}")]
         public IEnumerable<Movie> GetByReleaseDate(DateTime startDate, DateTime endDate)
         {
-            return Movie.GetByReleaseDate(startDate, endDate);
+            return new List<Movie>();
         }
         */
     }

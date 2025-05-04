@@ -1,7 +1,13 @@
-﻿namespace IMDBTask.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using IMDBTask.Services;
+
+namespace IMDBTask.Models
 {
     public class Movie
     {
+        public int Id { get; set; }
         public string Url { get; set; }
         public string PrimaryTitle { get; set; }
         public string Description { get; set; }
@@ -46,19 +52,25 @@
         public int Insert()
         {
             DBservices dbs = new DBservices();
-            return dbs.Insert(this);
+            return dbs.InsertMovie(this);
         }
-        
-        public int Update(Movie movie, int id)
+
+        public int Update(int id)
         {
             DBservices dbs = new DBservices();
-            return dbs.Update(movie, id);
+            return dbs.UpdateMovie(this, id);
         }
-        
-        public int Delete(Movie movie, int id)
+
+        public int Delete(int id)
         {
             DBservices dbs = new DBservices();
-            return dbs.Delete(movie, id);
+            return dbs.DeleteMovie(id);
+        }
+
+        public static Movie GetByTitle(string title)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetMovieByTitle(title);
         }
 
         /*

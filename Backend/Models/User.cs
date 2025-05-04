@@ -1,15 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
+using System.Linq;
+using IMDBTask.Services;
 
 namespace IMDBTask.Models
 {
     public class User
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public bool Active { get; set; }
-
         private static readonly PasswordHasher<User> _hasher = new PasswordHasher<User>();
 
         public User() { }
@@ -29,39 +31,38 @@ namespace IMDBTask.Models
             this.Email = this.Email.ToLower();
             this.Password = _hasher.HashPassword(this, this.Password);
             this.Active = true;
-            return dbs.Insert(this);
+            return dbs.InsertUser(this);
         }
-        
-        public int Update(User user, int id)
+
+        public User Update(int id)
         {
             DBservices dbs = new DBservices();
-            // Id is missing - no clue how to get it without returning the object itself from the DB.
-            // I think he said not to return the object because of whatever reason.
-            // If it is possible, need to change this - cmd.ExecuteNonQuery(); to someother query, don't remember which. (***)
+            this.Id = id;
             this.Name = ToTitleCase(this.Name);
             this.Email = this.Email.ToLower();
             this.Password = _hasher.HashPassword(this, this.Password);
             this.Active = true;
-            return dbs.Update(user, id);
+
+            int result = dbs.UpdateUser(this, id);
+            return this;
         }
-        
-        public int Delete(User user, int id)
+
+        public int Delete(int id)
         {
             DBservices dbs = new DBservices();
-            return dbs.Delete(user, id);
+            return dbs.DeleteUser(id);
         }
 
-        /*
-        public static User? Login(string email, string password)
+        public static User Login(string email, string password)
         {
-            var user = _usersList.FirstOrDefault(u => u.Email.ToLower() == email.ToLower());
-            if (user == null)
+            DBservices dbs = new DBservices();
+            var account = dbs.GetUserByEmail(email);
+            if (account == null)
                 return null;
 
-            var result = _hasher.VerifyHashedPassword(user, user.Password, password);
-            return result == PasswordVerificationResult.Success ? user : null;
+            var result = _hasher.VerifyHashedPassword(account, account.Password, password);
+            return result == PasswordVerificationResult.Success ? account : null;
         }
-        */
 
         public static string ToTitleCase(string input)
         {
@@ -73,7 +74,6 @@ namespace IMDBTask.Models
                 else
                     words[i] = words[i].ToUpper();
             }
-
             return string.Join(' ', words);
         }
     }

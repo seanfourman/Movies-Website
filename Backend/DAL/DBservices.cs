@@ -6,217 +6,368 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Text;
 using IMDBTask.Models;
+using Microsoft.Extensions.Configuration;
 
-public class DBservices
+namespace IMDBTask.Services
 {
-    public DBservices() { }
-
-    public SqlConnection connect(String conString)
+    public class DBservices
     {
-        IConfigurationRoot configuration = new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json").Build();
-        string cStr = configuration.GetConnectionString("moviesDB");
-        SqlConnection con = new SqlConnection(cStr);
-        con.Open();
-        return con;
-    }
+        private readonly string _connectionString;
 
-    public int Insert<T>(T entity)
-    {
-        SqlConnection con;
-        SqlCommand cmd;
-        try
+        public DBservices()
         {
-            con = connect("moviesDB");
-        }
-        catch (Exception ex)
-        {
-            throw (ex);
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json").Build();
+            _connectionString = configuration.GetConnectionString("moviesDB");
         }
 
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        string storedProcedureName = "";
-
-        if (entity is Movie movie)
+        private SqlConnection Connect()
         {
-            paramDic.Add("@url", movie.Url);
-            paramDic.Add("@primaryTitle", movie.PrimaryTitle);
-            paramDic.Add("@description", movie.Description);
-            paramDic.Add("@primaryImage", movie.PrimaryImage);
-            paramDic.Add("@year", movie.Year);
-            paramDic.Add("@releaseDate", movie.ReleaseDate);
-            paramDic.Add("@language", movie.Language);
-            paramDic.Add("@budget", movie.Budget);
-            paramDic.Add("@grossWorldwide", movie.GrossWorldwide);
-            paramDic.Add("@genres", movie.Genres);
-            paramDic.Add("@isAdult", movie.IsAdult);
-            paramDic.Add("@runtimeMinutes", movie.RuntimeMinutes);
-            paramDic.Add("@averageRating", movie.AverageRating);
-            paramDic.Add("@numVotes", movie.NumVotes);
-            paramDic.Add("@priceToRent", GenerateRandomPrice());
-            paramDic.Add("@rentalCount", movie.RentalCount);
-            storedProcedureName = "SP_InsertMovie";
+            SqlConnection con = new SqlConnection(_connectionString);
+            con.Open();
+            return con;
         }
 
-        if (entity is User user)
+        public User GetUserByEmail(string email)
         {
-            paramDic.Add("@name", user.Name);
-            paramDic.Add("@email", user.Email);
-            paramDic.Add("@password", user.Password);
-            paramDic.Add("@active", user.Active);
-            storedProcedureName = "SP_InsertUser";
-        }
-        cmd = CreateCommandWithStoredProcedureGeneral(storedProcedureName, con, paramDic);
+            SqlConnection con = null;
+            SqlCommand cmd;
 
-        try
-        {
-            int numEffected = cmd.ExecuteNonQuery();
-            return numEffected;
-        }
-        catch (Exception ex)
-        {
-            throw (ex);
-        }
-        finally
-        {
-            if (con != null)
+            try
             {
-                con.Close();
+                con = Connect();
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@email", email }
+                };
+
+                cmd = CreateCommandWithStoredProcedure("SP_SelectUser", con, parameters);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    User user = new User
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        Name = reader["name"].ToString(),
+                        Email = reader["email"].ToString(),
+                        Password = reader["password"].ToString(),
+                        Active = Convert.ToBoolean(reader["active"])
+                    };
+                    return user;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
             }
         }
-    }
 
-    public int Update<T>(T entity, int id)
-    {
-        SqlConnection con;
-        SqlCommand cmd;
-        try
+        public int InsertUser(User user)
         {
-            con = connect("moviesDB");
-        }
-        catch (Exception ex)
-        {
-            throw (ex);
-        }
+            SqlConnection con = null;
+            SqlCommand cmd;
 
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        string storedProcedureName = "";
-        if (entity is Movie movie)
-        {
-            paramDic.Add("@id", id);
-            paramDic.Add("@url", movie.Url);
-            paramDic.Add("@primaryTitle", movie.PrimaryTitle);
-            paramDic.Add("@description", movie.Description);
-            paramDic.Add("@primaryImage", movie.PrimaryImage);
-            paramDic.Add("@year", movie.Year);
-            paramDic.Add("@releaseDate", movie.ReleaseDate);
-            paramDic.Add("@language", movie.Language);
-            paramDic.Add("@budget", movie.Budget);
-            paramDic.Add("@grossWorldwide", movie.GrossWorldwide);
-            paramDic.Add("@genres", movie.Genres);
-            paramDic.Add("@isAdult", movie.IsAdult);
-            paramDic.Add("@runtimeMinutes", movie.RuntimeMinutes);
-            paramDic.Add("@averageRating", movie.AverageRating);
-            paramDic.Add("@numVotes", movie.NumVotes);
-            paramDic.Add("@priceToRent", movie.PriceToRent);
-            paramDic.Add("@rentalCount", movie.RentalCount);
-            storedProcedureName = "SP_UpdateMovie";
-        }
-
-        if (entity is User user)
-        {
-            paramDic.Add("@id", id);
-            paramDic.Add("@name", user.Name);
-            paramDic.Add("@email", user.Email);
-            paramDic.Add("@password", user.Password);
-            paramDic.Add("@active", user.Active);
-            storedProcedureName = "SP_UpdateUser";
-        }
-        cmd = CreateCommandWithStoredProcedureGeneral(storedProcedureName, con, paramDic);
-
-        try
-        {
-            int numEffected = cmd.ExecuteNonQuery();
-            return numEffected;
-        }
-        catch (Exception ex)
-        {
-            throw (ex);
-        }
-        finally
-        {
-            if (con != null)
+            try
             {
-                con.Close();
+                con = Connect();
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@name", user.Name },
+                    { "@email", user.Email },
+                    { "@password", user.Password },
+                    { "@active", user.Active }
+                };
+
+                cmd = CreateCommandWithStoredProcedure("SP_InsertUser", con, parameters);
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
             }
         }
-    }
-    
-    public int Delete<T>(T entity, int id)
-    {
-        SqlConnection con;
-        SqlCommand cmd;
-        try
-        {
-            con = connect("moviesDB");
-        }
-        catch (Exception ex)
-        {
-            throw (ex);
-        }
+        
 
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        string storedProcedureName = "";
-        if (entity is Movie movie)
+        public int UpdateUser(User user, int id)
         {
-            paramDic.Add("@id", id);
-            storedProcedureName = "SP_DeleteMovie";
-        }
+            SqlConnection con = null;
+            SqlCommand cmd;
 
-        if (entity is User user)
-        {
-            paramDic.Add("@id", id);
-            storedProcedureName = "SP_DeleteUser";
-        }
-        cmd = CreateCommandWithStoredProcedureGeneral(storedProcedureName, con, paramDic);
-
-        try
-        {
-            int numEffected = cmd.ExecuteNonQuery();
-            return numEffected;
-        }
-        catch (Exception ex)
-        {
-            throw (ex);
-        }
-        finally
-        {
-            if (con != null)
+            try
             {
-                con.Close();
+                con = Connect();
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", id },
+                    { "@name", user.Name },
+                    { "@email", user.Email },
+                    { "@password", user.Password },
+                    { "@active", user.Active }
+                };
+
+                cmd = CreateCommandWithStoredProcedure("SP_UpdateUser", con, parameters);
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
             }
         }
-    }
 
-    private SqlCommand CreateCommandWithStoredProcedureGeneral(String spName, SqlConnection con, Dictionary<string, object> paramDic)
-    {
-        SqlCommand cmd = new SqlCommand();                         // create the command object
-        cmd.Connection = con;                                      // assign the connection to the command object
-        cmd.CommandText = spName;                                  // can be Select, Insert, Update, Delete 
-        cmd.CommandTimeout = 10;                                   // Time to wait for the execution The default is 30 seconds
-        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
-        if (paramDic != null)
-            foreach (KeyValuePair<string, object> param in paramDic)
+        public int DeleteUser(int id)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd;
+
+            try
             {
-                cmd.Parameters.AddWithValue(param.Key, param.Value);
+                con = Connect();
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", id }
+                };
 
+                cmd = CreateCommandWithStoredProcedure("SP_DeleteUser", con, parameters);
+                return cmd.ExecuteNonQuery();
             }
-        return cmd;
-    }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
 
-    public int GenerateRandomPrice()
-    {
-        Random random = new Random();
-        return random.Next(10, 31);
+        public Movie GetMovieByTitle(string title)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd;
+
+            try
+            {
+                con = Connect();
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@primaryTitle", title }
+                };
+
+                cmd = CreateCommandWithStoredProcedure("SP_GetMovieByTitle", con, parameters);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    Movie movie = new Movie
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        Url = reader["url"].ToString(),
+                        PrimaryTitle = reader["primaryTitle"].ToString(),
+                        Description = reader["description"].ToString(),
+                        PrimaryImage = reader["primaryImage"].ToString(),
+                        Year = Convert.ToInt32(reader["year"]),
+                        ReleaseDate = reader["releaseDate"] != DBNull.Value ?
+                            Convert.ToDateTime(reader["releaseDate"]) : DateTime.MinValue,
+                        Language = reader["language"].ToString(),
+                        Budget = reader["budget"] != DBNull.Value ?
+                            Convert.ToDouble(reader["budget"]) : 0,
+                        GrossWorldwide = reader["grossWorldwide"] != DBNull.Value ?
+                            Convert.ToDouble(reader["grossWorldwide"]) : 0,
+                        Genres = reader["genres"].ToString(),
+                        IsAdult = Convert.ToBoolean(reader["isAdult"]),
+                        RuntimeMinutes = Convert.ToInt32(reader["runtimeMinutes"]),
+                        AverageRating = reader["averageRating"] != DBNull.Value ?
+                            Convert.ToSingle(reader["averageRating"]) : 0,
+                        NumVotes = Convert.ToInt32(reader["numVotes"]),
+                        PriceToRent = Convert.ToInt32(reader["priceToRent"]),
+                        RentalCount = Convert.ToInt32(reader["rentalCount"])
+                    };
+                    return movie;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        public int InsertMovie(Movie movie)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd;
+
+            try
+            {
+                con = Connect();
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@url", movie.Url },
+                    { "@primaryTitle", movie.PrimaryTitle },
+                    { "@description", movie.Description },
+                    { "@primaryImage", movie.PrimaryImage },
+                    { "@year", movie.Year },
+                    { "@releaseDate", movie.ReleaseDate },
+                    { "@language", movie.Language },
+                    { "@budget", movie.Budget },
+                    { "@grossWorldwide", movie.GrossWorldwide },
+                    { "@genres", movie.Genres },
+                    { "@isAdult", movie.IsAdult },
+                    { "@runtimeMinutes", movie.RuntimeMinutes },
+                    { "@averageRating", movie.AverageRating },
+                    { "@numVotes", movie.NumVotes },
+                    { "@priceToRent", GenerateRandomPrice() },
+                    { "@rentalCount", movie.RentalCount }
+                };
+
+                cmd = CreateCommandWithStoredProcedure("SP_InsertMovie", con, parameters);
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        public int UpdateMovie(Movie movie, int id)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd;
+
+            try
+            {
+                con = Connect();
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", id },
+                    { "@url", movie.Url },
+                    { "@primaryTitle", movie.PrimaryTitle },
+                    { "@description", movie.Description },
+                    { "@primaryImage", movie.PrimaryImage },
+                    { "@year", movie.Year },
+                    { "@releaseDate", movie.ReleaseDate },
+                    { "@language", movie.Language },
+                    { "@budget", movie.Budget },
+                    { "@grossWorldwide", movie.GrossWorldwide },
+                    { "@genres", movie.Genres },
+                    { "@isAdult", movie.IsAdult },
+                    { "@runtimeMinutes", movie.RuntimeMinutes },
+                    { "@averageRating", movie.AverageRating },
+                    { "@numVotes", movie.NumVotes },
+                    { "@priceToRent", movie.PriceToRent },
+                    { "@rentalCount", movie.RentalCount }
+                };
+
+                cmd = CreateCommandWithStoredProcedure("SP_UpdateMovie", con, parameters);
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        public int DeleteMovie(int id)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd;
+
+            try
+            {
+                con = Connect();
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@id", id }
+                };
+
+                cmd = CreateCommandWithStoredProcedure("SP_DeleteMovie", con, parameters);
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        private SqlCommand CreateCommandWithStoredProcedure(string spName, SqlConnection con, Dictionary<string, object> parameters)
+        {
+            SqlCommand cmd = new SqlCommand
+            {
+                Connection = con,
+                CommandText = spName,
+                CommandTimeout = 10,
+                CommandType = CommandType.StoredProcedure
+            };
+
+            if (parameters != null)
+            {
+                foreach (KeyValuePair<string, object> param in parameters)
+                {
+                    cmd.Parameters.AddWithValue(param.Key, param.Value);
+                }
+            }
+
+            return cmd;
+        }
+
+        private int GenerateRandomPrice()
+        {
+            Random random = new Random();
+            return random.Next(10, 31);
+        }
     }
 }

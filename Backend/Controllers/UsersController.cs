@@ -1,7 +1,6 @@
 ﻿using IMDBTask.Models;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Collections.Generic;
 
 namespace IMDBTask.Controllers
 {
@@ -15,19 +14,26 @@ namespace IMDBTask.Controllers
         {
             return user.Insert();
         }
-        
+
         // PUT api/Users/{id}
         [HttpPut("{id}")]
-        public int Put([FromBody] User user, int id)
+        public ActionResult<UserDto> Put([FromBody] User user, int id)
         {
-            return user.Update(user, id);
+            User updatedUser = user.Update(id);
+            if (updatedUser == null)
+            {
+                return BadRequest("Failed to update user");
+            }
+
+            return Ok(new UserDto(updatedUser));
         }
 
         // DELETE api/Users/{id}
         [HttpDelete("{id}")]
-        public int Delete([FromBody] User user, int id)
+        public int Delete(int id)
         {
-            return user.Delete(user, id);
+            User user = new User();
+            return user.Delete(id);
         }
 
         /*
@@ -35,8 +41,9 @@ namespace IMDBTask.Controllers
         [HttpGet]
         public IEnumerable<User> Get()
         {
-            return Models.User.Read();
+            return new List<User>();
         }
+        */
 
         [HttpPost("login")]
         public ActionResult<UserDto> Login([FromBody] LoginModel credentials)
@@ -44,30 +51,39 @@ namespace IMDBTask.Controllers
             var user = Models.User.Login(credentials.Email, credentials.Password);
             if (user == null)
                 return Unauthorized("Invalid email or password");
-
             return Ok(new UserDto(user));
         }
-        */
+    }
+
+    public class CreateUserDto
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public bool Active { get; set; }
+    }
+
+    public class UserDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public bool Active { get; set; }
+
+        public UserDto() { }
+
+        public UserDto(User user)
+        {
+            Id = user.Id;
+            Name = user.Name;
+            Email = user.Email;
+            Active = user.Active;
+        }
     }
 
     public class LoginModel
     {
         public string Email { get; set; }
         public string Password { get; set; }
-    }
-
-    public class UserDto
-    {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public bool Active { get; set; }
-
-        // copy constructor
-        public UserDto(User user)
-        {
-            Name = user.Name;
-            Email = user.Email;
-            Active = user.Active;
-        }
     }
 }

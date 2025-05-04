@@ -28,6 +28,9 @@ $(document).ready(function () {
   if ($("#myProfileForm").length) {
     setupFormValidation();
     $("#myProfileForm").css("background-image", "url(../sources/auth-bg3.png)");
+
+    $("#nameTB").val(localStorage.getItem("userName") || "");
+    $("#emailTB").val(localStorage.getItem("userEmail") || "");
   }
 
   $("#myProfileForm").on("submit", function (e) {
@@ -165,6 +168,9 @@ function loginCBSuccess(response) {
   if (response.name) {
     localStorage.setItem("userName", response.name);
   }
+  if (response.id) {
+    localStorage.setItem("userId", response.id);
+  }
 
   $("#signinForm")[0].reset();
   showPopup("Login successful!", true);
@@ -193,7 +199,7 @@ function loginCBError(xhr, status) {
 
 // My Profile
 function editUserProfile() {
-  //const userId = localStorage.getItem("userId");
+  const userId = localStorage.getItem("userId");
   const user = {
     Name: $("#nameTB").val().trim(),
     Email: $("#emailTB").val().trim(),
@@ -213,8 +219,14 @@ function editCBSuccess(response) {
     return;
   }
 
+  if (response.name) {
+    localStorage.setItem("userName", response.name);
+  }
+  if (response.email) {
+    localStorage.setItem("userEmail", response.email);
+  }
+
   $("#myProfileForm")[0].reset();
-  // Update local storage keys here (***)
   showPopup("Your profile has been successfully updated.", true);
   setTimeout(function () {
     window.location.href = "../html/myProfile.html";
@@ -229,7 +241,7 @@ function editCBError(xhr, status) {
   if (xhr.responseJSON) {
     errorMessage += xhr.responseJSON.message || xhr.responseJSON.title || "Server error";
   } else if (xhr.status === 0) {
-    errorMessage = "Cannot connect to server. Please check your internet connection.";
+    errorMessage = "Email address is already taken.";
   } else {
     errorMessage += status;
   }
