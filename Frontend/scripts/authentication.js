@@ -240,7 +240,7 @@ function editCBError(xhr, status) {
 
   if (xhr.responseJSON) {
     errorMessage += xhr.responseJSON.message || xhr.responseJSON.title || "Server error";
-  } else if (xhr.status === 0) {
+  } else if (xhr.status === 500) {
     errorMessage = "Email address is already taken.";
   } else {
     errorMessage += status;

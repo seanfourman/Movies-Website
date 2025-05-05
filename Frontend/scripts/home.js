@@ -1,7 +1,8 @@
 function initHomePage() {
   if ($("#loadMoviesButton").length) {
     $("#loadMoviesButton").click(function () {
-      loadMovies(movies);
+      showPopup("This function is currently disabled!", false);
+      //loadMovies(movies);
     });
 
     let userEmail = localStorage.getItem("userEmail");
