@@ -14,6 +14,16 @@ namespace IMDBTask.Controllers
         {
             return user.Insert();
         }
+        
+        // POST api/Users/login/
+        [HttpPost("login")]
+        public ActionResult<UserDto> Login([FromBody] LoginModel credentials)
+        {
+            var user = Models.User.Login(credentials.Email, credentials.Password);
+            if (user == null)
+                return Unauthorized("Invalid email or password");
+            return Ok(new UserDto(user));
+        }
 
         // PUT api/Users/{id}
         [HttpPut("{id}")]
@@ -44,15 +54,6 @@ namespace IMDBTask.Controllers
             return new List<User>();
         }
         */
-
-        [HttpPost("login")]
-        public ActionResult<UserDto> Login([FromBody] LoginModel credentials)
-        {
-            var user = Models.User.Login(credentials.Email, credentials.Password);
-            if (user == null)
-                return Unauthorized("Invalid email or password");
-            return Ok(new UserDto(user));
-        }
     }
 
     public class CreateUserDto
