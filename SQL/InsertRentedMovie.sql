@@ -18,7 +18,7 @@ CREATE PROCEDURE SP_InsertRentedMovie
     @totalPrice FLOAT
 AS
 BEGIN
-    SET NOCOUNT ON;
+    -- SET NOCOUNT ON;
 
     INSERT INTO [RentedMoviesTable] (
 		[userId],

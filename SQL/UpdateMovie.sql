@@ -27,7 +27,7 @@ CREATE PROCEDURE SP_UpdateMovie
     @rentalCount INT
 AS
 BEGIN
-    SET NOCOUNT ON;
+    -- SET NOCOUNT ON;
 
     UPDATE [MoviesTable]
     SET 

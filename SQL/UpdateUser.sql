@@ -15,7 +15,7 @@ CREATE PROCEDURE SP_UpdateUser
 	@active BIT
 AS
 BEGIN
-    SET NOCOUNT ON;
+    -- SET NOCOUNT ON;
 
     UPDATE [UsersTable]
     SET 

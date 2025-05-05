@@ -11,7 +11,7 @@ CREATE PROCEDURE SP_DeleteMovie
     @id INT
 AS
 BEGIN
-    SET NOCOUNT ON;
+    -- SET NOCOUNT ON;
 
     UPDATE [MoviesTable]
     SET

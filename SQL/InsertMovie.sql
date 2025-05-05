@@ -37,7 +37,7 @@ CREATE PROCEDURE SP_InsertMovie
     @rentalCount INT = 0
 AS
 BEGIN
-    SET NOCOUNT ON;
+    -- SET NOCOUNT ON;
 
 	INSERT INTO [MoviesTable] (
 		[url],

@@ -11,7 +11,7 @@ CREATE PROCEDURE SP_DeleteUser
     @id INT
 AS
 BEGIN
-    SET NOCOUNT ON;
+    -- SET NOCOUNT ON;
 
     UPDATE [UsersTable]
     SET

@@ -19,15 +19,18 @@ function ajaxCall(method, api, data, successCB, errorCB) {
 
 // Movie API
 function getAllMovies(successCallback, errorCallback) {
-  ajaxCall("GET", moviesEndpoint, "", successCallback, errorCallback);
+  showPopup("This function is currently disabled!", false);
+  //ajaxCall("GET", moviesEndpoint, "", successCallback, errorCallback);
 }
 
 function searchMoviesByTitle(title, successCallback, errorCallback) {
-  ajaxCall("GET", `${moviesEndpoint}/searchByTitle`, { title }, successCallback, errorCallback);
+  showPopup("This function is currently disabled!", false);
+  //ajaxCall("GET", `${moviesEndpoint}/searchByTitle`, { title }, successCallback, errorCallback);
 }
 
 function searchMoviesByDate(startDate, endDate, successCallback, errorCallback) {
-  ajaxCall("GET", `${moviesEndpoint}/searchByReleaseDate/startDate/${startDate}/endDate/${endDate}`, null, successCallback, errorCallback);
+  showPopup("This function is currently disabled!", false);
+  //ajaxCall("GET", `${moviesEndpoint}/searchByReleaseDate/startDate/${startDate}/endDate/${endDate}`, null, successCallback, errorCallback);
 }
 
 function addMovie(movie, successCallback, errorCallback) {
