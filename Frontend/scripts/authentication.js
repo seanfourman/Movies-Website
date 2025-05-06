@@ -135,6 +135,8 @@ function registerCBError(xhr, status) {
     errorMessage += xhr.responseJSON.message || xhr.responseJSON.title || "Server error";
   } else if (xhr.status === 0) {
     errorMessage = "Cannot connect to server. Please check your internet connection.";
+  } else if (xhr.status === 500) {
+    errorMessage = "Email address is already taken.";
   } else {
     errorMessage += status;
   }
@@ -186,10 +188,10 @@ function loginCBError(xhr, status) {
 
   if (xhr.responseJSON) {
     errorMessage += xhr.responseJSON.message || xhr.responseJSON.title || "Server error";
-  } else if (xhr.status === 401) {
-    errorMessage = "Login failed. Invalid email or password.";
   } else if (xhr.status === 0) {
     errorMessage = "Cannot connect to server. Please check your internet connection.";
+  } else if (xhr.status === 401) {
+    errorMessage = "Login failed. Invalid email or password.";
   } else {
     errorMessage += status;
   }
@@ -240,6 +242,8 @@ function editCBError(xhr, status) {
 
   if (xhr.responseJSON) {
     errorMessage += xhr.responseJSON.message || xhr.responseJSON.title || "Server error";
+  } else if (xhr.status === 0) {
+    errorMessage = "Cannot connect to server. Please check your internet connection.";
   } else if (xhr.status === 500) {
     errorMessage = "Email address is already taken.";
   } else {
