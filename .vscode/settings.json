@@ -1,0 +1,18 @@
+{
+  "sqltools.connections": [
+    {
+      "connectionTimeout": 15,
+      "mssqlOptions": {
+        "appName": "SQLTools",
+        "useUTC": true,
+        "encrypt": true,
+        "trustServerCertificate": false
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "driver": "MSSQL",
+      "connectString": "Data Source=media.ruppin.ac.il;Initial Catalog=igroup107_test2; User ID=igroup107; Password=igroup107_89216",
+      "name": "ruppin"
+    }
+  ]
+}

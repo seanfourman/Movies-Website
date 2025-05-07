@@ -103,7 +103,6 @@ namespace IMDBTask.Services
             }
         }
         
-
         public int UpdateUser(User user, int id)
         {
             SqlConnection con = null;
