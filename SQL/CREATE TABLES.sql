@@ -37,6 +37,7 @@ CREATE TABLE [UsersTable] (
 	[email] NVARCHAR(255) UNIQUE NOT NULL,
 	[password] NVARCHAR(255) NOT NULL,
 	[active] BIT DEFAULT 1,
+	[admin] BIT DEFAULT 1,
 	[deletedAt] DATE DEFAULT NULL
 );
 

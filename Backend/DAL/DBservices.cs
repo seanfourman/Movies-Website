@@ -49,7 +49,8 @@ namespace IMDBTask.Services
                         Name = reader["name"].ToString(),
                         Email = reader["email"].ToString(),
                         Password = reader["password"].ToString(),
-                        Active = Convert.ToBoolean(reader["active"])
+                        Active = Convert.ToBoolean(reader["active"]),
+                        isAdmin = Convert.ToBoolean(reader["admin"])
                     };
 
                     users.Add(user);
@@ -94,7 +95,8 @@ namespace IMDBTask.Services
                         Name = reader["name"].ToString(),
                         Email = reader["email"].ToString(),
                         Password = reader["password"].ToString(),
-                        Active = Convert.ToBoolean(reader["active"])
+                        Active = Convert.ToBoolean(reader["active"]),
+                        isAdmin = Convert.ToBoolean(reader["admin"])
                     };
                     return user;
                 }
@@ -126,7 +128,8 @@ namespace IMDBTask.Services
                     { "@name", user.Name },
                     { "@email", user.Email },
                     { "@password", user.Password },
-                    { "@active", user.Active }
+                    { "@active", user.Active },
+                    { "@admin", user.isAdmin }
                 };
 
                 cmd = CreateCommandWithStoredProcedure("SP_InsertUser", con, parameters);
@@ -159,7 +162,8 @@ namespace IMDBTask.Services
                     { "@name", user.Name },
                     { "@email", user.Email },
                     { "@password", user.Password },
-                    { "@active", user.Active }
+                    { "@active", user.Active },
+                    { "@admin", user.isAdmin }
                 };
 
                 cmd = CreateCommandWithStoredProcedure("SP_UpdateUser", con, parameters);
@@ -525,7 +529,7 @@ namespace IMDBTask.Services
                         RuntimeMinutes = Convert.ToInt32(reader["runtimeMinutes"]),
                         AverageRating = (float)Convert.ToDouble(reader["averageRating"]),
                         NumVotes = Convert.ToInt32(reader["numVotes"])
-                        // RentIsFinished = Convert.ToInt32(reader["rentIsFinished"])
+                        //RentIsFinished = Convert.ToInt32(reader["rentIsFinished"])
                     };
                     movies.Add(movie);
                 }

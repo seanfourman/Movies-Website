@@ -45,6 +45,22 @@ namespace IMDBTask.Controllers
             return Ok(new UserDto(updatedUser));
         }
 
+        // PUT api/Users/setAdmin/{email}
+        [HttpPut("setAdmin/{email}")]
+        public ActionResult<bool> SetAdmin([FromBody] SetAdminDto dto, string email)
+        {
+            User user = new User { isAdmin = dto.isAdmin };
+
+            bool success = user.setAdmin(email.ToLower());
+
+            if (!success)
+            {
+                return NotFound($"User with email {email} not found");
+            }
+
+            return Ok(true);
+        }
+
         // DELETE api/Users/{id}
         [HttpDelete("{id}")]
         public int Delete(int id)
@@ -52,15 +68,6 @@ namespace IMDBTask.Controllers
             User user = new User();
             return user.Delete(id);
         }
-
-        /*
-        // GET: api/<UsersController>
-        [HttpGet]
-        public IEnumerable<User> Get()
-        {
-            return new List<User>();
-        }
-        */
     }
 
     public class UserDto
@@ -69,6 +76,7 @@ namespace IMDBTask.Controllers
         public string Name { get; set; }
         public string Email { get; set; }
         public bool Active { get; set; }
+        public bool isAdmin { get; set; }
 
         public UserDto() { }
 
@@ -78,6 +86,7 @@ namespace IMDBTask.Controllers
             Name = user.Name;
             Email = user.Email;
             Active = user.Active;
+            isAdmin = user.isAdmin;
         }
     }
 
@@ -85,5 +94,10 @@ namespace IMDBTask.Controllers
     {
         public string Email { get; set; }
         public string Password { get; set; }
+    }
+
+    public class SetAdminDto
+    {
+        public bool isAdmin { get; set; }
     }
 }

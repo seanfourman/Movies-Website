@@ -12,7 +12,8 @@ CREATE PROCEDURE SP_UpdateUser
 	@name NVARCHAR(30),
 	@email NVARCHAR(255),
 	@password NVARCHAR(255),
-	@active BIT
+	@active BIT,
+	@admin BIT
 AS
 BEGIN
     -- SET NOCOUNT ON;
@@ -21,7 +22,9 @@ BEGIN
     SET 
         [name] = @name,
         [email] = @email,
-        [password] = @password
+        [password] = @password,
+		[active] = @active,
+		[admin] = @admin
     WHERE [id] = @id;
 END
 GO

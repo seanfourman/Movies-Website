@@ -12,16 +12,18 @@ namespace IMDBTask.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public bool Active { get; set; }
+        public bool isAdmin { get; set; }
         private static readonly PasswordHasher<User> _hasher = new PasswordHasher<User>();
 
         public User() { }
 
-        public User(string name, string email, string password, bool active = true)
+        public User(string name, string email, string password, bool active = true, bool admin = false)
         {
             Name = name;
             Email = email;
             Password = password;
             Active = active;
+            isAdmin = admin;
         }
 
         public int Insert()
@@ -30,7 +32,8 @@ namespace IMDBTask.Models
             this.Name = ToTitleCase(this.Name);
             this.Email = this.Email.ToLower();
             this.Password = _hasher.HashPassword(this, this.Password);
-            this.Active = this.Active;
+            this.Active = true;
+            this.isAdmin = false;
             return dbs.InsertUser(this);
         }
 
@@ -43,14 +46,25 @@ namespace IMDBTask.Models
         public User Update(int id)
         {
             DBservices dbs = new DBservices();
-            this.Id = id;
             this.Name = ToTitleCase(this.Name);
             this.Email = this.Email.ToLower();
             this.Password = _hasher.HashPassword(this, this.Password);
-            this.Active = true;
 
             int result = dbs.UpdateUser(this, id);
             return this;
+        }
+
+        public bool setAdmin(string email)
+        {
+            DBservices dbs = new DBservices();
+            var account = dbs.GetUserByEmail(email);
+            if (account == null)
+                return false;
+
+            account.isAdmin = this.isAdmin;
+
+            int result = dbs.UpdateUser(account, account.Id);
+            return true;
         }
 
         public int Delete(int id)

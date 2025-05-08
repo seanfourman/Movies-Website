@@ -68,15 +68,6 @@ namespace IMDBTask.Controllers
             Movie movie = new Movie();
             return movie.Delete(id);
         }
-
-        /*
-        // Get by Routing
-        [HttpGet("searchByReleaseDate/startDate/{startDate}/endDate/{endDate}")]
-        public IEnumerable<Movie> GetByReleaseDate(DateTime startDate, DateTime endDate)
-        {
-            return new List<Movie>();
-        }
-        */
     }
 
     public class RentedMovieDto
