@@ -24,6 +24,7 @@ namespace IMDBTask.Models
         public int NumVotes { get; set; }
         public int PriceToRent { get; set; }
         public int RentalCount { get; set; }
+        //public int RentIsFinished { get; set; }
 
         public Movie() { }
 
@@ -55,6 +56,30 @@ namespace IMDBTask.Models
             return dbs.InsertMovie(this);
         }
 
+        public static List<Movie> Read()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetAllMovies();
+        }
+
+        public static List<Movie> ReadRentedMovies(int id)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetRentedMovies(id);
+        }
+
+        public static List<Movie> GetByTitle(string title)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetMovieByTitle(title);
+        }
+
+        public static List<Movie> GetByReleaseDate(DateTime startDate, DateTime endDate)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetMovieByReleaseDate(startDate, endDate);
+        }
+
         public int Update(int id)
         {
             DBservices dbs = new DBservices();
@@ -66,27 +91,5 @@ namespace IMDBTask.Models
             DBservices dbs = new DBservices();
             return dbs.DeleteMovie(id);
         }
-
-        public static Movie GetByTitle(string title)
-        {
-            DBservices dbs = new DBservices();
-            return dbs.GetMovieByTitle(title);
-        }
-
-        /*
-        public static List<Movie> GetByTitle(string title)
-        {
-            return _moviesList
-                .Where(movie => movie.PrimaryTitle.ToLower().Contains(title.ToLower()))
-                .ToList();
-        }
-
-        public static List<Movie> GetByReleaseDate(DateTime startDate, DateTime endDate)
-        {
-            return _moviesList
-                .Where(movie => movie.ReleaseDate >= startDate && movie.ReleaseDate <= endDate)
-                .ToList();
-        }
-        */
     }
 }

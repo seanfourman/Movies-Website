@@ -1,8 +1,7 @@
 function initHomePage() {
   if ($("#loadMoviesButton").length) {
     $("#loadMoviesButton").click(function () {
-      showPopup("This function is currently disabled!", false);
-      //loadMovies(movies);
+      const movies = getAllMovies(readSCB, readECB);
     });
 
     let userEmail = localStorage.getItem("userEmail");
@@ -28,6 +27,17 @@ function initHomePage() {
       }, 500); // Prevent multiple triggers
     }
   });
+}
+
+function readSCB(res) {
+  currentMovieIndex = 0;
+  $("#noMovies").remove();
+  loadMovies(res);
+}
+
+function readECB() {
+  showPopup("Failed to reach server. Please try again later!", false);
+  showNoMoviesMessage();
 }
 
 function showWelcomeToast(userName) {

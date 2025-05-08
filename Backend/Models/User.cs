@@ -34,6 +34,12 @@ namespace IMDBTask.Models
             return dbs.InsertUser(this);
         }
 
+        public static List<User> Read()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetAllUsers();
+        }
+
         public User Update(int id)
         {
             DBservices dbs = new DBservices();

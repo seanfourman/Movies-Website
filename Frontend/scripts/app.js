@@ -53,6 +53,7 @@ function pageAuthorizationSetup() {
   }
 }
 
+// (***) NEED TO CHANGE PAGINATION HERE BY API CALLS AND NOT THE ARRAY
 function loadMovies(arr) {
   const nextBatch = arr.slice(currentMovieIndex, currentMovieIndex + moviesPerPage);
   currentMovieIndex += moviesPerPage;

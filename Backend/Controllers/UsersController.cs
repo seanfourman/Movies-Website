@@ -25,6 +25,13 @@ namespace IMDBTask.Controllers
             return Ok(new UserDto(user));
         }
 
+        // GET: api/<MoviesController>
+        [HttpGet]
+        public IEnumerable<User> Get()
+        {
+            return Models.User.Read();
+        }
+
         // PUT api/Users/{id}
         [HttpPut("{id}")]
         public ActionResult<UserDto> Put([FromBody] User user, int id)
@@ -54,14 +61,6 @@ namespace IMDBTask.Controllers
             return new List<User>();
         }
         */
-    }
-
-    public class CreateUserDto
-    {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public bool Active { get; set; }
     }
 
     public class UserDto

@@ -5,12 +5,11 @@ function initMyMoviesPage() {
   });
 
   setupSearchTitlePlaceholder();
-  getAllMovies(readSCB, readECB);
+  getRentedMovies(readSCB, readECB);
 }
 
 function readSCB(res) {
   currentMovieIndex = 0;
-  $("#noMovies").remove();
   loadMovies(res);
 }
 

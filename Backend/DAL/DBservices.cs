@@ -28,6 +28,48 @@ namespace IMDBTask.Services
             return con;
         }
 
+        public List<User> GetAllUsers()
+        {
+            SqlConnection con = null;
+            SqlCommand cmd;
+
+            try
+            {
+                con = Connect();
+                cmd = CreateCommandWithStoredProcedure("SP_GetAllUsers", con, null);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<User> users = new List<User>();
+
+                while (reader.Read())
+                {
+                    User user = new User
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        Name = reader["name"].ToString(),
+                        Email = reader["email"].ToString(),
+                        Password = reader["password"].ToString(),
+                        Active = Convert.ToBoolean(reader["active"])
+                    };
+
+                    users.Add(user);
+                }
+
+                return users;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
+
         public User GetUserByEmail(string email)
         {
             SqlConnection con = null;
@@ -165,7 +207,58 @@ namespace IMDBTask.Services
             }
         }
 
-        public Movie GetMovieByTitle(string title)
+        public List<Movie> GetAllMovies()
+        {
+            SqlConnection con = null;
+            SqlCommand cmd;
+
+            try
+            {
+                con = Connect();
+                cmd = CreateCommandWithStoredProcedure("SP_GetAllMovies", con, null);
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<Movie> movies = new List<Movie>();
+
+                while (reader.Read())
+                {
+                    Movie movie = new Movie
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        PrimaryTitle = reader["primaryTitle"].ToString(),
+                        Description = reader["description"].ToString(),
+                        Url = reader["url"].ToString(),
+                        PrimaryImage = reader["primaryImage"].ToString(),
+                        Year = Convert.ToInt32(reader["year"]),
+                        ReleaseDate = Convert.ToDateTime(reader["releaseDate"]),
+                        Language = reader["language"].ToString(),
+                        Budget = Convert.ToDouble(reader["budget"]),
+                        GrossWorldwide = Convert.ToDouble(reader["grossWorldwide"]),
+                        Genres = reader["genres"].ToString(),
+                        IsAdult = Convert.ToBoolean(reader["isAdult"]),
+                        RuntimeMinutes = Convert.ToInt32(reader["runtimeMinutes"]),
+                        AverageRating = (float)Convert.ToDouble(reader["averageRating"]),
+                        NumVotes = Convert.ToInt32(reader["numVotes"])
+                    };
+
+                    movies.Add(movie);
+                }
+
+                return movies;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        public List<Movie> GetMovieByTitle(string title)
         {
             SqlConnection con = null;
             SqlCommand cmd;
@@ -174,14 +267,15 @@ namespace IMDBTask.Services
             {
                 con = Connect();
                 Dictionary<string, object> parameters = new Dictionary<string, object>
-                {
-                    { "@primaryTitle", title }
-                };
+        {
+            { "@primaryTitle", title }
+        };
 
                 cmd = CreateCommandWithStoredProcedure("SP_GetMovieByTitle", con, parameters);
                 SqlDataReader reader = cmd.ExecuteReader();
+                List<Movie> movies = new List<Movie>();
 
-                if (reader.Read())
+                while (reader.Read())
                 {
                     Movie movie = new Movie
                     {
@@ -191,25 +285,78 @@ namespace IMDBTask.Services
                         Description = reader["description"].ToString(),
                         PrimaryImage = reader["primaryImage"].ToString(),
                         Year = Convert.ToInt32(reader["year"]),
-                        ReleaseDate = reader["releaseDate"] != DBNull.Value ?
-                            Convert.ToDateTime(reader["releaseDate"]) : DateTime.MinValue,
+                        ReleaseDate = Convert.ToDateTime(reader["releaseDate"]),
                         Language = reader["language"].ToString(),
-                        Budget = reader["budget"] != DBNull.Value ?
-                            Convert.ToDouble(reader["budget"]) : 0,
-                        GrossWorldwide = reader["grossWorldwide"] != DBNull.Value ?
-                            Convert.ToDouble(reader["grossWorldwide"]) : 0,
+                        Budget = Convert.ToDouble(reader["budget"]),
+                        GrossWorldwide = Convert.ToDouble(reader["grossWorldwide"]),
                         Genres = reader["genres"].ToString(),
                         IsAdult = Convert.ToBoolean(reader["isAdult"]),
                         RuntimeMinutes = Convert.ToInt32(reader["runtimeMinutes"]),
-                        AverageRating = reader["averageRating"] != DBNull.Value ?
-                            Convert.ToSingle(reader["averageRating"]) : 0,
+                        AverageRating = (float)Convert.ToDouble(reader["averageRating"]),
                         NumVotes = Convert.ToInt32(reader["numVotes"]),
                         PriceToRent = Convert.ToInt32(reader["priceToRent"]),
                         RentalCount = Convert.ToInt32(reader["rentalCount"])
                     };
-                    return movie;
+                    movies.Add(movie);
                 }
-                return null;
+                return movies;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        public List<Movie> GetMovieByReleaseDate(DateTime startDate, DateTime endDate)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd;
+
+            try
+            {
+                con = Connect();
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@startDate", startDate },
+                    { "@endDate", endDate }
+                };
+
+                cmd = CreateCommandWithStoredProcedure("SP_GetMovieByReleaseDate", con, parameters);
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<Movie> movies = new List<Movie>();
+
+                while (reader.Read())
+                {
+                    Movie movie = new Movie
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        Url = reader["url"].ToString(),
+                        PrimaryTitle = reader["primaryTitle"].ToString(),
+                        Description = reader["description"].ToString(),
+                        PrimaryImage = reader["primaryImage"].ToString(),
+                        Year = Convert.ToInt32(reader["year"]),
+                        ReleaseDate = Convert.ToDateTime(reader["releaseDate"]),
+                        Language = reader["language"].ToString(),
+                        Budget = Convert.ToDouble(reader["budget"]),
+                        GrossWorldwide = Convert.ToDouble(reader["grossWorldwide"]),
+                        Genres = reader["genres"].ToString(),
+                        IsAdult = Convert.ToBoolean(reader["isAdult"]),
+                        RuntimeMinutes = Convert.ToInt32(reader["runtimeMinutes"]),
+                        AverageRating = (float)Convert.ToDouble(reader["averageRating"]),
+                        NumVotes = Convert.ToInt32(reader["numVotes"]),
+                        PriceToRent = Convert.ToInt32(reader["priceToRent"]),
+                        RentalCount = Convert.ToInt32(reader["rentalCount"])
+                    };
+                    movies.Add(movie);
+                }
+                return movies;
             }
             catch (Exception ex)
             {
@@ -328,6 +475,62 @@ namespace IMDBTask.Services
 
                 cmd = CreateCommandWithStoredProcedure("SP_DeleteMovie", con, parameters);
                 return cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        public List<Movie> GetRentedMovies(int id)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd;
+
+            try
+            {
+                con = Connect();
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+        {
+            { "@userId", id }
+        };
+
+                cmd = CreateCommandWithStoredProcedure("SP_GetRentedMovies", con, parameters);
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<Movie> movies = new List<Movie>();
+
+                while (reader.Read())
+                {
+                    Movie movie = new Movie
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        Url = reader["url"].ToString(),
+                        PrimaryTitle = reader["primaryTitle"].ToString(),
+                        Description = reader["description"].ToString(),
+                        PrimaryImage = reader["primaryImage"].ToString(),
+                        Year = Convert.ToInt32(reader["year"]),
+                        ReleaseDate = Convert.ToDateTime(reader["releaseDate"]),
+                        Language = reader["language"].ToString(),
+                        Budget = Convert.ToDouble(reader["budget"]),
+                        GrossWorldwide = Convert.ToDouble(reader["grossWorldwide"]),
+                        Genres = reader["genres"].ToString(),
+                        IsAdult = Convert.ToBoolean(reader["isAdult"]),
+                        RuntimeMinutes = Convert.ToInt32(reader["runtimeMinutes"]),
+                        AverageRating = (float)Convert.ToDouble(reader["averageRating"]),
+                        NumVotes = Convert.ToInt32(reader["numVotes"])
+                        // RentIsFinished = Convert.ToInt32(reader["rentIsFinished"])
+                    };
+                    movies.Add(movie);
+                }
+
+                return movies;
             }
             catch (Exception ex)
             {
