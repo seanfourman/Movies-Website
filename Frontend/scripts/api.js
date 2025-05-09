@@ -23,7 +23,8 @@ function getAllMovies(successCallback, errorCallback) {
 }
 
 function getRentedMovies(successCallback, errorCallback) {
-  const userId = localStorage.getItem("userId");
+  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+  const userId = userData.id;
   ajaxCall("GET", `${moviesEndpoint}/getRentedMovies/${userId}`, null, successCallback, errorCallback);
 }
 

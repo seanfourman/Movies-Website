@@ -1,14 +1,13 @@
 function initHomePage() {
   if ($("#loadMoviesButton").length) {
     $("#loadMoviesButton").click(function () {
-      const movies = getAllMovies(readSCB, readECB);
+      const movies = getAllMovies(readSCB, readECB); // (***)
     });
 
-    let userEmail = localStorage.getItem("userEmail");
-    let userName = localStorage.getItem("userName");
-    if (userEmail) {
+    const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+    if (userData.email) {
       if (!localStorage.getItem("welcomeMessage")) {
-        showWelcomeToast(userName);
+        showWelcomeToast(userData.name || "User");
         localStorage.setItem("welcomeMessage", "true");
       }
     }

@@ -29,8 +29,9 @@ $(document).ready(function () {
     setupFormValidation();
     $("#myProfileForm").css("background-image", "url(../sources/auth-bg3.png)");
 
-    $("#nameTB").val(localStorage.getItem("userName") || "");
-    $("#emailTB").val(localStorage.getItem("userEmail") || "");
+    const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+    $("#nameTB").val(userData.name || "");
+    $("#emailTB").val(userData.email || "");
   }
 
   $("#myProfileForm").on("submit", function (e) {
@@ -163,22 +164,19 @@ function loginCBSuccess(response) {
     return;
   }
 
-  // Local Storage
-  if (response.email) {
-    localStorage.setItem("userEmail", response.email);
-  }
-  if (response.name) {
-    localStorage.setItem("userName", response.name);
-  }
-  if (response.id) {
-    localStorage.setItem("userId", response.id);
-  }
+  const userData = {
+    email: response.email,
+    name: response.name,
+    id: response.id,
+    active: response.active,
+    isAdmin: response.isAdmin
+  };
+
+  localStorage.setItem("userData", JSON.stringify(userData));
 
   $("#signinForm")[0].reset();
   showPopup("Login successful!", true);
-  setTimeout(function () {
-    window.location.href = "../html/index.html";
-  }, 2000);
+  setTimeout(() => (window.location.href = "../html/index.html"), 2000);
 }
 
 function loginCBError(xhr, status) {
@@ -201,12 +199,16 @@ function loginCBError(xhr, status) {
 
 // My Profile
 function editUserProfile() {
-  const userId = localStorage.getItem("userId");
+  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+  const userId = userData.id;
+
+  // (***) NEED TO FIX
   const user = {
     Name: $("#nameTB").val().trim(),
     Email: $("#emailTB").val().trim(),
     Password: $("#passwordTB").val(),
-    Active: true
+    Active: userData.active,
+    isAdmin: userData.isAdmin
   };
 
   $("#submitButton").val("wait a sec...").prop("disabled", true);
@@ -221,12 +223,15 @@ function editCBSuccess(response) {
     return;
   }
 
+  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
   if (response.name) {
-    localStorage.setItem("userName", response.name);
+    userData.name = response.name;
   }
   if (response.email) {
-    localStorage.setItem("userEmail", response.email);
+    userData.email = response.email;
   }
+
+  localStorage.setItem("userData", JSON.stringify(userData));
 
   $("#myProfileForm")[0].reset();
   showPopup("Your profile has been successfully updated.", true);

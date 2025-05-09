@@ -80,8 +80,8 @@ function setupCardInteraction(movie, movieCard) {
           //$btn = $('<div class="add-button"><span>❤</span></div>');
           $btn = $('<div class="add-button"><img id="cartIcon" src="../sources/cart-icon.png" /></div>');
           $btn.on("click", function () {
-            let userEmail = localStorage.getItem("userEmail");
-            if (!userEmail) {
+            const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+            if (!userData.email) {
               window.location.href = "../html/signin.html";
             } else {
               //sendToServer(movie);

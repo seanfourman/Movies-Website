@@ -43,12 +43,13 @@ $(document).ready(function () {
 function pageAuthorizationSetup() {
   const restrictedPages = ["addmovie.html", "mymovies.html", "myprofile.html"];
   const loggedPages = ["signin.html", "signup.html"];
-  const userEmail = localStorage.getItem("userEmail");
+  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+  const isLoggedIn = Boolean(userData.email);
   const pageName = window.location.pathname.split("/").pop().toLowerCase();
 
-  if (!userEmail && restrictedPages.includes(pageName)) {
+  if (!isLoggedIn && restrictedPages.includes(pageName)) {
     window.location.href = "../html/signin.html";
-  } else if (userEmail && loggedPages.includes(pageName)) {
+  } else if (isLoggedIn && loggedPages.includes(pageName)) {
     window.location.href = "../html/index.html";
   }
 }
@@ -153,7 +154,8 @@ function handleServerError() {
 }
 
 function setupAccountDropdown() {
-  const isLoggedIn = localStorage.getItem("userEmail") !== null;
+  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+  const isLoggedIn = Boolean(userData.email);
   updateDropdownContent(isLoggedIn);
 
   $(document).on("click", "#accountIcon", function (e) {
@@ -226,8 +228,7 @@ function updateDropdownContent(isLoggedIn) {
 }
 
 function logout() {
-  localStorage.removeItem("userEmail");
-  localStorage.removeItem("userName");
+  localStorage.removeItem("userData");
   localStorage.removeItem("welcomeMessage");
 
   updateDropdownContent(false);
