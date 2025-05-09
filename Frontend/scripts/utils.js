@@ -103,3 +103,29 @@ function toTitleCase(str) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 }
+
+function preventBodyScroll() {
+  const scrollY = window.scrollY;
+
+  $("body")
+    .css({
+      position: "fixed",
+      width: "100%",
+      top: -scrollY + "px",
+      "overflow-y": "scroll"
+    })
+    .attr("data-scroll-position", scrollY);
+}
+
+function enableBodyScroll() {
+  const scrollY = parseInt($("body").attr("data-scroll-position") || "0");
+  $("body")
+    .css({
+      position: "",
+      width: "",
+      top: "",
+      "overflow-y": ""
+    })
+    .removeAttr("data-scroll-position");
+  window.scrollTo(0, scrollY);
+}

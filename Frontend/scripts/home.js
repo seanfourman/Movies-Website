@@ -102,15 +102,24 @@ function loadMoreMoviesECB(error) {
   hideLoadingIndicator();
   isLoading = false;
   showPopup("Failed to load movies. Please try again later.", false);
+  showNoMoviesMessage();
 }
 
 function showLoadingIndicator() {
   if ($("#loadingIndicator").length === 0) {
-    $("container").append(`
-      <div id="loadingIndicator" class="loading-indicator">
+    const noMoviesYet = $(".movieCard").length === 0;
+
+    const loadingIndicator = $(`
+      <div id="loadingIndicator" class="loading-indicator${noMoviesYet ? " loading-indicator-centered" : ""}">
         <div class="spinner"></div>
       </div>
     `);
+
+    if (noMoviesYet) {
+      $("body").append(loadingIndicator);
+    } else {
+      $("container").append(loadingIndicator);
+    }
   }
 }
 
@@ -177,6 +186,7 @@ function successCB(res) {
 
 function errorCB() {
   showPopup("Failed to reach server. Please try again later!", false);
+  showNoMoviesMessage();
 }
 
 function setupSearchTitlePlaceholder() {

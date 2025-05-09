@@ -241,7 +241,9 @@ namespace IMDBTask.Services
                         IsAdult = Convert.ToBoolean(reader["isAdult"]),
                         RuntimeMinutes = Convert.ToInt32(reader["runtimeMinutes"]),
                         AverageRating = (float)Convert.ToDouble(reader["averageRating"]),
-                        NumVotes = Convert.ToInt32(reader["numVotes"])
+                        NumVotes = Convert.ToInt32(reader["numVotes"]),
+                        PriceToRent = Convert.ToInt32(reader["priceToRent"]),
+                        RentalCount = Convert.ToInt32(reader["rentalCount"])
                     };
 
                     movies.Add(movie);
