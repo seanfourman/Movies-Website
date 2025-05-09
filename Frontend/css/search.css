@@ -57,3 +57,15 @@
 #searchByDate span {
   font-weight: bold;
 }
+
+/* Disabled Inputs */
+.disabled-text {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.disabled-section {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5) !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  position: relative;
+  cursor: not-allowed;
+}

@@ -32,8 +32,8 @@ namespace IMDBTask.Models
             this.Name = ToTitleCase(this.Name);
             this.Email = this.Email.ToLower();
             this.Password = _hasher.HashPassword(this, this.Password);
-            this.Active = true;
-            this.isAdmin = false;
+            //this.Active = true;
+            //this.isAdmin = false;
             return dbs.InsertUser(this);
         }
 

@@ -271,9 +271,9 @@ namespace IMDBTask.Services
             {
                 con = Connect();
                 Dictionary<string, object> parameters = new Dictionary<string, object>
-        {
-            { "@primaryTitle", title }
-        };
+                {
+                    { "@primaryTitle", title }
+                };
 
                 cmd = CreateCommandWithStoredProcedure("SP_GetMovieByTitle", con, parameters);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -502,9 +502,9 @@ namespace IMDBTask.Services
             {
                 con = Connect();
                 Dictionary<string, object> parameters = new Dictionary<string, object>
-        {
-            { "@userId", id }
-        };
+                {
+                    { "@userId", id }
+                };
 
                 cmd = CreateCommandWithStoredProcedure("SP_GetRentedMovies", con, parameters);
                 SqlDataReader reader = cmd.ExecuteReader();

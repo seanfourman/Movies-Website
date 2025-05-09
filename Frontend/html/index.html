@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../css/cards.css" />
     <link rel="stylesheet" href="../css/components.css" />
     <link rel="stylesheet" href="../css/responsive.css" />
+    <link rel="stylesheet" href="../css/search.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="../data/movies.js"></script>
     <script src="../scripts/api.js"></script>
@@ -23,6 +24,15 @@
   <body>
     <nav></nav>
     <container>
+      <div id="searchInputs">
+        <div id="searchByName">
+          <input id="searchTitle" type="text" placeholder="Search" />
+        </div>
+        <div id="searchByDate">
+          <div><span class="searchText">From:</span><input type="date" id="startDate" placeholder="Start Date" /></div>
+          <div><span class="searchText"> To:</span><input type="date" id="endDate" placeholder="End Date" /></div>
+        </div>
+      </div>
       <img id="loadMoviesButton" src="../sources/load_movies.png" />
     </container>
     <footer></footer>

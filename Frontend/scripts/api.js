@@ -29,13 +29,12 @@ function getRentedMovies(successCallback, errorCallback) {
 }
 
 function searchMoviesByTitle(title, successCallback, errorCallback) {
-  showPopup("This function is currently disabled!", false);
-  //ajaxCall("GET", `${moviesEndpoint}/searchByTitle`, { title }, successCallback, errorCallback);
+  ajaxCall("GET", `${moviesEndpoint}/searchByTitle`, { title }, successCallback, errorCallback);
 }
 
 function searchMoviesByDate(startDate, endDate, successCallback, errorCallback) {
-  showPopup("This function is currently disabled!", false);
-  //ajaxCall("GET", `${moviesEndpoint}/searchByReleaseDate/startDate/${startDate}/endDate/${endDate}`, null, successCallback, errorCallback);
+  const searchByDateURL = `${moviesEndpoint}/searchByReleaseDate?startDate=${startDate}&endDate=${endDate}`;
+  ajaxCall("GET", searchByDateURL, null, successCallback, errorCallback);
 }
 
 function addMovie(movie, successCallback, errorCallback) {

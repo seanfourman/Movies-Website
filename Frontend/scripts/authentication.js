@@ -105,7 +105,9 @@ function registerNewUser() {
   const user = {
     Name: $("#nameTB").val().trim(),
     Email: $("#emailTB").val().trim(),
-    Password: $("#passwordTB").val()
+    Password: $("#passwordTB").val(),
+    Active: true,
+    isAdmin: false
   };
 
   $("#submitButton").val("wait a sec...").prop("disabled", true);

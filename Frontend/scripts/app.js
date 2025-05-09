@@ -41,11 +41,16 @@ $(document).ready(function () {
 });
 
 function pageAuthorizationSetup() {
+  const adminPages = ["controlpanel.html"];
   const restrictedPages = ["addmovie.html", "mymovies.html", "myprofile.html"];
   const loggedPages = ["signin.html", "signup.html"];
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
   const isLoggedIn = Boolean(userData.email);
   const pageName = window.location.pathname.split("/").pop().toLowerCase();
+
+  if (!userData.isAdmin && adminPages.includes(pageName)) {
+    window.location.href = "../html/index.html";
+  }
 
   if (!isLoggedIn && restrictedPages.includes(pageName)) {
     window.location.href = "../html/signin.html";
@@ -156,7 +161,8 @@ function handleServerError() {
 function setupAccountDropdown() {
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
   const isLoggedIn = Boolean(userData.email);
-  updateDropdownContent(isLoggedIn);
+  const isAdmin = userData.isAdmin;
+  updateDropdownContent(isLoggedIn, isAdmin);
 
   $(document).on("click", "#accountIcon", function (e) {
     e.stopPropagation(); // Prevents click from triggering other click events
@@ -200,6 +206,12 @@ function setupAccountDropdown() {
     window.location.href = "./myProfile.html";
   });
 
+  // Control Panel
+  $(document).on("click", "#controlPanelBtn", function (e) {
+    e.preventDefault();
+    window.location.href = "./controlPanel.html";
+  });
+
   // Disable background image right click menu
   const img = $("#formLetterImg");
   if (img.length) {
@@ -209,14 +221,23 @@ function setupAccountDropdown() {
   }
 }
 
-function updateDropdownContent(isLoggedIn) {
+function updateDropdownContent(isLoggedIn, isAdmin) {
   const dropdownMenu = $(".dropdown-menu");
   dropdownMenu.empty();
 
   if (isLoggedIn) {
     dropdownMenu.append(`
       <a href="#" id="addMovieBtn"><img src="../sources/plus-icon.png" />Add Movie</a>
-      <a href="#" id="myProfileBtn"><img src="../sources/myprofile-icon.png" />My Profile</a>
+      <a href="#" id="myProfileBtn"><img src="../sources/myProfile-icon.png" />My Profile</a>
+    `);
+
+    if (isAdmin) {
+      dropdownMenu.append(`
+        <a href="#" id="controlPanelBtn"><img src="../sources/controlPanel-icon.png" />Control Panel</a>
+      `);
+    }
+
+    dropdownMenu.append(`
       <a href="#" id="logoutBtn"><img src="../sources/logout-icon.png" />Logout</a>
     `);
   } else {
