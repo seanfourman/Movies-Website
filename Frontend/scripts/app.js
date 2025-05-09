@@ -1,6 +1,3 @@
-const moviesPerPage = 20;
-let currentMovieIndex = 0;
-
 const htmlSnippets = {
   nav: `
         <img id="logo" src="../sources/LOGO-ducktape.png" />
@@ -56,70 +53,6 @@ function pageAuthorizationSetup() {
     window.location.href = "../html/signin.html";
   } else if (isLoggedIn && loggedPages.includes(pageName)) {
     window.location.href = "../html/index.html";
-  }
-}
-
-// (***) NEED TO CHANGE PAGINATION HERE BY API CALLS AND NOT THE ARRAY
-function loadMovies(arr) {
-  const nextBatch = arr.slice(currentMovieIndex, currentMovieIndex + moviesPerPage);
-  currentMovieIndex += moviesPerPage;
-
-  const filteredMovies = nextBatch.map((movie) => {
-    let genres;
-    if (movie.genres) {
-      if (Array.isArray(movie.genres)) {
-        genres = movie.genres;
-      } else if (typeof movie.genres === "string") {
-        genres = movie.genres.split(",").map((genre) => genre.trim());
-      } else {
-        genres = []; // For unexpected types - probably pointless
-      }
-    } else {
-      genres = [];
-    }
-
-    return {
-      id: movie.id,
-      url: movie.url,
-      primaryTitle: movie.primaryTitle,
-      description: movie.description,
-      primaryImage: movie.primaryImage,
-      year: movie.startYear || movie.year,
-      releaseDate: movie.releaseDate,
-      language: movie.language,
-      budget: movie.budget,
-      grossWorldwide: movie.grossWorldwide,
-      genres: genres,
-      isAdult: movie.isAdult,
-      runtimeMinutes: movie.runtimeMinutes,
-      averageRating: movie.averageRating,
-      numVotes: movie.numVotes
-    };
-  });
-
-  if ($("#loadMoviesButton").length) {
-    $("#loadMoviesButton").hide();
-  }
-
-  if (filteredMovies.length === 0) {
-    return showNoMoviesMessage();
-  } else {
-    updateFooterPosition();
-  }
-
-  for (let movie of filteredMovies) {
-    createMovieCard(movie);
-  }
-
-  // Stop event listener when there are not movies left
-  if (currentMovieIndex >= arr.length) {
-    $(window).off("scroll");
-  }
-}
-
-function checkIfArrayIsNull(res) {
-  if (res.length === 0) {
-    return showNoMoviesMessage();
   }
 }
 

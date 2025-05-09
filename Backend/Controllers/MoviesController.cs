@@ -24,6 +24,20 @@ namespace IMDBTask.Controllers
 
         }
 
+        // GET: api/Movies/batch/{offset}/{count}
+        [HttpGet("batch/{offset}/{count}")]
+        public ActionResult<IEnumerable<Movie>> GetMoviesBatch(int offset, int count)
+        {
+            // Validate inputs
+            if (offset < 0 || count < 1 || count > 100)
+            {
+                return BadRequest("Invalid batch parameters");
+            }
+
+            var movies = Movie.GetBatch(offset, count);
+            return Ok(movies);
+        }
+
         // GET: api/Movies/getRentedMovies/{id}
         [HttpGet("getRentedMovies/{id}")]
         public IEnumerable<RentedMovieDto> GetRentedMovies(int id)

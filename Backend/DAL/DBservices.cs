@@ -262,6 +262,67 @@ namespace IMDBTask.Services
             }
         }
 
+        public List<Movie> GetMoviesBatch(int offset, int count)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd;
+
+            try
+            {
+                // Artificial delay - sleep for 1.5 seconds
+                System.Threading.Thread.Sleep(1500);
+
+                con = Connect();
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+        {
+            { "@Offset", offset },
+            { "@Count", count }
+        };
+
+                cmd = CreateCommandWithStoredProcedure("SP_GetMoviesBatch", con, parameters);
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<Movie> movies = new List<Movie>();
+
+                while (reader.Read())
+                {
+                    Movie movie = new Movie
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        PrimaryTitle = reader["primaryTitle"].ToString(),
+                        Description = reader["description"].ToString(),
+                        Url = reader["url"].ToString(),
+                        PrimaryImage = reader["primaryImage"].ToString(),
+                        Year = Convert.ToInt32(reader["year"]),
+                        ReleaseDate = Convert.ToDateTime(reader["releaseDate"]),
+                        Language = reader["language"].ToString(),
+                        Budget = Convert.ToDouble(reader["budget"]),
+                        GrossWorldwide = Convert.ToDouble(reader["grossWorldwide"]),
+                        Genres = reader["genres"].ToString(),
+                        IsAdult = Convert.ToBoolean(reader["isAdult"]),
+                        RuntimeMinutes = Convert.ToInt32(reader["runtimeMinutes"]),
+                        AverageRating = (float)Convert.ToDouble(reader["averageRating"]),
+                        NumVotes = Convert.ToInt32(reader["numVotes"]),
+                        PriceToRent = Convert.ToInt32(reader["priceToRent"]),
+                        RentalCount = Convert.ToInt32(reader["rentalCount"])
+                    };
+                    movies.Add(movie);
+                }
+
+                return movies;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
+
         public List<Movie> GetMovieByTitle(string title)
         {
             SqlConnection con = null;

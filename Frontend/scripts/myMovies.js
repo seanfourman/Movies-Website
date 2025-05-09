@@ -3,8 +3,9 @@ function initMyMoviesPage() {
 }
 
 function readSCB(res) {
-  currentMovieIndex = 0;
-  loadMovies(res);
+  //currentMovieIndex = 0;
+  //loadMovies(res);
+  console.log(res);
 }
 
 function readECB() {

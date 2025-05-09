@@ -22,6 +22,10 @@ function getAllMovies(successCallback, errorCallback) {
   ajaxCall("GET", moviesEndpoint, null, successCallback, errorCallback);
 }
 
+function getMoviesBatch(offset, count, successCallback, errorCallback) {
+  ajaxCall("GET", `${moviesEndpoint}/batch/${offset}/${count}`, null, successCallback, errorCallback);
+}
+
 function getRentedMovies(successCallback, errorCallback) {
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
   const userId = userData.id;

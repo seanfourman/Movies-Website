@@ -1,3 +1,9 @@
+const moviesPerBatch = 20;
+let currentOffset = 0;
+let isLoading = false;
+let hasMoreMovies = true;
+let currentSearchResults = null;
+
 function initHomePage() {
   $("#searchInputs input").prop("disabled", true);
   $("#searchInputs input").addClass("disabled-section");
@@ -5,7 +11,8 @@ function initHomePage() {
 
   if ($("#loadMoviesButton").length) {
     $("#loadMoviesButton").click(function () {
-      const movies = getAllMovies(readSCB, readECB); // (***)
+      $("#loadMoviesButton").remove();
+      loadMoreMovies();
       $("#searchInputs input").prop("disabled", false);
       $("#searchInputs input").removeClass("disabled-section");
       $(".searchText").removeClass("disabled-text");
@@ -27,30 +34,88 @@ function initHomePage() {
 
   setupSearchTitlePlaceholder();
 
-  let isLoading = false;
+  setupScrollHandler();
+}
 
-  $(window).on("scroll", function () {
-    if (!isLoading && $(window).scrollTop() + $(window).height() >= $(document).height()) {
-      isLoading = true;
+function setupScrollHandler() {
+  $(window).off("scroll.movieLoader");
 
-      loadMovies(movies);
-
-      setTimeout(function () {
-        isLoading = false;
-      }, 500); // Prevent multiple triggers
+  $(window).on("scroll.movieLoader", function () {
+    if (!isLoading && hasMoreMovies && $(window).scrollTop() + $(window).height() >= $(document).height() - 200) {
+      loadMoreMovies();
     }
   });
 }
 
-function readSCB(res) {
-  currentMovieIndex = 0;
-  $("#noMovies").remove();
-  loadMovies(res);
+function loadMoreMovies() {
+  if (isLoading || !hasMoreMovies) return;
+
+  isLoading = true;
+  showLoadingIndicator();
+
+  // If we have search results, use those instead of making an API call
+  if (currentSearchResults && currentSearchResults.length > 0) {
+    const batch = currentSearchResults.slice(currentOffset, currentOffset + moviesPerBatch);
+    processMovieBatch(batch, currentSearchResults);
+  } else {
+    getMoviesBatch(currentOffset, moviesPerBatch, loadMoreMoviesSCB, loadMoreMoviesECB);
+  }
 }
 
-function readECB() {
-  showPopup("Failed to reach server. Please try again later!", false);
-  showNoMoviesMessage();
+function processMovieBatch(movies, fullArray = null) {
+  hideLoadingIndicator();
+
+  if (!movies || movies.length === 0) {
+    hasMoreMovies = false;
+    if (currentOffset === 0) {
+      showNoMoviesMessage();
+    }
+  } else {
+    for (let movie of movies) {
+      if (movie.genres) {
+        if (typeof movie.genres === "string") {
+          movie.genres = movie.genres.split(",").map((genre) => genre.trim());
+        }
+      } else {
+        movie.genres = [];
+      }
+      movie.year = movie.startYear || movie.year;
+
+      createMovieCard(movie);
+    }
+    currentOffset += movies.length;
+
+    if (fullArray && currentOffset >= fullArray.length) {
+      hasMoreMovies = false;
+    }
+  }
+
+  isLoading = false;
+  updateFooterPosition();
+}
+
+function loadMoreMoviesSCB(data) {
+  processMovieBatch(data);
+}
+
+function loadMoreMoviesECB(error) {
+  hideLoadingIndicator();
+  isLoading = false;
+  showPopup("Failed to load movies. Please try again later.", false);
+}
+
+function showLoadingIndicator() {
+  if ($("#loadingIndicator").length === 0) {
+    $("container").append(`
+      <div id="loadingIndicator" class="loading-indicator">
+        <div class="spinner"></div>
+      </div>
+    `);
+  }
+}
+
+function hideLoadingIndicator() {
+  $("#loadingIndicator").remove();
 }
 
 function triggerSearch() {
@@ -78,27 +143,42 @@ function triggerSearch() {
   }
 
   $(".movieCard").remove();
+  currentOffset = 0;
+  hasMoreMovies = true;
+  currentSearchResults = null;
 
   if (title) {
     searchMoviesByTitle(title, successCB, errorCB);
   } else if (startDate && endDate) {
     searchMoviesByDate(startDate, endDate, successCB, errorCB);
   } else {
-    getAllMovies(readSCB, readECB);
+    setupScrollHandler();
+    loadMoreMovies();
   }
 }
 
 function successCB(res) {
-  currentMovieIndex = 0;
-  if (Array.isArray(res) && res.length != 0) {
+  if (Array.isArray(res) && res.length !== 0) {
     $("#noMovies").remove();
-  }
+    $(".movieCard").remove();
 
-  $(".movieCard").remove();
-  loadMovies(res);
+    currentSearchResults = res;
+
+    currentOffset = 0;
+    hasMoreMovies = true;
+
+    setupScrollHandler();
+    loadMoreMovies();
+  } else {
+    hideLoadingIndicator();
+    isLoading = false;
+    showNoMoviesMessage();
+  }
 }
 
 function errorCB() {
+  hideLoadingIndicator();
+  isLoading = false;
   showPopup("Failed to reach server. Please try again later!", false);
 }
 

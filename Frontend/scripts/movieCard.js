@@ -123,6 +123,12 @@ function setupCardInteraction(movie, movieCard) {
   );
 }
 
+function checkIfArrayIsNull(res) {
+  if (res.length === 0) {
+    return showNoMoviesMessage();
+  }
+}
+
 function updateRatingBackground() {
   $(".rating").each(function () {
     const $rating = $(this);
