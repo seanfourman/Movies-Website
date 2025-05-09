@@ -27,7 +27,7 @@ $(document).ready(function () {
   });
 });
 
-// Fill Data lists - *** should probably make into a single function in the future
+// Fill Data lists - (***) should probably make into a single function in the future
 function populateLanguagesList() {
   const languages = new Set();
 
@@ -387,7 +387,7 @@ function submitMovieForm() {
     runtimeMinutes: parseInt($("#runtimeMinutesTB").val().trim()),
     averageRating: $("#averageRatingTB").val().trim() ? parseFloat($("#averageRatingTB").val().trim()) : 0,
     numVotes: $("#numVotesTB").val().trim() ? parseInt($("#numVotesTB").val().trim()) : 0
-    // CHECK ***
+    // CHECK (***)
   };
 
   $("#submitButton").val("wait a sec...").prop("disabled", true);

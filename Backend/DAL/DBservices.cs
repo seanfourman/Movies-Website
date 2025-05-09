@@ -269,15 +269,12 @@ namespace IMDBTask.Services
 
             try
             {
-                // Artificial delay - sleep for 1.5 seconds
-                System.Threading.Thread.Sleep(1500);
-
                 con = Connect();
                 Dictionary<string, object> parameters = new Dictionary<string, object>
-        {
-            { "@Offset", offset },
-            { "@Count", count }
-        };
+                {
+                    { "@Offset", offset },
+                    { "@Count", count }
+                };
 
                 cmd = CreateCommandWithStoredProcedure("SP_GetMoviesBatch", con, parameters);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -323,7 +320,7 @@ namespace IMDBTask.Services
             }
         }
 
-        public List<Movie> GetMovieByTitle(string title)
+        public List<Movie> GetMovieByTitle(string title, int offset, int count)
         {
             SqlConnection con = null;
             SqlCommand cmd;
@@ -333,7 +330,9 @@ namespace IMDBTask.Services
                 con = Connect();
                 Dictionary<string, object> parameters = new Dictionary<string, object>
                 {
-                    { "@primaryTitle", title }
+                    { "@primaryTitle", title },
+                    { "@Offset", offset },
+                    { "@Count", count }
                 };
 
                 cmd = CreateCommandWithStoredProcedure("SP_GetMovieByTitle", con, parameters);
@@ -379,7 +378,7 @@ namespace IMDBTask.Services
             }
         }
 
-        public List<Movie> GetMovieByReleaseDate(DateTime startDate, DateTime endDate)
+        public List<Movie> GetMovieByReleaseDate(DateTime startDate, DateTime endDate, int offset, int count)
         {
             SqlConnection con = null;
             SqlCommand cmd;
@@ -390,7 +389,9 @@ namespace IMDBTask.Services
                 Dictionary<string, object> parameters = new Dictionary<string, object>
                 {
                     { "@startDate", startDate },
-                    { "@endDate", endDate }
+                    { "@endDate", endDate },
+                    { "@Offset", offset },
+                    { "@Count", count }
                 };
 
                 cmd = CreateCommandWithStoredProcedure("SP_GetMovieByReleaseDate", con, parameters);

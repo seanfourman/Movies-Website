@@ -56,41 +56,6 @@ function pageAuthorizationSetup() {
   }
 }
 
-function sendToServer(selectedMovie) {
-  let movie = {
-    url: selectedMovie.url,
-    primaryTitle: selectedMovie.primaryTitle,
-    description: selectedMovie.description,
-    primaryImage: selectedMovie.primaryImage,
-    year: selectedMovie.year,
-    releaseDate: selectedMovie.releaseDate,
-    language: selectedMovie.language,
-    budget: selectedMovie.budget,
-    grossWorldwide: selectedMovie.grossWorldwide,
-    genres: Array.isArray(selectedMovie.genres) ? selectedMovie.genres.join(",") : selectedMovie.genres,
-    isAdult: selectedMovie.isAdult,
-    runtimeMinutes: selectedMovie.runtimeMinutes,
-    averageRating: selectedMovie.averageRating,
-    numVotes: selectedMovie.numVotes
-  };
-
-  addMovie(
-    movie,
-    function (res) {
-      if (res === false) {
-        showPopup("Movie is already in your library!", false);
-      } else {
-        showPopup("Added to your library!", true);
-      }
-    },
-    handleServerError
-  );
-}
-
-function handleServerError() {
-  showPopup("Failed to reach server. Please try again later!", false);
-}
-
 function setupAccountDropdown() {
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
   const isLoggedIn = Boolean(userData.email);
@@ -179,6 +144,35 @@ function updateDropdownContent(isLoggedIn, isAdmin) {
       <a href="#" id="signupBtn"><img src="../sources/signup-icon.png" />Sign up</a>
     `);
   }
+}
+
+function showWelcomeToast(userName) {
+  const toast = $(`
+    <div class="welcome-toast">
+      <div class="toast-content">
+        <div class="toast-icon">👋</div>
+        <div class="toast-message">
+          <h4>Welcome back, ${userName}!</h4>
+          <p>Start your next movie adventure.</p>
+        </div>
+      </div>
+      <div class="toast-progress"></div>
+    </div>
+  `);
+  $("body").append(toast);
+
+  setTimeout(() => {
+    toast.addClass("show");
+
+    const progressBar = toast.find(".toast-progress");
+    progressBar.addClass("animate");
+    setTimeout(() => {
+      toast.removeClass("show");
+      setTimeout(() => {
+        toast.remove();
+      }, 500);
+    }, 6000);
+  }, 500);
 }
 
 function logout() {

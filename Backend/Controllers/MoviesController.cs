@@ -50,22 +50,18 @@ namespace IMDBTask.Controllers
 
         // GET: api/Movies/searchByTitle
         [HttpGet("searchByTitle")]
-        public ActionResult<Movie> GetByTitle(string title)
+        public ActionResult<IEnumerable<Movie>> GetByTitle(string title, int offset = 0, int count = 20)
         {
-            var movie = Movie.GetByTitle(title);
-            if (movie == null)
-                return NotFound($"No movies found with title '{title}'");
-            return Ok(movie);
+            var movies = Movie.GetByTitle(title, offset, count);
+            return Ok(movies ?? new List<Movie>());
         }
 
         // GET: api/Movies/searchByTitle
         [HttpGet("searchByReleaseDate")]
-        public ActionResult<Movie> GetByReleaseDate(DateTime startDate, DateTime endDate)
+        public ActionResult<IEnumerable<Movie>> GetByReleaseDate(DateTime startDate, DateTime endDate, int offset = 0, int count = 20)
         {
-            var movie = Movie.GetByReleaseDate(startDate, endDate);
-            if (movie == null)
-                return NotFound($"No movies found between {startDate} and {endDate}");
-            return Ok(movie);
+            var movies = Movie.GetByReleaseDate(startDate, endDate, offset, count);
+            return Ok(movies ?? new List<Movie>());
         }
 
         // PUT api/Movies/{id}

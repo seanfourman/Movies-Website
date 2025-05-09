@@ -2,7 +2,8 @@ const moviesPerBatch = 20;
 let currentOffset = 0;
 let isLoading = false;
 let hasMoreMovies = true;
-let currentSearchResults = null;
+let currentSearchMode = "normal";
+let currentSearchParams = {};
 
 function initHomePage() {
   $("#searchInputs input").prop("disabled", true);
@@ -33,7 +34,6 @@ function initHomePage() {
   });
 
   setupSearchTitlePlaceholder();
-
   setupScrollHandler();
 }
 
@@ -53,25 +53,29 @@ function loadMoreMovies() {
   isLoading = true;
   showLoadingIndicator();
 
-  // If we have search results, use those instead of making an API call
-  if (currentSearchResults && currentSearchResults.length > 0) {
-    const batch = currentSearchResults.slice(currentOffset, currentOffset + moviesPerBatch);
-    processMovieBatch(batch, currentSearchResults);
-  } else {
-    getMoviesBatch(currentOffset, moviesPerBatch, loadMoreMoviesSCB, loadMoreMoviesECB);
+  switch (currentSearchMode) {
+    case "title":
+      searchMoviesByTitle(currentSearchParams.title, currentOffset, moviesPerBatch, loadMoreMoviesSCB, loadMoreMoviesECB);
+      break;
+    case "date":
+      searchMoviesByDate(currentSearchParams.startDate, currentSearchParams.endDate, currentOffset, moviesPerBatch, loadMoreMoviesSCB, loadMoreMoviesECB);
+      break;
+    default:
+      getMoviesBatch(currentOffset, moviesPerBatch, loadMoreMoviesSCB, loadMoreMoviesECB);
+      break;
   }
 }
 
-function processMovieBatch(movies, fullArray = null) {
+function loadMoreMoviesSCB(data) {
   hideLoadingIndicator();
 
-  if (!movies || movies.length === 0) {
+  if (!data || data.length === 0) {
     hasMoreMovies = false;
     if (currentOffset === 0) {
       showNoMoviesMessage();
     }
   } else {
-    for (let movie of movies) {
+    for (let movie of data) {
       if (movie.genres) {
         if (typeof movie.genres === "string") {
           movie.genres = movie.genres.split(",").map((genre) => genre.trim());
@@ -83,19 +87,15 @@ function processMovieBatch(movies, fullArray = null) {
 
       createMovieCard(movie);
     }
-    currentOffset += movies.length;
+    currentOffset += data.length;
 
-    if (fullArray && currentOffset >= fullArray.length) {
+    if (data.length < moviesPerBatch) {
       hasMoreMovies = false;
     }
   }
 
   isLoading = false;
   updateFooterPosition();
-}
-
-function loadMoreMoviesSCB(data) {
-  processMovieBatch(data);
 }
 
 function loadMoreMoviesECB(error) {
@@ -143,16 +143,21 @@ function triggerSearch() {
   }
 
   $(".movieCard").remove();
+  $("#noMovies").remove();
   currentOffset = 0;
   hasMoreMovies = true;
-  currentSearchResults = null;
 
   if (title) {
-    searchMoviesByTitle(title, successCB, errorCB);
+    currentSearchMode = "title";
+    currentSearchParams = { title };
+    loadMoreMovies();
   } else if (startDate && endDate) {
-    searchMoviesByDate(startDate, endDate, successCB, errorCB);
+    currentSearchMode = "date";
+    currentSearchParams = { startDate, endDate };
+    loadMoreMovies();
   } else {
-    setupScrollHandler();
+    currentSearchMode = "normal";
+    currentSearchParams = {};
     loadMoreMovies();
   }
 }
@@ -162,23 +167,15 @@ function successCB(res) {
     $("#noMovies").remove();
     $(".movieCard").remove();
 
-    currentSearchResults = res;
-
-    currentOffset = 0;
-    hasMoreMovies = true;
-
-    setupScrollHandler();
-    loadMoreMovies();
+    for (let movie of res) {
+      createMovieCard(movie);
+    }
   } else {
-    hideLoadingIndicator();
-    isLoading = false;
     showNoMoviesMessage();
   }
 }
 
 function errorCB() {
-  hideLoadingIndicator();
-  isLoading = false;
   showPopup("Failed to reach server. Please try again later!", false);
 }
 
@@ -194,31 +191,42 @@ function setupSearchTitlePlaceholder() {
   });
 }
 
-function showWelcomeToast(userName) {
-  const toast = $(`
-    <div class="welcome-toast">
-      <div class="toast-content">
-        <div class="toast-icon">👋</div>
-        <div class="toast-message">
-          <h4>Welcome back, ${userName}!</h4>
-          <p>Start your next movie adventure.</p>
-        </div>
-      </div>
-      <div class="toast-progress"></div>
-    </div>
-  `);
-  $("body").append(toast);
+function addRentedMovieToUser(userId, movie) {
+  // userId, movieId, rentStart, rentEnd, totalPrice
+  console.log(userId, movie);
+}
 
-  setTimeout(() => {
-    toast.addClass("show");
+function sendToServer(selectedMovie) {
+  let movie = {
+    url: selectedMovie.url,
+    primaryTitle: selectedMovie.primaryTitle,
+    description: selectedMovie.description,
+    primaryImage: selectedMovie.primaryImage,
+    year: selectedMovie.year,
+    releaseDate: selectedMovie.releaseDate,
+    language: selectedMovie.language,
+    budget: selectedMovie.budget,
+    grossWorldwide: selectedMovie.grossWorldwide,
+    genres: Array.isArray(selectedMovie.genres) ? selectedMovie.genres.join(",") : selectedMovie.genres,
+    isAdult: selectedMovie.isAdult,
+    runtimeMinutes: selectedMovie.runtimeMinutes,
+    averageRating: selectedMovie.averageRating,
+    numVotes: selectedMovie.numVotes
+  };
 
-    const progressBar = toast.find(".toast-progress");
-    progressBar.addClass("animate");
-    setTimeout(() => {
-      toast.removeClass("show");
-      setTimeout(() => {
-        toast.remove();
-      }, 500);
-    }, 6000);
-  }, 500);
+  addMovie(
+    movie,
+    function (res) {
+      if (res === false) {
+        showPopup("Movie is already in your library!", false);
+      } else {
+        showPopup("Added to your library!", true);
+      }
+    },
+    handleServerError
+  );
+}
+
+function handleServerError() {
+  showPopup("Failed to reach server. Please try again later!", false);
 }

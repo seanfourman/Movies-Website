@@ -65,6 +65,7 @@ function generateGenreTags(genres) {
 
 function setupCardInteraction(movie, movieCard) {
   const currentPage = window.location.pathname.split("/").pop();
+  const userData = localStorage.getItem("userData");
 
   movieCard.find(".movieCardImageContainer").hover(
     function () {
@@ -84,8 +85,8 @@ function setupCardInteraction(movie, movieCard) {
             if (!userData.email) {
               window.location.href = "../html/signin.html";
             } else {
-              //sendToServer(movie);
-              showPopup("This function is currently disabled!", false);
+              addRentedMovieToUser(userData.id, movie);
+              createPopupForm(movie);
             }
           });
         } else if (currentPage === "myMovies.html") {

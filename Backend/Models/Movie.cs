@@ -74,16 +74,16 @@ namespace IMDBTask.Models
             return dbs.GetRentedMovies(id);
         }
 
-        public static List<Movie> GetByTitle(string title)
+        public static List<Movie> GetByTitle(string title, int offset, int count)
         {
             DBservices dbs = new DBservices();
-            return dbs.GetMovieByTitle(title);
+            return dbs.GetMovieByTitle(title, offset, count);
         }
 
-        public static List<Movie> GetByReleaseDate(DateTime startDate, DateTime endDate)
+        public static List<Movie> GetByReleaseDate(DateTime startDate, DateTime endDate, int offset, int count)
         {
             DBservices dbs = new DBservices();
-            return dbs.GetMovieByReleaseDate(startDate, endDate);
+            return dbs.GetMovieByReleaseDate(startDate, endDate, offset, count);
         }
 
         public int Update(int id)

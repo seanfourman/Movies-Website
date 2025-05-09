@@ -32,12 +32,12 @@ function getRentedMovies(successCallback, errorCallback) {
   ajaxCall("GET", `${moviesEndpoint}/getRentedMovies/${userId}`, null, successCallback, errorCallback);
 }
 
-function searchMoviesByTitle(title, successCallback, errorCallback) {
-  ajaxCall("GET", `${moviesEndpoint}/searchByTitle`, { title }, successCallback, errorCallback);
+function searchMoviesByTitle(title, offset = 0, count = 20, successCallback, errorCallback) {
+  ajaxCall("GET", `${moviesEndpoint}/searchByTitle?title=${encodeURIComponent(title)}&offset=${offset}&count=${count}`, null, successCallback, errorCallback);
 }
 
-function searchMoviesByDate(startDate, endDate, successCallback, errorCallback) {
-  const searchByDateURL = `${moviesEndpoint}/searchByReleaseDate?startDate=${startDate}&endDate=${endDate}`;
+function searchMoviesByDate(startDate, endDate, offset = 0, count = 20, successCallback, errorCallback) {
+  const searchByDateURL = `${moviesEndpoint}/searchByReleaseDate?startDate=${startDate}&endDate=${endDate}&offset=${offset}&count=${count}`;
   ajaxCall("GET", searchByDateURL, null, successCallback, errorCallback);
 }
 
