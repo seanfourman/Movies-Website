@@ -28,7 +28,6 @@ namespace IMDBTask.Controllers
         [HttpGet("batch/{offset}/{count}")]
         public ActionResult<IEnumerable<Movie>> GetMoviesBatch(int offset, int count)
         {
-            // Validate inputs
             if (offset < 0 || count < 1 || count > 100)
             {
                 return BadRequest("Invalid batch parameters");

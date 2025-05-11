@@ -14,7 +14,8 @@ function createPopupForm(movie) {
     });
 
   const $wrapper = $("<div>").addClass("popup-wrapper");
-  const $bgImg = $("<img>").addClass("popup-bg-img").attr("src", "../sources/paper-bg-bw.png");
+  const $bgImg = $("<img>").addClass("popup-bg-img desktop-bg").attr("src", "../sources/paper-bg-bw.png");
+  const $bgImgMobile = $("<img>").addClass("popup-bg-img mobile-bg").attr("src", "../sources/paper-bg-bw-mobile.png");
   const $form = $("<div>").addClass("form-container");
 
   const $closeBtn = $("<div>")
@@ -96,7 +97,10 @@ function createPopupForm(movie) {
 
   $form.append($submit);
 
-  $wrapper.append($bgImg, $form);
+  $wrapper.append($bgImg);
+  $wrapper.append($bgImgMobile);
+  $wrapper.append($form);
+
   $overlay.append($wrapper);
 
   $("body").append($overlay);

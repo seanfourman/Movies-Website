@@ -55,6 +55,15 @@
   opacity: 0;
 }
 
+/* Show desktop background by default, hide mobile background */
+.popup-bg-img.desktop-bg {
+  display: block;
+}
+
+.popup-bg-img.mobile-bg {
+  display: none;
+}
+
 @keyframes bg-slide-in {
   0% {
     opacity: 0;
@@ -74,6 +83,7 @@
   padding-right: 70px;
   display: flex;
   flex-direction: column;
+  background: transparent;
 }
 
 .form-container * {
@@ -260,17 +270,21 @@
 
 /* Mobile Responsiveness - Minimal Changes */
 @media screen and (max-width: 767px) {
-  /* CHANGE BACKGROUND TO SOMETHING ELSE HERE FOR MOBILE */
+  /* Switch background images for mobile */
+  .popup-bg-img.desktop-bg {
+    display: none;
+  }
+
+  .popup-bg-img.mobile-bg {
+    display: block;
+    width: 150%;
+    height: 150%;
+  }
 
   .popup-wrapper {
     width: 90%;
     height: auto;
     min-height: 250px;
-  }
-
-  .popup-bg-img {
-    width: 150%;
-    height: 150%;
   }
 
   .form-container {
@@ -292,9 +306,8 @@
 }
 
 @media screen and (max-width: 480px) {
-  .popup-bg-img {
+  .popup-bg-img.mobile-bg {
     width: 120%;
-    height: 120%;
   }
 
   .form-container h1 {
