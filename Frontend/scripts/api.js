@@ -1,5 +1,6 @@
 //const apiBaseUrl = "https://proj.ruppin.ac.il/cgroup7/test2/tar1/api";
-const port = 5001;
+//const port = 5001;
+const port = 7268;
 const apiBaseUrl = `https://localhost:${port}/api`;
 const moviesEndpoint = `${apiBaseUrl}/Movies`;
 const usersEndpoint = `${apiBaseUrl}/Users`;
@@ -43,6 +44,20 @@ function searchMoviesByDate(startDate, endDate, offset = 0, count = 20, successC
 
 function addMovie(movie, successCallback, errorCallback) {
   ajaxCall("POST", moviesEndpoint, JSON.stringify(movie), successCallback, errorCallback);
+}
+
+function rentMovie(movieId, startDate, endDate, successCallback, errorCallback) {
+  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+  const userId = userData.id;
+
+  const rentalData = {
+    userId: userId,
+    movieId: movieId,
+    startDate: startDate,
+    endDate: endDate
+  };
+
+  //xsajaxCall("POST", `${moviesEndpoint}/rent`, JSON.stringify(rentalData), successCallback, errorCallback);
 }
 
 function deleteMovie(movieId, successCallback, errorCallback) {

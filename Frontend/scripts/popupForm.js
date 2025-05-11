@@ -55,13 +55,6 @@ function createPopupForm(movie) {
   const nextWeek = new Date();
   nextWeek.setDate(today.getDate() + 7);
 
-  const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-
   const $startInput = addInput("Start Date", "date", "rentStart", formatDate(today));
   const $endInput = addInput("End Date", "date", "rentEnd", formatDate(nextWeek));
 
@@ -75,20 +68,12 @@ function createPopupForm(movie) {
       const endDate = $endInput.val();
 
       if (!startDate || !endDate) {
-        showPopup("Please select both dates", false);
+        showPopup("Both start and end dates are required", false);
         return;
       }
 
       if (new Date(startDate) > new Date(endDate)) {
-        showPopup("Start date cannot be after end date", false);
-        return;
-      }
-
-      const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-      if (!userData.id) {
-        showPopup("Please log in to rent movies", false);
-        enableBodyScroll();
-        window.location.href = "../html/signin.html";
+        showPopup("The start date cannot be later than the end date", false);
         return;
       }
 
@@ -130,19 +115,3 @@ function createPopupForm(movie) {
       300
     );
 }
-
-/*
-function rentMovie(movieId, startDate, endDate, successCallback, errorCallback) {
-  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-  const userId = userData.id;
-
-  const rentalData = {
-    userId: userId,
-    movieId: movieId,
-    startDate: startDate,
-    endDate: endDate
-  };
-
-  ajaxCall("POST", `${moviesEndpoint}/rent`, JSON.stringify(rentalData), successCallback, errorCallback);
-}
-*/
