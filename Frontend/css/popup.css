@@ -257,3 +257,51 @@
 .price-info {
   margin: 0 auto;
 }
+
+/* Mobile Responsiveness - Minimal Changes */
+@media screen and (max-width: 767px) {
+  /* CHANGE BACKGROUND TO SOMETHING ELSE HERE FOR MOBILE */
+
+  .popup-wrapper {
+    width: 90%;
+    height: auto;
+    min-height: 250px;
+  }
+
+  .popup-bg-img {
+    width: 150%;
+    height: 150%;
+  }
+
+  .form-container {
+    padding: 25px;
+    width: 90%;
+  }
+
+  .form-container h1 {
+    font-size: 22px;
+  }
+
+  .form-container input {
+    width: 100%;
+  }
+
+  .movie-title-container:hover .movie-title-ellipsis::after {
+    max-width: 90vw;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .popup-bg-img {
+    width: 120%;
+    height: 120%;
+  }
+
+  .form-container h1 {
+    font-size: 20px;
+  }
+
+  .movie-title-ellipsis {
+    font-size: 16px;
+  }
+}
