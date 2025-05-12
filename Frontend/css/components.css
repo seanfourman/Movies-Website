@@ -38,3 +38,72 @@ a {
   transform: translateX(-50%) translateY(-10px);
   pointer-events: auto;
 }
+
+#return-to-top {
+  display: flex;
+  position: fixed;
+  bottom: 50px;
+  right: 30px;
+  background-color: #cccccc;
+  padding: 7px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
+  border-radius: 50%;
+}
+
+#return-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+#return-to-top:hover {
+  background-color: #bbbbbb;
+}
+
+#return-to-top img {
+  width: 20px;
+  height: 20px;
+}
+
+#edit-button {
+  position: fixed;
+  bottom: 50px;
+  right: 35px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--highlight);
+  cursor: pointer;
+  opacity: 0.8;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#edit-button:hover {
+  background-color: #ffe563;
+}
+
+#edit-button.editing-active {
+  background-color: #4caf50;
+}
+
+#edit-button.editing-active:hover {
+  background-color: #45a049;
+}
+
+#edit-button img {
+  width: 25px;
+  height: 25px;
+}
+
+#edit-button.editing-active img {
+  padding-top: 5px;
+  width: 70px;
+  height: 70px;
+}

@@ -35,6 +35,25 @@ function initHomePage() {
 
   setupSearchTitlePlaceholder();
   setupScrollHandler();
+
+  const $returnToTopButton = $(`
+    <div id="return-to-top">
+      <img src="../sources/chevron-up.png" />
+    </div>
+  `);
+  $("body").append($returnToTopButton);
+
+  $returnToTopButton.on("click", function () {
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+  });
+
+  $(document).on("scroll", function () {
+    toggleReturnToTop($(window).scrollTop() > 100);
+  });
+
+  function toggleReturnToTop(active) {
+    $returnToTopButton.toggleClass("visible", active);
+  }
 }
 
 function setupScrollHandler() {

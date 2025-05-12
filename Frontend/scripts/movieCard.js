@@ -74,22 +74,40 @@ function setupCardInteraction(movie, movieCard) {
         transform: "scale(1.1)"
       });
 
-      if ($(this).find(".add-button").length === 0) {
-        let $btn = null;
+      $(this).find(".add-button").remove();
 
-        if (currentPage === "index.html") {
-          //$btn = $('<div class="add-button"><span>❤</span></div>');
-          $btn = $('<div class="add-button"><img id="cartIcon" src="../sources/cart-icon.png" /></div>');
+      let $btn = null;
+
+      if (currentPage === "index.html") {
+        //$btn = $('<div class="add-button"><span>❤</span></div>');
+        $btn = $('<div class="add-button"><img id="cartIcon" src="../sources/cart-icon.png" /></div>');
+        $btn.on("click", function () {
+          const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+          if (!userData.email) {
+            window.location.href = "../html/signin.html";
+          } else {
+            addRentedMovieToUser(userData.id, movie);
+            createPopupForm(movie);
+          }
+        });
+      } else if (currentPage === "myMovies.html") {
+        if (isEditingMode) {
+          $btn = $('<div class="add-button remove"><img id="rentingEdit" src="../sources/edit-icon.png" /></div>');
           $btn.on("click", function () {
-            const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-            if (!userData.email) {
-              window.location.href = "../html/signin.html";
-            } else {
-              addRentedMovieToUser(userData.id, movie);
-              createPopupForm(movie);
-            }
+            deleteMovie(
+              movie.id,
+              function () {
+                const card = $btn.closest(".movieCard");
+                card.fadeOut(300, function () {
+                  card.remove();
+                  updateFooterPosition();
+                  getAllMovies(checkIfArrayIsNull, handleServerError);
+                });
+              },
+              handleServerError
+            );
           });
-        } else if (currentPage === "myMovies.html") {
+        } else {
           $btn = $('<div class="add-button remove"><span>✘</span></div>');
           $btn.on("click", function () {
             deleteMovie(
@@ -106,11 +124,11 @@ function setupCardInteraction(movie, movieCard) {
             );
           });
         }
+      }
 
+      if ($btn) {
         $(this).append($btn);
         $btn.fadeIn(500);
-      } else {
-        $(this).find(".add-button").fadeIn(500);
       }
     },
     function () {
