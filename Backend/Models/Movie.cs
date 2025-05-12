@@ -68,10 +68,10 @@ namespace IMDBTask.Models
             return dbs.GetMoviesBatch(offset, count);
         }
 
-        public static List<Movie> ReadRentedMovies(int id)
+        public static List<Movie> GetRentedMoviesById(int id)
         {
             DBservices dbs = new DBservices();
-            return dbs.GetRentedMovies(id);
+            return dbs.GetRentedMoviesById(id);
         }
 
         public static List<Movie> GetByTitle(string title, int offset, int count)

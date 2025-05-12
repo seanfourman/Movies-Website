@@ -598,7 +598,7 @@ namespace IMDBTask.Services
             }
         }
 
-        public List<Movie> GetRentedMovies(int id)
+        public List<Movie> GetRentedMoviesById(int id)
         {
             SqlConnection con = null;
             SqlCommand cmd;
@@ -611,7 +611,7 @@ namespace IMDBTask.Services
                     { "@userId", id }
                 };
 
-                cmd = CreateCommandWithStoredProcedure("SP_GetRentedMovies", con, parameters);
+                cmd = CreateCommandWithStoredProcedure("SP_GetRentedMoviesById", con, parameters);
                 SqlDataReader reader = cmd.ExecuteReader();
                 List<Movie> movies = new List<Movie>();
 
@@ -633,13 +633,47 @@ namespace IMDBTask.Services
                         IsAdult = Convert.ToBoolean(reader["isAdult"]),
                         RuntimeMinutes = Convert.ToInt32(reader["runtimeMinutes"]),
                         AverageRating = (float)Convert.ToDouble(reader["averageRating"]),
-                        NumVotes = Convert.ToInt32(reader["numVotes"])
-                        //RentIsFinished = Convert.ToInt32(reader["rentIsFinished"])
+                        NumVotes = Convert.ToInt32(reader["numVotes"]),
+                        PriceToRent = Convert.ToInt32(reader["priceToRent"]),
+                        RentalCount = Convert.ToInt32(reader["rentalCount"])
                     };
                     movies.Add(movie);
                 }
 
                 return movies;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        public int InsertRentedMovie(RentedMovie rentedMovie)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd;
+
+            try
+            {
+                con = Connect();
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@userId", rentedMovie.UserId },
+                    { "@movieId", rentedMovie.MovieId },
+                    { "@rentStart", rentedMovie.RentStart },
+                    { "@rentEnd", rentedMovie.RentEnd },
+                    { "@totalPrice", rentedMovie.TotalPrice }
+                };
+
+                cmd = CreateCommandWithStoredProcedure("SP_InsertRentedMovie", con, parameters);
+                return cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {

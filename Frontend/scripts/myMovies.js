@@ -1,14 +1,12 @@
 let isEditingMode = false;
 
 function initMyMoviesPage() {
+  currentSearchMode = "rentedMovie";
   loadMoreMovies();
   addEditButton();
 }
 
-function readSCB(res) {
-  loadMovies(res);
-  //showNoMoviesMessage();
-}
+function readSCB(res) {}
 
 function readECB() {
   showPopup("Failed to reach server. Please try again later!", false);

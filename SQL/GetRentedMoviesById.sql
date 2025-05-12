@@ -1,8 +1,8 @@
-IF OBJECT_ID('SP_GetRentedMovies', 'P') IS NOT NULL
-    DROP PROCEDURE SP_GetRentedMovies;
+IF OBJECT_ID('SP_GetRentedMoviesById', 'P') IS NOT NULL
+    DROP PROCEDURE SP_GetRentedMoviesById;
 GO
 
-CREATE PROCEDURE SP_GetRentedMovies
+CREATE PROCEDURE SP_GetRentedMoviesById
     @userId INT
 AS
 BEGIN
@@ -22,7 +22,8 @@ BEGIN
         M.runtimeMinutes,
         M.averageRating,
         M.numVotes,
-        DATEDIFF(DAY, GETDATE(), RM.rentEnd) AS daysUntilExpiration
+		M.priceToRent,
+		M.rentalCount
     FROM RentedMoviesTable AS RM
     INNER JOIN MoviesTable AS M ON RM.movieId = M.id
     WHERE RM.userId = @userId

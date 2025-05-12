@@ -88,6 +88,8 @@ function createPopupForm(movie) {
     .on("click", function () {
       const startDate = $startInput.val();
       const endDate = $endInput.val();
+      const days = calculateDaysBetween(startDate, endDate);
+      const totalPrice = (movie.priceToRent * days).toFixed(2);
 
       if (!startDate || !endDate) {
         showPopup("Both start and end dates are required", false);
@@ -103,6 +105,7 @@ function createPopupForm(movie) {
         movie.id,
         startDate,
         endDate,
+        totalPrice,
         function (response) {
           $overlay.fadeOut(300, function () {
             $(this).remove();

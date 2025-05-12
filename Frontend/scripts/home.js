@@ -79,6 +79,9 @@ function loadMoreMovies() {
     case "date":
       searchMoviesByDate(currentSearchParams.startDate, currentSearchParams.endDate, currentOffset, moviesPerBatch, loadMoreMoviesSCB, loadMoreMoviesECB);
       break;
+    case "rentedMovie":
+      getRentedMovies(loadMoreMoviesSCB, loadMoreMoviesECB);
+      break;
     default:
       getMoviesBatch(currentOffset, moviesPerBatch, loadMoreMoviesSCB, loadMoreMoviesECB);
       break;
@@ -86,6 +89,7 @@ function loadMoreMovies() {
 }
 
 function loadMoreMoviesSCB(data) {
+  console.log(data);
   hideLoadingIndicator();
 
   if (!data || data.length === 0) {

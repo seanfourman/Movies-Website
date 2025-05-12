@@ -54,16 +54,6 @@ namespace IMDBTask.Controllers
             return Ok(movies);
         }
 
-        // GET: api/Movies/getRentedMovies/{id}
-        [HttpGet("getRentedMovies/{id}")]
-        public IEnumerable<RentedMovieDto> GetRentedMovies(int id)
-        {
-            // Need to come back to this later (***)
-            List<Movie> movies = Movie.ReadRentedMovies(id);
-            List<RentedMovieDto> rentedMovieDtos = movies.Select(movie => new RentedMovieDto(movie)).ToList();
-            return rentedMovieDtos;
-        }
-
         // GET: api/Movies/searchByTitle
         [HttpGet("searchByTitle")]
         public ActionResult<IEnumerable<Movie>> GetByTitle(string title, int offset = 0, int count = 20)
