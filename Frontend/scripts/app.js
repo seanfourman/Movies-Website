@@ -24,11 +24,11 @@ $(document).ready(function () {
     }
   }
 
-  const currentPage = window.location.pathname.split("/").pop();
+  const currentPage = window.location.pathname.split("/").pop().toLowerCase();
 
   if (currentPage === "index.html") {
     initHomePage();
-  } else if (currentPage === "myMovies.html") {
+  } else if (currentPage === "mymovies.html") {
     initMyMoviesPage();
   }
 

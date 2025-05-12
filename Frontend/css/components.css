@@ -75,7 +75,6 @@ a {
   height: 50px;
   background-color: var(--highlight);
   cursor: pointer;
-  opacity: 0.8;
   border-radius: 50%;
   transition: all 0.3s ease;
   z-index: 1000;
@@ -86,7 +85,7 @@ a {
 }
 
 #edit-button:hover {
-  background-color: #ffe563;
+  background-color: #e2bc00;
 }
 
 #edit-button.editing-active {

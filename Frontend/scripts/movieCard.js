@@ -64,7 +64,7 @@ function generateGenreTags(genres) {
 }
 
 function setupCardInteraction(movie, movieCard) {
-  const currentPage = window.location.pathname.split("/").pop();
+  const currentPage = window.location.pathname.split("/").pop().toLowerCase();
   const userData = localStorage.getItem("userData");
 
   movieCard.find(".movieCardImageContainer").hover(
@@ -90,10 +90,11 @@ function setupCardInteraction(movie, movieCard) {
             createPopupForm(movie);
           }
         });
-      } else if (currentPage === "myMovies.html") {
+      } else if (currentPage === "mymovies.html") {
         if (isEditingMode) {
-          $btn = $('<div class="add-button remove"><img id="rentingEdit" src="../sources/edit-icon.png" /></div>');
+          $btn = $('<div class="add-button remove"><span>✘</span></div>');
           $btn.on("click", function () {
+            // (***) Need to change to a return rentedMovie function
             deleteMovie(
               movie.id,
               function () {
@@ -108,20 +109,9 @@ function setupCardInteraction(movie, movieCard) {
             );
           });
         } else {
-          $btn = $('<div class="add-button remove"><span>✘</span></div>');
+          $btn = $('<div class="add-button remove"><img id="rentingEdit" src="../sources/transaction-icon.png" /></div>');
           $btn.on("click", function () {
-            deleteMovie(
-              movie.id,
-              function () {
-                const card = $btn.closest(".movieCard");
-                card.fadeOut(300, function () {
-                  card.remove();
-                  updateFooterPosition();
-                  getAllMovies(checkIfArrayIsNull, handleServerError);
-                });
-              },
-              handleServerError
-            );
+            //createUserSelectionPopup(movie); (***)
           });
         }
       }

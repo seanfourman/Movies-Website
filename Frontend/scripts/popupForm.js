@@ -59,7 +59,28 @@ function createPopupForm(movie) {
   const $startInput = addInput("Start Date", "date", "rentStart", formatDate(today));
   const $endInput = addInput("End Date", "date", "rentEnd", formatDate(nextWeek));
 
-  $form.append($("<h3>").addClass("price-info").text(`Rent Price: $${movie.priceToRent}`));
+  const $priceInfo = $("<h3>").addClass("price-info");
+  const $totalPriceSpan = $("<span>").addClass("total-price");
+
+  $priceInfo.append($totalPriceSpan);
+  $form.append($priceInfo);
+
+  function updatePrice() {
+    const startDate = $startInput.val();
+    const endDate = $endInput.val();
+
+    if (startDate && endDate) {
+      const days = calculateDaysBetween(startDate, endDate);
+      const totalPrice = (movie.priceToRent * days).toFixed(2);
+
+      $totalPriceSpan.text(`Total Price: $${totalPrice}`);
+    }
+  }
+
+  $startInput.on("change", updatePrice);
+  $endInput.on("change", updatePrice);
+
+  updatePrice();
 
   const $submit = $("<button>")
     .addClass("rent-submit")

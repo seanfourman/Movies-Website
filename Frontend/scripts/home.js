@@ -167,6 +167,7 @@ function triggerSearch() {
   }
 
   if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+    showNoMoviesMessage();
     return;
   }
 

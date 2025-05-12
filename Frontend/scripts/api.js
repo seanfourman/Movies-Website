@@ -1,6 +1,6 @@
 //const apiBaseUrl = "https://proj.ruppin.ac.il/cgroup7/test2/tar1/api";
-//const port = 5001;
-const port = 7268;
+const port = 5001;
+//const port = 7268;
 const apiBaseUrl = `https://localhost:${port}/api`;
 const moviesEndpoint = `${apiBaseUrl}/Movies`;
 const usersEndpoint = `${apiBaseUrl}/Users`;
@@ -61,7 +61,8 @@ function rentMovie(movieId, startDate, endDate, successCallback, errorCallback) 
     endDate: endDate
   };
 
-  //xsajaxCall("POST", `${moviesEndpoint}/rent`, JSON.stringify(rentalData), successCallback, errorCallback);
+  showPopup("Function is currently disabled", false);
+  //ajaxCall("POST", `${moviesEndpoint}/rent`, JSON.stringify(rentalData), successCallback, errorCallback);
 }
 
 function deleteMovie(movieId, successCallback, errorCallback) {
@@ -69,6 +70,11 @@ function deleteMovie(movieId, successCallback, errorCallback) {
 }
 
 // User API
+// (***) Pagination?
+function getAllUsers(successCallback, errorCallback) {
+  ajaxCall("GET", usersEndpoint, "", successCallback, errorCallback);
+}
+
 function registerUser(user, successCallback, errorCallback) {
   ajaxCall("POST", usersEndpoint, JSON.stringify(user), successCallback, errorCallback);
 }
