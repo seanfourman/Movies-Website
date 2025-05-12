@@ -210,7 +210,48 @@ namespace IMDBTask.Services
                 }
             }
         }
+        
+        public object GetUniqueLanguagesAndGenres()
+        {
+            SqlConnection con = null;
+            SqlCommand cmd;
 
+            try
+            {
+                con = Connect();
+                cmd = CreateCommandWithStoredProcedure("SP_GetUniqueLanguagesAndGenres", con, null);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<string> languages = new List<string>();
+                List<string> genres = new List<string>();
+                
+                while (reader.Read())
+                {
+                    languages.Add(reader["Language"].ToString());
+                }
+
+                if (reader.NextResult())
+                {
+                    while (reader.Read())
+                    {
+                        genres.Add(reader["Genre"].ToString());
+                    }
+                }
+
+                return new { Languages = languages, Genres = genres };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (con != null)
+                    con.Close();
+            }
+        }
+        
         public List<Movie> GetAllMovies()
         {
             SqlConnection con = null;

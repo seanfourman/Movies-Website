@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using IMDBTask.Services;
 
 namespace IMDBTask.Controllers
 {
@@ -23,7 +24,23 @@ namespace IMDBTask.Controllers
             return Movie.Read();
 
         }
-
+        
+        // GET: api/Movies/getUniqueLanguagesAndGenres
+        [HttpGet("getUniqueLanguagesAndGenres")]
+        public IActionResult GetUniqueLanguagesAndGenres()
+        {
+            try
+            {
+                DBservices db = new DBservices();
+                var result = db.GetUniqueLanguagesAndGenres();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        
         // GET: api/Movies/batch/{offset}/{count}
         [HttpGet("batch/{offset}/{count}")]
         public ActionResult<IEnumerable<Movie>> GetMoviesBatch(int offset, int count)

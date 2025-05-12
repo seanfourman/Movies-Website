@@ -10,8 +10,7 @@ let allowedGenres = [];
 $(document).ready(function () {
   if ($("#movieForm").length) {
     setupMovieFormValidation();
-    populateLanguagesList();
-    populateGenresList();
+    populateLanguageAndGenreLists();
   }
 
   $("#movieForm").on("submit", function (e) {
@@ -27,44 +26,29 @@ $(document).ready(function () {
   });
 });
 
-function populateLanguagesList() {
-  const languages = new Set();
+function populateLanguageAndGenreLists() {
+  getUniqueLanguagesAndGenres(
+    (data) => {
+      const languageList = $("#languageList");
+      const genresList = $("#genresList");
 
-  movies.forEach((movie) => {
-    if (movie.language) {
-      languages.add(movie.language.trim());
-    }
-  });
+      allowedLanguages = data.languages.sort();
+      allowedGenres = data.genres.sort();
 
-  allowedLanguages = [...languages].sort();
-
-  const languageList = $("#languageList");
-  languageList.empty();
-
-  allowedLanguages.forEach((language) => {
-    languageList.append(`<option value="${language}">`);
-  });
-}
-
-function populateGenresList() {
-  const genres = new Set();
-
-  movies.forEach((movie) => {
-    if (movie.genres && Array.isArray(movie.genres)) {
-      movie.genres.forEach((genre) => {
-        genres.add(genre.trim());
+      languageList.empty();
+      allowedLanguages.forEach((lang) => {
+        languageList.append(`<option value="${lang}">`);
       });
+
+      genresList.empty();
+      allowedGenres.forEach((genre) => {
+        genresList.append(`<option value="${genre}">`);
+      });
+    },
+    (err) => {
+      showPopup("Failed to load languages and genres", false);
     }
-  });
-
-  allowedGenres = [...genres].sort();
-
-  const genresList = $("#genresList");
-  genresList.empty();
-
-  allowedGenres.forEach((genre) => {
-    genresList.append(`<option value="${genre}">`);
-  });
+  );
 }
 
 // Validations

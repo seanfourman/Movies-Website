@@ -1,6 +1,6 @@
 //const apiBaseUrl = "https://proj.ruppin.ac.il/cgroup7/test2/tar1/api";
-const port = 5001;
-//const port = 7268;
+//const port = 5001;
+const port = 7268;
 const apiBaseUrl = `https://localhost:${port}/api`;
 const moviesEndpoint = `${apiBaseUrl}/Movies`;
 const usersEndpoint = `${apiBaseUrl}/Users`;
@@ -19,6 +19,10 @@ function ajaxCall(method, api, data, successCB, errorCB) {
 }
 
 // Movie API
+function getUniqueLanguagesAndGenres(successCallback, errorCallback) {
+  ajaxCall("GET", `${moviesEndpoint}/getUniqueLanguagesAndGenres`, null, successCallback, errorCallback);
+}
+
 function getAllMovies(successCallback, errorCallback) {
   ajaxCall("GET", moviesEndpoint, null, successCallback, errorCallback);
 }
