@@ -111,7 +111,8 @@ function setupCardInteraction(movie, movieCard) {
         } else {
           $btn = $('<div class="add-button remove"><img id="rentingEdit" src="../sources/transaction-icon.png" /></div>');
           $btn.on("click", function () {
-            //createUserSelectionPopup(movie); (***)
+            // (***)
+            showPopup("Function is currently disabled", false);
           });
         }
       }
