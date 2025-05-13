@@ -27,7 +27,7 @@ BEGIN
     FROM RentedMoviesTable AS RM
     INNER JOIN MoviesTable AS M ON RM.movieId = M.id
     WHERE RM.userId = @userId
-		  AND m.deletedAt IS NULL
+		  AND RM.deletedAt IS NULL
           AND DATEDIFF(DAY, GETDATE(), RM.rentEnd) >= 0;
 END
 GO

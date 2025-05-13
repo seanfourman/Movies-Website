@@ -318,3 +318,97 @@
     font-size: 16px;
   }
 }
+
+/* Movie delete popup */
+/* Confirmation Dialog Styles */
+.confirmation-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75); /* Darker overlay */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 10000; /* Ensure it's on top of everything */
+  display: none; /* Hidden by default */
+  justify-content: center;
+  align-items: center;
+  font-family: "Helvetica", "Arial", sans-serif; /* Consistent font */
+}
+
+.confirmation-dialog {
+  background-color: #ffffff; /* Card background color for consistency */
+  padding: 25px 30px;
+  border-radius: 12px; /* Softer corners */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+  width: 90%;
+  max-width: 400px; /* Max width for the dialog */
+  text-align: center;
+  animation: dialog-scale-up 0.3s ease-out forwards;
+  border: 1px solid #ddd; /* Subtle border */
+}
+
+@keyframes dialog-scale-up {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.confirmation-dialog-title {
+  font-size: 22px; /* Larger title */
+  font-weight: bold;
+  color: #333; /* Darker text for title */
+  margin-bottom: 15px;
+}
+
+.confirmation-dialog-message {
+  font-size: 16px;
+  color: #555; /* Slightly lighter text for message */
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.confirmation-dialog-buttons {
+  display: flex;
+  justify-content: center; /* Center buttons */
+  gap: 15px; /* Space between buttons */
+}
+
+.confirmation-dialog-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px; /* Consistent rounded buttons */
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  min-width: 120px; /* Minimum width for buttons */
+}
+
+.confirmation-dialog-btn.confirm-btn {
+  background-color: #e74c3c; /* Red for confirmation (destructive action) */
+  color: white;
+}
+
+.confirmation-dialog-btn.confirm-btn:hover {
+  background-color: #c0392b; /* Darker red on hover */
+}
+
+.confirmation-dialog-btn.cancel-btn {
+  background-color: #bdc3c7; /* Grey for cancel */
+  color: #333;
+}
+
+.confirmation-dialog-btn.cancel-btn:hover {
+  background-color: #95a5a6; /* Darker grey on hover */
+}
+
+.confirmation-dialog-btn:active {
+  transform: translateY(1px); /* Slight press effect */
+}

@@ -114,7 +114,7 @@ function createPopupForm(movie) {
           showPopup("Movie rented successfully!", true);
         },
         function (error) {
-          showPopup("Failed to rent movie. Please try again.", false);
+          showPopup("You can't rent the same movie twice", false);
         }
       );
     });

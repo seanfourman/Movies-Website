@@ -35,10 +35,8 @@ function toggleEditingMode() {
   if (isEditingMode) {
     $editButton.addClass("editing-active");
     $editButton.find("img").attr("src", "../sources/inEdit-icon.png");
-    console.log("Editing mode activated");
   } else {
     $editButton.removeClass("editing-active");
     $editButton.find("img").attr("src", "../sources/edit-icon.png");
-    console.log("Editing mode deactivated");
   }
 }

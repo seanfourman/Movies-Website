@@ -89,7 +89,6 @@ function loadMoreMovies() {
 }
 
 function loadMoreMoviesSCB(data) {
-  console.log(data);
   hideLoadingIndicator();
 
   if (!data || data.length === 0) {
@@ -223,11 +222,6 @@ function setupSearchTitlePlaceholder() {
       $(this).attr("placeholder", "Search");
     }
   });
-}
-
-function addRentedMovieToUser(userId, movie) {
-  // userId, movieId, rentStart, rentEnd, totalPrice
-  console.log(userId, movie);
 }
 
 function sendToServer(selectedMovie) {

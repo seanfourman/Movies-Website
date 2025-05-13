@@ -687,6 +687,36 @@ namespace IMDBTask.Services
                 }
             }
         }
+        
+        public int DeleteRentedMovie(int userId, int movieId)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd;
+
+            try
+            {
+                con = Connect();
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@userId", userId },
+                    { "@movieId", movieId }
+                };
+
+                cmd = CreateCommandWithStoredProcedure("SP_DeleteRentedMovie", con, parameters);
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
 
         private SqlCommand CreateCommandWithStoredProcedure(string spName, SqlConnection con, Dictionary<string, object> parameters)
         {

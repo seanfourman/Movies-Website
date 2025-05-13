@@ -79,39 +79,27 @@ function setupCardInteraction(movie, movieCard) {
       let $btn = null;
 
       if (currentPage === "index.html") {
-        //$btn = $('<div class="add-button"><span>❤</span></div>');
         $btn = $('<div class="add-button"><img id="cartIcon" src="../sources/cart-icon.png" /></div>');
-        $btn.on("click", function () {
+        $btn.on("click", function (e) {
+          e.stopPropagation();
           const userData = JSON.parse(localStorage.getItem("userData") || "{}");
           if (!userData.email) {
             window.location.href = "../html/signin.html";
           } else {
-            addRentedMovieToUser(userData.id, movie);
             createPopupForm(movie);
           }
         });
       } else if (currentPage === "mymovies.html") {
         if (isEditingMode) {
           $btn = $('<div class="add-button remove"><span>✘</span></div>');
-          $btn.on("click", function () {
-            // (***) Need to change to a return rentedMovie function
-            deleteMovie(
-              movie.id,
-              function () {
-                const card = $btn.closest(".movieCard");
-                card.fadeOut(300, function () {
-                  card.remove();
-                  updateFooterPosition();
-                  getAllMovies(checkIfArrayIsNull, handleServerError);
-                });
-              },
-              handleServerError
-            );
+          $btn.on("click", function (e) {
+            e.stopPropagation();
+            showReturnConfirmationDialog(movie, $(this).closest(".movieCard"));
           });
         } else {
           $btn = $('<div class="add-button remove"><img id="rentingEdit" src="../sources/transaction-icon.png" /></div>');
-          $btn.on("click", function () {
-            // (***)
+          $btn.on("click", function (e) {
+            e.stopPropagation();
             showPopup("Function is currently disabled", false);
           });
         }
@@ -119,23 +107,106 @@ function setupCardInteraction(movie, movieCard) {
 
       if ($btn) {
         $(this).append($btn);
-        $btn.fadeIn(500);
+        $btn.fadeIn(300);
       }
     },
     function () {
-      $(this).find("img").css({
-        filter: "none",
-        transform: "scale(1)"
-      });
-
-      $(this).find(".add-button").fadeOut(500);
+      if ($(".confirmation-dialog-overlay").length === 0) {
+        $(this).find("#movieCardImg").css({
+          filter: "none",
+          transform: "scale(1)"
+        });
+        $(this)
+          .find(".add-button")
+          .fadeOut(300, function () {
+            $(this).remove();
+          });
+      }
     }
   );
 }
 
+function showReturnConfirmationDialog(movie, movieCardElement) {
+  $(".confirmation-dialog-overlay").remove();
+
+  const dialogHTML = `
+    <div class="confirmation-dialog-overlay">
+      <div class="confirmation-dialog">
+        <p class="confirmation-dialog-title">Return Movie</p>
+        <p class="confirmation-dialog-message">Are you sure you want to return "${movie.primaryTitle}"?</p>
+        <div class="confirmation-dialog-buttons">
+          <button class="confirmation-dialog-btn confirm-btn">Yes, Return</button>
+          <button class="confirmation-dialog-btn cancel-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  $("body").append(dialogHTML);
+  const $dialogOverlay = $(".confirmation-dialog-overlay");
+  const $dialog = $(".confirmation-dialog");
+
+  $dialogOverlay.fadeIn(300);
+
+  $dialog.find(".confirm-btn").on("click", function () {
+    const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+    deleteRentedMovie(
+      userData.id,
+      movie.id,
+      function () {
+        movieCardElement.fadeOut(300, function () {
+          $(this).remove();
+          updateFooterPosition();
+          if (typeof getAllMovies === "function" && typeof checkIfArrayIsNull === "function" && typeof handleServerError === "function") {
+            getAllMovies(checkIfArrayIsNull, handleServerError);
+          }
+
+          const $imageContainer = movieCardElement.find(".movieCardImageContainer");
+          $imageContainer.find("img").css({ filter: "none", transform: "scale(1)" });
+          $imageContainer.find(".add-button").remove();
+        });
+        showPopup(`"${movie.primaryTitle}" has been returned.`, true);
+      },
+      function (error) {
+        handleServerError(error);
+        showPopup(`Failed to return "${movie.primaryTitle}". Please try again.`, false);
+      }
+    );
+    $dialogOverlay.fadeOut(300, function () {
+      $(this).remove();
+    });
+  });
+
+  $dialog.find(".cancel-btn").on("click", function () {
+    $dialogOverlay.fadeOut(300, function () {
+      $(this).remove();
+      const $imageContainer = movieCardElement.find(".movieCardImageContainer");
+      $imageContainer.find("img").css({ filter: "none", transform: "scale(1)" });
+      $imageContainer.find(".add-button").fadeOut(300, function () {
+        $(this).remove();
+      });
+    });
+  });
+
+  $dialogOverlay.on("click", function (event) {
+    if ($(event.target).is($dialogOverlay)) {
+      $dialogOverlay.fadeOut(300, function () {
+        $(this).remove();
+        const $imageContainer = movieCardElement.find(".movieCardImageContainer");
+        $imageContainer.find("img").css({ filter: "none", transform: "scale(1)" });
+        $imageContainer.find(".add-button").fadeOut(300, function () {
+          $(this).remove();
+        });
+      });
+    }
+  });
+}
+
 function checkIfArrayIsNull(res) {
   if (res.length === 0) {
-    return showNoMoviesMessage();
+    if (typeof showNoMoviesMessage === "function") {
+      return showNoMoviesMessage();
+    }
   }
 }
 
@@ -151,23 +222,27 @@ function updateRatingBackground() {
 }
 
 function enableDragScroll() {
-  const $el = $(".movieCardTextTags");
-  let isDown = false;
-  let startX, scrollLeft;
+  $("container").on("mousedown", ".movieCardTextTags", function (e) {
+    const $el = $(this);
+    let isDown = true;
+    let startX = e.pageX - $el.offset().left;
+    let scrollLeft = $el.scrollLeft();
+    $el.addClass("grabbing");
 
-  $el.on("mousedown", function (e) {
-    isDown = true;
-    startX = e.pageX;
-    scrollLeft = this.scrollLeft;
-  });
-
-  $(document).on("mouseup", function () {
-    isDown = false;
-  });
-
-  $el.on("mousemove", function (e) {
-    if (!isDown) return;
-    e.preventDefault();
-    this.scrollLeft = scrollLeft - (e.pageX - startX);
+    $(document)
+      .on("mousemove.dragScroll", function (ev) {
+        if (!isDown) return;
+        ev.preventDefault();
+        const x = ev.pageX - $el.offset().left;
+        const walk = (x - startX) * 2;
+        $el.scrollLeft(scrollLeft - walk);
+      })
+      .on("mouseup.dragScroll", function () {
+        if (isDown) {
+          isDown = false;
+          $el.removeClass("grabbing");
+          $(document).off("mousemove.dragScroll mouseup.dragScroll");
+        }
+      });
   });
 }
