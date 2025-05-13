@@ -23,7 +23,14 @@ namespace IMDBTask.Controllers
         {
             return Movie.GetRentedMoviesById(id);
         }
-        
+
+        // PUT: api/RentedMovie/{id}
+        [HttpPut("{userId}")]
+        public int Put([FromBody] RentedMovie rentedMovie, int userId)
+        {
+            return rentedMovie.Update(userId, rentedMovie);
+        }
+
         // DELETE api/RentedMovies/userId/{userId}/movieId/{movieId}
         [HttpDelete("userId/{userId}/movieId/{movieId}")]
         public int Delete(int userId, int movieId)
@@ -31,13 +38,5 @@ namespace IMDBTask.Controllers
             RentedMovie rentedMovie = new RentedMovie();
             return rentedMovie.Delete(userId, movieId);
         }
-
-        /*
-        // PUT: api/RentedMovie/{id}
-        [HttpPut("{id}")]
-        public int Put(int id, [FromBody] RentedMovie rentedMovie)
-        {
-            return rentedMovie.Update(id);
-        }*/
     }
 }

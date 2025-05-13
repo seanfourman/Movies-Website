@@ -27,7 +27,9 @@ function showPopup(message, isSuccess) {
     $popup.remove();
   }
 
-  $popup = $("<div></div>").attr("id", "popup").addClass("popup").text(message);
+  $popup = $("<div></div>").attr("id", "popup").addClass("popup").text(message).css({
+    "z-index": "10001"
+  });
 
   if (isSuccess === true) {
     $popup.addClass("success");

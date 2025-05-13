@@ -93,10 +93,15 @@ function loadMoreMoviesSCB(data) {
 
   if (!data || data.length === 0) {
     hasMoreMovies = false;
-    if (currentOffset === 0) {
+    if (currentOffset === 0 || data.length === 0) {
       showNoMoviesMessage();
     }
   } else {
+    const currentPage = window.location.pathname.split("/").pop().toLowerCase();
+    if (currentPage === "mymovies.html") {
+      addEditButton();
+    }
+
     for (let movie of data) {
       if (movie.genres) {
         if (typeof movie.genres === "string") {

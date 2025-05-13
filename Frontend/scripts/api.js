@@ -71,6 +71,10 @@ function getRentedMovies(successCallback, errorCallback) {
   ajaxCall("GET", `${rentedMoviesEndpoint}/getRentedMoviesById/${userId}`, null, successCallback, errorCallback);
 }
 
+function transferRentedMovie(userId, rentedMovie, successCallback, errorCallback) {
+  ajaxCall("PUT", `${rentedMoviesEndpoint}/${userId}`, JSON.stringify(rentedMovie), successCallback, errorCallback);
+}
+
 function deleteRentedMovie(userId, movieId, successCallback, errorCallback) {
   ajaxCall("DELETE", `${rentedMoviesEndpoint}/userId/${userId}/movieId/${movieId}`, null, successCallback, errorCallback);
 }

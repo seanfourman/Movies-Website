@@ -3,7 +3,6 @@ let isEditingMode = false;
 function initMyMoviesPage() {
   currentSearchMode = "rentedMovie";
   loadMoreMovies();
-  addEditButton();
 }
 
 function readSCB(res) {}

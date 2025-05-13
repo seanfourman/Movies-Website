@@ -196,3 +196,9 @@ footer.relative {
     transform: scaleX(1);
   }
 }
+
+/* JQuery Table */
+tbody * {
+  color: black;
+  font-family: "Helvetica", "Arial", sans-serif;
+}

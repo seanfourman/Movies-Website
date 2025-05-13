@@ -29,7 +29,13 @@ namespace IMDBTask.Models
             DBservices dbs = new DBservices();
             return dbs.InsertRentedMovie(this);
         }
-        
+
+        public int Update(int userId, RentedMovie rentedMovie)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.UpdateRentedMovie(userId, rentedMovie);
+        }
+
         public int Delete(int userId, int movieId)
         {
             DBservices dbs = new DBservices();
