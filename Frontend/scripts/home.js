@@ -123,7 +123,7 @@ function loadMoreMoviesSCB(data) {
 function loadMoreMoviesECB(error) {
   hideLoadingIndicator();
   isLoading = false;
-  showPopup("Failed to load movies. Please try again later.", false);
+  showPopup("Failed to load movies. Please try again later", false);
   showNoMoviesMessage();
 }
 
@@ -208,7 +208,7 @@ function successCB(res) {
 }
 
 function errorCB() {
-  showPopup("Failed to reach server. Please try again later!", false);
+  showPopup("Failed to reach server. Please try again later", false);
   showNoMoviesMessage();
 }
 
@@ -256,5 +256,5 @@ function sendToServer(selectedMovie) {
 }
 
 function handleServerError() {
-  showPopup("Failed to reach server. Please try again later!", false);
+  showPopup("Failed to reach server. Please try again later", false);
 }

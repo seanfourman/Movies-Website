@@ -21,7 +21,7 @@ $(document).ready(function () {
       $("#submitButton").val("wait a sec...").prop("disabled", true);
       submitMovieForm();
     } else {
-      showPopup("Required fields are missing from the form.", false);
+      showPopup("Required fields are missing from the form", false);
     }
   });
 });

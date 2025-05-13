@@ -118,12 +118,12 @@ function registerCBSuccess(response) {
   $("#submitButton").val("Sign up").prop("disabled", false);
 
   if (response === false) {
-    showPopup("Registration failed. Email is already in use.", false);
+    showPopup("Registration failed. Email is already in use", false);
     return;
   }
 
   $("#signupForm")[0].reset();
-  showPopup("Registration successful! You can now log in.", true);
+  showPopup("Registration successful! You can now log in", true);
   setTimeout(function () {
     window.location.href = "../html/signin.html";
   }, 2000);
@@ -137,9 +137,9 @@ function registerCBError(xhr, status) {
   if (xhr.responseJSON) {
     errorMessage += xhr.responseJSON.message || xhr.responseJSON.title || "Server error";
   } else if (xhr.status === 0) {
-    errorMessage = "Cannot connect to server. Please check your internet connection.";
+    errorMessage = "Cannot connect to server. Please check your internet connection";
   } else if (xhr.status === 500) {
-    errorMessage = "Email address is already taken.";
+    errorMessage = "Email address is already taken";
   } else {
     errorMessage += status;
   }
@@ -162,7 +162,7 @@ function loginCBSuccess(response) {
   $("#submitButton").val("Sign in").prop("disabled", false);
 
   if (response === false) {
-    showPopup("Login failed. Invalid email or password.", false);
+    showPopup("Login failed. Invalid email or password", false);
     return;
   }
 
@@ -189,13 +189,18 @@ function loginCBError(xhr, status) {
   if (xhr.responseJSON) {
     errorMessage += xhr.responseJSON.message || xhr.responseJSON.title || "Server error";
   } else if (xhr.status === 0) {
-    errorMessage = "Cannot connect to server. Please check your internet connection.";
-  } else if (xhr.status === 401) {
-    errorMessage = "Login failed. Invalid email or password.";
+    errorMessage = "Cannot connect to server. Please check your internet connection";
   } else {
     errorMessage += status;
   }
 
+  if (xhr.responseText === "Inactive users are not allowed to login") {
+    showPopup(xhr.responseText, false);
+    return;
+  } else if (xhr.responseText === "Invalid email or password") {
+    showPopup(xhr.responseText, false);
+    return;
+  }
   showPopup(errorMessage, false);
 }
 
@@ -221,7 +226,7 @@ function editCBSuccess(response) {
   $("#submitButton").val("Save").prop("disabled", false);
 
   if (response === false) {
-    showPopup("Failed to update profile. Please try again later.", false);
+    showPopup("Failed to update profile. Please try again later", false);
     return;
   }
 
@@ -236,7 +241,7 @@ function editCBSuccess(response) {
   localStorage.setItem("userData", JSON.stringify(userData));
 
   $("#myProfileForm")[0].reset();
-  showPopup("Your profile has been successfully updated.", true);
+  showPopup("Your profile has been successfully updated", true);
   setTimeout(function () {
     window.location.href = "../html/myProfile.html";
   }, 2000);

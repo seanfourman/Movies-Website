@@ -22,6 +22,9 @@ namespace IMDBTask.Controllers
             var user = Models.User.Login(credentials.Email, credentials.Password);
             if (user == null)
                 return Unauthorized("Invalid email or password");
+
+            if (user.Active == false)
+                return Unauthorized("Inactive users are not allowed to login");
             return Ok(new UserDto(user));
         }
 

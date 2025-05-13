@@ -167,11 +167,11 @@ function showReturnConfirmationDialog(movie, movieCardElement) {
           $imageContainer.find("img").css({ filter: "none", transform: "scale(1)" });
           $imageContainer.find(".add-button").remove();
         });
-        showPopup(`"${movie.primaryTitle}" has been returned.`, true);
+        showPopup(`"${movie.primaryTitle}" has been returned`, true);
       },
       function (error) {
         handleServerError(error);
-        showPopup(`Failed to return "${movie.primaryTitle}". Please try again.`, false);
+        showPopup(`Failed to return "${movie.primaryTitle}". Please try again`, false);
       }
     );
     $dialogOverlay.fadeOut(300, function () {

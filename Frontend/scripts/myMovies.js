@@ -9,7 +9,7 @@ function initMyMoviesPage() {
 function readSCB(res) {}
 
 function readECB() {
-  showPopup("Failed to reach server. Please try again later!", false);
+  showPopup("Failed to reach server. Please try again later", false);
   showNoMoviesMessage();
 }
 
