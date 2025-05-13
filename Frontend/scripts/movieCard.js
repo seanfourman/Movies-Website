@@ -133,7 +133,7 @@ function showReturnConfirmationDialog(movie, movieCardElement) {
     <div class="confirmation-dialog-overlay">
       <div class="confirmation-dialog">
         <p class="confirmation-dialog-title">Return Movie</p>
-        <p class="confirmation-dialog-message">Are you sure you want to return<br>"${movie.primaryTitle}"?</p>
+        <p class="confirmation-dialog-message">Are you sure you want to return<br><strong>"${movie.primaryTitle}"?</p>
         <div class="confirmation-dialog-buttons">
           <button class="confirmation-dialog-btn confirm-btn">Return</button>
           <button class="confirmation-dialog-btn cancel-btn">Cancel</button>
