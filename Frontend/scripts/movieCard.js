@@ -269,7 +269,7 @@ function showUserSelectionDataTable(movie) {
             <table id="usersDataTable" class="display responsive nowrap" style="width:100%">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th style="display:none;">ID</th>
                   <th>Name</th>
                   <th>Email</th>
                   <th>Action</th>
@@ -289,10 +289,15 @@ function showUserSelectionDataTable(movie) {
 
   $(".user-selection-overlay").fadeIn(300);
 
+  const currentUser = JSON.parse(localStorage.getItem("userData") || "{}");
+  const currentUserId = currentUser.id;
+
   const dataTable = $("#usersDataTable").DataTable({
     ajax: {
       url: usersEndpoint,
-      dataSrc: "",
+      dataSrc: function (json) {
+        return json.filter((user) => user.id !== currentUserId);
+      },
       error: function (xhr, error, thrown) {
         showPopup("Error loading users: " + thrown, false);
         $(".user-selection-overlay").fadeOut(300, function () {
@@ -302,7 +307,7 @@ function showUserSelectionDataTable(movie) {
       }
     },
     columns: [
-      { data: "id" },
+      { data: "id", visible: false },
       { data: "name" },
       { data: "email" },
       {
@@ -315,7 +320,7 @@ function showUserSelectionDataTable(movie) {
     dom: "Bfrtip",
     language: {
       search: "Search users:",
-      emptyTable: "No users available"
+      emptyTable: "No other users available"
     },
     order: [[1, "asc"]],
     pageLength: 5,
@@ -404,7 +409,7 @@ function showTransferConfirmation(movie, receiverData) {
           $(this).remove();
         });
         handleServerError(error);
-        showPopup(`Failed to transfer "${movie.primaryTitle}". User already rented this movie!`, false);
+        showPopup(`Failed to transfer "${movie.primaryTitle}". User is already renting this movie!`, false);
       }
     );
   });

@@ -566,6 +566,10 @@
   border-color: #3498db;
 }
 
+.odd {
+  background-color: #f1f1f1 !important;
+}
+
 @media screen and (max-width: 767px) {
   .user-selection-dialog {
     width: 95%;
