@@ -133,15 +133,16 @@ function showReturnConfirmationDialog(movie, movieCardElement) {
     <div class="confirmation-dialog-overlay">
       <div class="confirmation-dialog">
         <p class="confirmation-dialog-title">Return Movie</p>
-        <p class="confirmation-dialog-message">Are you sure you want to return "${movie.primaryTitle}"?</p>
+        <p class="confirmation-dialog-message">Are you sure you want to return<br>"${movie.primaryTitle}"?</p>
         <div class="confirmation-dialog-buttons">
-          <button class="confirmation-dialog-btn confirm-btn">Yes, Return</button>
+          <button class="confirmation-dialog-btn confirm-btn">Return</button>
           <button class="confirmation-dialog-btn cancel-btn">Cancel</button>
         </div>
       </div>
     </div>
   `;
 
+  preventBodyScroll();
   $("body").append(dialogHTML);
   const $dialogOverlay = $(".confirmation-dialog-overlay");
   const $dialog = $(".confirmation-dialog");
@@ -156,6 +157,7 @@ function showReturnConfirmationDialog(movie, movieCardElement) {
       function () {
         movieCardElement.fadeOut(300, function () {
           $(this).remove();
+          enableBodyScroll();
           updateFooterPosition();
           if (typeof getAllMovies === "function" && typeof checkIfArrayIsNull === "function" && typeof handleServerError === "function") {
             getAllMovies(checkIfArrayIsNull, handleServerError);
@@ -174,6 +176,7 @@ function showReturnConfirmationDialog(movie, movieCardElement) {
     );
     $dialogOverlay.fadeOut(300, function () {
       $(this).remove();
+      enableBodyScroll();
     });
   });
 
@@ -184,6 +187,7 @@ function showReturnConfirmationDialog(movie, movieCardElement) {
       $imageContainer.find("img").css({ filter: "none", transform: "scale(1)" });
       $imageContainer.find(".add-button").fadeOut(300, function () {
         $(this).remove();
+        enableBodyScroll();
       });
     });
   });
@@ -196,6 +200,7 @@ function showReturnConfirmationDialog(movie, movieCardElement) {
         $imageContainer.find("img").css({ filter: "none", transform: "scale(1)" });
         $imageContainer.find(".add-button").fadeOut(300, function () {
           $(this).remove();
+          enableBodyScroll();
         });
       });
     }
