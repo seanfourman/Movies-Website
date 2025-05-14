@@ -202,8 +202,12 @@ function showResetMoviesConfirmation() {
   $(".confirm-btn.danger-confirm").on("click", function () {
     resetMovieDatabase(
       function (result) {
+        // Show initial popup that database was reset
+        showPopup("Movie database has been reset successfully. Adding movies...", true);
+
+        // Start adding movies with counter tracking
         sendMoviesToServer();
-        showPopup("Movie database has been reset successfully", true);
+
         $(".confirmation-dialog-overlay").fadeOut(300, function () {
           $(this).remove();
         });
@@ -227,6 +231,20 @@ function showResetMoviesConfirmation() {
 }
 
 function sendMoviesToServer() {
+  let totalMovies = movies.length;
+  let successCount = 0;
+  let errorCount = 0;
+
+  function checkCompletion() {
+    if (successCount + errorCount === totalMovies) {
+      if (errorCount === 0) {
+        showPopup(`Database restore complete! ${successCount} movies added successfully.`, true);
+      } else {
+        showPopup(`Database restore completed with issues. ${successCount} movies added successfully, ${errorCount} failed.`, false);
+      }
+    }
+  }
+
   movies.forEach((movie) => {
     const movieData = {
       primaryTitle: movie.primaryTitle,
@@ -247,8 +265,23 @@ function sendMoviesToServer() {
 
     addMovie(
       movieData,
-      (response) => console.log("added movie" + response),
-      (error) => console.error("error" + error)
+      (response) => {
+        successCount++;
+        if (
+          successCount % 10 === 0 ||
+          successCount === Math.floor(totalMovies * 0.25) ||
+          successCount === Math.floor(totalMovies * 0.5) ||
+          successCount === Math.floor(totalMovies * 0.75)
+        ) {
+          showPopup(`Adding movies: ${successCount}/${totalMovies} complete...`, true);
+        }
+        checkCompletion();
+      },
+      (error) => {
+        errorCount++;
+        console.error(`Error adding movie "${movie.primaryTitle}": ${error}`);
+        checkCompletion();
+      }
     );
   });
 }
