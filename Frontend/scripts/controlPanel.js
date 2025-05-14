@@ -95,11 +95,9 @@ function showUserActionConfirmation(userData, dataTable) {
 
   $("body").append(confirmHTML);
 
-  // Handle confirm button click
   $(".confirm-btn").on("click", function () {
     toggleUserActiveStatus(userData.id, !isActive, function (success) {
       if (success) {
-        // Update the data and redraw the row
         userData.active = !isActive;
 
         const rowIndex = dataTable
@@ -118,14 +116,12 @@ function showUserActionConfirmation(userData, dataTable) {
         showPopup(`Failed to ${action} user "${userData.name}"`, false);
       }
 
-      // Close dialog
       $(".confirmation-dialog-overlay").fadeOut(300, function () {
         $(this).remove();
       });
     });
   });
 
-  // Handle cancel button click
   $(".cancel-btn, .confirmation-dialog-overlay").on("click", function (e) {
     if ($(e.target).is(".cancel-btn") || $(e.target).is(".confirmation-dialog-overlay")) {
       $(".confirmation-dialog-overlay").fadeOut(300, function () {
@@ -136,7 +132,6 @@ function showUserActionConfirmation(userData, dataTable) {
 }
 
 function toggleUserActiveStatus(userId, newActiveStatus, callback) {
-  // Get the user's full data first
   getUserDetails(
     userId,
     function (userFullData) {
