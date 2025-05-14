@@ -96,7 +96,7 @@ function showUserActionConfirmation(userData, dataTable) {
   $("body").append(confirmHTML);
 
   $(".confirm-btn").on("click", function () {
-    toggleUserActiveStatus(userData.id, !isActive, function (success) {
+    toggleUserActiveStatus(userData, !isActive, function (success) {
       if (success) {
         userData.active = !isActive;
 
@@ -131,11 +131,25 @@ function showUserActionConfirmation(userData, dataTable) {
   });
 }
 
-function toggleUserActiveStatus(userId, newActiveStatus, callback) {
+function toggleUserActiveStatus(userData, newActiveStatus, callback) {
+  /*
+  function editUser(user, id, successCallback, errorCallback) {
+  ajaxCall("PUT", `${usersEndpoint}/${id}`, JSON.stringify(user), successCallback, errorCallback);
+  }
+  */
+  console.log(userData);
+  const user = {
+    Name: userData.name,
+    Email: userData.email,
+    Password: userData.password,
+    Active: newActiveStatus,
+    isAdmin: userData.isActive
+  };
+
+  //editUser(userId);
   getUserDetails(
     userId,
     function (userFullData) {
-      // Update the active status
       userFullData.active = newActiveStatus;
 
       // Use the editUser function to update the user
