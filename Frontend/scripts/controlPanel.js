@@ -3,6 +3,9 @@ $(document).ready(function () {
 });
 
 function loadUsersDataTable() {
+  const currentUserData = JSON.parse(localStorage.getItem("userData") || "{}");
+  const currentUserId = currentUserData.id;
+
   const dataTable = $("#usersDataTable").DataTable({
     ajax: {
       url: usersEndpoint,
@@ -34,9 +37,22 @@ function loadUsersDataTable() {
       {
         data: null,
         render: function (data, type, row) {
-          const buttonClass = row.active ? "" : "activate";
-          const buttonText = row.active ? "Deactivate" : "Activate";
-          return `<button class="action-btn ${buttonClass}" data-user-id="${row.id}">${buttonText}</button>`;
+          if (row.id === currentUserId) {
+            return `<button class="action-btn" disabled>Self</button>`;
+          }
+
+          const activeButtonClass = row.active ? "" : "activate";
+          const activeButtonText = row.active ? "Deactivate" : "Activate";
+
+          const adminButtonClass = row.isAdmin ? "" : "activate";
+          const adminButtonText = row.isAdmin ? "Remove Admin" : "Make Admin";
+
+          return `
+            <div class="action-buttons">
+              <button class="action-btn ${activeButtonClass}" data-action="active" data-user-id="${row.id}">${activeButtonText}</button>
+              <button class="action-btn admin-btn ${adminButtonClass}" data-action="admin" data-user-id="${row.id}">${adminButtonText}</button>
+            </div>
+          `;
         },
         orderable: false
       }
@@ -58,7 +74,7 @@ function loadUsersDataTable() {
     }
   });
 
-  $("#usersDataTable").on("click", ".action-btn", function () {
+  $("#usersDataTable").on("click", ".action-btn:not([disabled])", function () {
     const $tr = $(this).closest("tr");
     let row = dataTable.row($tr);
 
@@ -68,14 +84,26 @@ function loadUsersDataTable() {
     }
 
     const userData = row.data();
-    showUserActionConfirmation(userData, dataTable);
+    const actionType = $(this).data("action") || "active";
+
+    showUserActionConfirmation(userData, dataTable, actionType);
   });
 }
 
-function showUserActionConfirmation(userData, dataTable) {
-  const isActive = userData.active;
-  const action = isActive ? "deactivate" : "activate";
-  const actionDisplay = isActive ? "Deactivate" : "Activate";
+function showUserActionConfirmation(userData, dataTable, actionType) {
+  let isCurrentValue, action, actionDisplay, attributeType;
+
+  if (actionType === "admin") {
+    isCurrentValue = userData.isAdmin;
+    attributeType = "Admin";
+    action = isCurrentValue ? "removeAdmin" : "setAdmin";
+    actionDisplay = isCurrentValue ? "Remove Admin" : "Make Admin";
+  } else {
+    isCurrentValue = userData.active;
+    attributeType = "Active";
+    action = isCurrentValue ? "deactivate" : "activate";
+    actionDisplay = isCurrentValue ? "Deactivate" : "Activate";
+  }
 
   const confirmHTML = `
     <div class="confirmation-dialog-overlay">
@@ -86,7 +114,7 @@ function showUserActionConfirmation(userData, dataTable) {
           <strong>${userData.name}</strong> (${userData.email})?
         </p>
         <div class="confirmation-dialog-buttons">
-          <button class="confirmation-dialog-btn confirm-btn ${!isActive ? "activate" : ""}">${actionDisplay}</button>
+          <button class="confirmation-dialog-btn confirm-btn ${!isCurrentValue ? "activate" : ""}">${actionDisplay}</button>
           <button class="confirmation-dialog-btn cancel-btn">Cancel</button>
         </div>
       </div>
@@ -96,9 +124,16 @@ function showUserActionConfirmation(userData, dataTable) {
   $("body").append(confirmHTML);
 
   $(".confirm-btn").on("click", function () {
-    toggleUserActiveStatus(userData, !isActive, function (success) {
-      if (success) {
-        userData.active = !isActive;
+    setUserAttribute(
+      userData.email,
+      attributeType,
+      !isCurrentValue,
+      function (result) {
+        if (actionType === "admin") {
+          userData.isAdmin = !isCurrentValue;
+        } else {
+          userData.active = !isCurrentValue;
+        }
 
         const rowIndex = dataTable
           .rows()
@@ -110,16 +145,26 @@ function showUserActionConfirmation(userData, dataTable) {
         if (rowIndex.length > 0) {
           dataTable.row(rowIndex[0]).data(userData).draw();
         }
+        if (action === "setAdmin") {
+          showPopup(`User "${userData.name}" has been granted admin privileges`, true);
+        } else if (action === "removeAdmin") {
+          showPopup(`Admin privileges have been revoked from user "${userData.name}"`, true);
+        } else {
+          showPopup(`User "${userData.name}" has been ${action}d`, true);
+        }
 
-        showPopup(`User "${userData.name}" has been ${action}d successfully`, true);
-      } else {
+        $(".confirmation-dialog-overlay").fadeOut(300, function () {
+          $(this).remove();
+        });
+      },
+      function (error) {
         showPopup(`Failed to ${action} user "${userData.name}"`, false);
-      }
 
-      $(".confirmation-dialog-overlay").fadeOut(300, function () {
-        $(this).remove();
-      });
-    });
+        $(".confirmation-dialog-overlay").fadeOut(300, function () {
+          $(this).remove();
+        });
+      }
+    );
   });
 
   $(".cancel-btn, .confirmation-dialog-overlay").on("click", function (e) {
@@ -129,18 +174,4 @@ function showUserActionConfirmation(userData, dataTable) {
       });
     }
   });
-}
-
-function toggleUserActiveStatus(userData, newActiveStatus, callback) {
-  setUserAttribute(
-    userData.email,
-    "Active",
-    newActiveStatus,
-    function (result) {
-      callback(true);
-    },
-    function (error) {
-      callback(false);
-    }
-  );
 }

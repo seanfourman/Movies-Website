@@ -180,7 +180,7 @@ function logout() {
   localStorage.removeItem("welcomeMessage");
 
   updateDropdownContent(false);
-  showPopup("You have been logged out successfully", true);
+  showPopup("You have been logged out", true);
   setTimeout(function () {
     window.location.href = "./index.html";
   }, 1500);
