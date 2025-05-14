@@ -96,3 +96,12 @@ function editUser(user, id, successCallback, errorCallback) {
 function loginUser(credentials, successCallback, errorCallback) {
   ajaxCall("POST", `${usersEndpoint}/login`, JSON.stringify(credentials), successCallback, errorCallback);
 }
+
+function setUserAttribute(email, attributeType, value, successCallback, errorCallback) {
+  const attributeData = {
+    isAdmin: attributeType === "Admin" ? value : false,
+    Active: attributeType === "Active" ? value : false,
+    AttributeType: attributeType
+  };
+  ajaxCall("PUT", `${usersEndpoint}/setUserAttribute/${email}`, JSON.stringify(attributeData), successCallback, errorCallback);
+}

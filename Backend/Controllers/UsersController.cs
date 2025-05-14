@@ -48,13 +48,13 @@ namespace IMDBTask.Controllers
             return Ok(new UserDto(updatedUser));
         }
 
-        // PUT api/Users/setAdmin/{email}
-        [HttpPut("setAdmin/{email}")]
-        public ActionResult<bool> SetAdmin([FromBody] SetAdminDto dto, string email)
+        // PUT api/Users/setUserAttribute/{email}
+        [HttpPut("setUserAttribute/{email}")]
+        public ActionResult<bool> SetUserAttribute([FromBody] SetUserAttributeDto dto, string email)
         {
-            User user = new User { isAdmin = dto.isAdmin };
+            User user = new User { isAdmin = dto.isAdmin, Active = dto.Active };
 
-            bool success = user.setAdmin(email.ToLower());
+            bool success = user.SetUserAttribute(email.ToLower(), dto.AttributeType);
 
             if (!success)
             {
@@ -99,8 +99,10 @@ namespace IMDBTask.Controllers
         public string Password { get; set; }
     }
 
-    public class SetAdminDto
+    public class SetUserAttributeDto
     {
         public bool isAdmin { get; set; }
+        public bool Active { get; set; }
+        public string AttributeType { get; set; }
     }
 }

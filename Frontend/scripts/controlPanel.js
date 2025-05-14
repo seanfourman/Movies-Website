@@ -132,47 +132,14 @@ function showUserActionConfirmation(userData, dataTable) {
 }
 
 function toggleUserActiveStatus(userData, newActiveStatus, callback) {
-  /*
-  function editUser(user, id, successCallback, errorCallback) {
-  ajaxCall("PUT", `${usersEndpoint}/${id}`, JSON.stringify(user), successCallback, errorCallback);
-  }
-  */
-  console.log(userData);
-  const user = {
-    Name: userData.name,
-    Email: userData.email,
-    Password: userData.password,
-    Active: newActiveStatus,
-    isAdmin: userData.isActive
-  };
-
-  //editUser(userId);
-  getUserDetails(
-    userId,
-    function (userFullData) {
-      userFullData.active = newActiveStatus;
-
-      // Use the editUser function to update the user
-      editUser(
-        userFullData,
-        userId,
-        function (response) {
-          // Success callback
-          callback(true);
-        },
-        function (error) {
-          // Error callback
-          console.error("Error updating user:", error);
-
-          // For demo purposes, simulate success
-          console.log("Simulating successful update for development");
-          callback(true);
-        }
-      );
+  setUserAttribute(
+    userData.email,
+    "Active",
+    newActiveStatus,
+    function (result) {
+      callback(true);
     },
     function (error) {
-      console.error("Error getting user details:", error);
-      showPopup("Failed to get user details", false);
       callback(false);
     }
   );

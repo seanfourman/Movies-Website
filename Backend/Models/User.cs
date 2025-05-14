@@ -54,14 +54,17 @@ namespace IMDBTask.Models
             return this;
         }
 
-        public bool setAdmin(string email)
+        public bool SetUserAttribute(string email, string attributeType)
         {
             DBservices dbs = new DBservices();
             var account = dbs.GetUserByEmail(email);
             if (account == null)
                 return false;
 
-            account.isAdmin = this.isAdmin;
+            if (attributeType == "Admin")
+                account.isAdmin = this.isAdmin;
+            else if (attributeType == "Active")
+                account.Active = this.Active;
 
             int result = dbs.UpdateUser(account, account.Id);
             return true;
