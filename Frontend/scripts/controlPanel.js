@@ -1,5 +1,9 @@
 $(document).ready(function () {
   loadUsersDataTable();
+
+  $("#resetMoviesBtn").on("click", function () {
+    showResetMoviesConfirmation();
+  });
 });
 
 function loadUsersDataTable() {
@@ -165,6 +169,44 @@ function showUserActionConfirmation(userData, dataTable, actionType) {
         });
       }
     );
+  });
+
+  $(".cancel-btn, .confirmation-dialog-overlay").on("click", function (e) {
+    if ($(e.target).is(".cancel-btn") || $(e.target).is(".confirmation-dialog-overlay")) {
+      $(".confirmation-dialog-overlay").fadeOut(300, function () {
+        $(this).remove();
+      });
+    }
+  });
+}
+
+function showResetMoviesConfirmation() {
+  const confirmHTML = `
+    <div class="confirmation-dialog-overlay">
+      <div class="confirmation-dialog danger-dialog">
+        <p class="confirmation-dialog-title">Dangerous Action</p>
+        <p class="confirmation-dialog-message">
+          Are you sure you want to restore <strong>ALL Movies</strong><br>back to default from the database?<br>
+          <span class="danger-warning">This action cannot be undone</span>
+        </p>
+        <div class="confirmation-dialog-buttons">
+          <button class="confirmation-dialog-btn confirm-btn danger-confirm">Restore All Movies</button>
+          <button class="confirmation-dialog-btn cancel-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  $("body").append(confirmHTML);
+
+  $(".confirm-btn.danger-confirm").on("click", function () {
+    // This is where you'll add your AJAX call to reset movies
+    // For now, just show a success message
+    showPopup("Movie database has been reset", true);
+
+    $(".confirmation-dialog-overlay").fadeOut(300, function () {
+      $(this).remove();
+    });
   });
 
   $(".cancel-btn, .confirmation-dialog-overlay").on("click", function (e) {
