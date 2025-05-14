@@ -38,7 +38,7 @@ function loadUsersDataTable() {
         data: null,
         render: function (data, type, row) {
           if (row.id === currentUserId) {
-            return `<button class="action-btn" disabled>Self</button>`;
+            return `<button class="action-btn self-btn" disabled>Self</button>`;
           }
 
           const activeButtonClass = row.active ? "" : "activate";
