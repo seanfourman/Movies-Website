@@ -105,3 +105,8 @@ function setUserAttribute(email, attributeType, value, successCallback, errorCal
   };
   ajaxCall("PUT", `${usersEndpoint}/setUserAttribute/${email}`, JSON.stringify(attributeData), successCallback, errorCallback);
 }
+
+// Database
+function resetMovieDatabase(successCallback, errorCallback) {
+  ajaxCall("DELETE", `${moviesEndpoint}/reset-database`, null, successCallback, errorCallback);
+}

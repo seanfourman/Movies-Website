@@ -97,5 +97,11 @@ namespace IMDBTask.Models
             DBservices dbs = new DBservices();
             return dbs.DeleteMovie(id);
         }
+
+        public static bool ResetMovieDatabase()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.ResetMovieDatabase();
+        }
     }
 }

@@ -749,6 +749,40 @@ namespace IMDBTask.Services
             }
         }
 
+        // Database
+        public bool ResetMovieDatabase()
+        {
+            SqlConnection con = null;
+            SqlCommand cmd;
+
+            try
+            {
+                con = Connect();
+                cmd = CreateCommandWithStoredProcedure("SP_ResetMovieDatabase", con, null);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                bool result = false;
+
+                if (reader.Read())
+                {
+                    result = true;
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
+
         private SqlCommand CreateCommandWithStoredProcedure(string spName, SqlConnection con, Dictionary<string, object> parameters)
         {
             SqlCommand cmd = new SqlCommand

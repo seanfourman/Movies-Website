@@ -190,7 +190,7 @@ function showResetMoviesConfirmation() {
           <span class="danger-warning">This action cannot be undone</span>
         </p>
         <div class="confirmation-dialog-buttons">
-          <button class="confirmation-dialog-btn confirm-btn danger-confirm">Restore All Movies</button>
+          <button class="confirmation-dialog-btn confirm-btn danger-confirm">Restore</button>
           <button class="confirmation-dialog-btn cancel-btn">Cancel</button>
         </div>
       </div>
@@ -200,13 +200,21 @@ function showResetMoviesConfirmation() {
   $("body").append(confirmHTML);
 
   $(".confirm-btn.danger-confirm").on("click", function () {
-    // This is where you'll add your AJAX call to reset movies
-    // For now, just show a success message
-    showPopup("Movie database has been reset", true);
-
-    $(".confirmation-dialog-overlay").fadeOut(300, function () {
-      $(this).remove();
-    });
+    resetMovieDatabase(
+      function (result) {
+        sendMoviesToServer();
+        showPopup("Movie database has been reset successfully", true);
+        $(".confirmation-dialog-overlay").fadeOut(300, function () {
+          $(this).remove();
+        });
+      },
+      function (error) {
+        showPopup("Failed to reset movie database: " + (error.responseText || "Unknown error"), false);
+        $(".confirmation-dialog-overlay").fadeOut(300, function () {
+          $(this).remove();
+        });
+      }
+    );
   });
 
   $(".cancel-btn, .confirmation-dialog-overlay").on("click", function (e) {
@@ -215,5 +223,32 @@ function showResetMoviesConfirmation() {
         $(this).remove();
       });
     }
+  });
+}
+
+function sendMoviesToServer() {
+  movies.forEach((movie) => {
+    const movieData = {
+      primaryTitle: movie.primaryTitle,
+      description: movie.description,
+      primaryImage: movie.primaryImage,
+      contentRating: movie.contentRating,
+      releaseDate: movie.releaseDate,
+      language: movie.language == null ? "Unknown" : movie.language,
+      genres: Array.isArray(movie.genres) ? movie.genres.join(",") : movie.genres,
+      year: movie.startYear,
+      budget: movie.budget === null ? 0.0 : movie.budget,
+      grossWorldWide: movie.grossWorldwide === null ? 0.0 : movie.grossWorldwide,
+      runtimeMinutes: movie.runtimeMinutes,
+      averageRating: movie.averageRating,
+      numVotes: movie.numVotes,
+      url: movie.url
+    };
+
+    addMovie(
+      movieData,
+      (response) => console.log("added movie" + response),
+      (error) => console.error("error" + error)
+    );
   });
 }

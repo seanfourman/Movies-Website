@@ -84,47 +84,27 @@ namespace IMDBTask.Controllers
             Movie movie = new Movie();
             return movie.Delete(id);
         }
-    }
 
-    public class RentedMovieDto
-    {
-        public int Id { get; set; }
-        public string Url { get; set; }
-        public string PrimaryTitle { get; set; }
-        public string Description { get; set; }
-        public string PrimaryImage { get; set; }
-        public int Year { get; set; }
-        public DateTime ReleaseDate { get; set; }
-        public string Language { get; set; }
-        public double Budget { get; set; }
-        public double GrossWorldwide { get; set; }
-        public string Genres { get; set; }
-        public bool IsAdult { get; set; }
-        public int RuntimeMinutes { get; set; }
-        public float AverageRating { get; set; }
-        public int NumVotes { get; set; }
-        //public int RentIsFinished { get; set; }
-
-        public RentedMovieDto() { }
-
-        public RentedMovieDto(Movie movie)
+        // DELETE: api/Movies/reset-database
+        [HttpDelete("reset-database")]
+        public ActionResult<bool> ResetMovieDatabase()
         {
-            Id = movie.Id;
-            Url = movie.Url;
-            PrimaryTitle = movie.PrimaryTitle;
-            Description = movie.Description;
-            PrimaryImage = movie.PrimaryImage;
-            Year = movie.Year;
-            ReleaseDate = movie.ReleaseDate;
-            Language = movie.Language;
-            Budget = movie.Budget;
-            GrossWorldwide = movie.GrossWorldwide;
-            Genres = movie.Genres;
-            IsAdult = movie.IsAdult;
-            RuntimeMinutes = movie.RuntimeMinutes;
-            AverageRating = movie.AverageRating;
-            NumVotes = movie.NumVotes;
-            // RentIsFinished = movie.RentIsFinished;
+            try
+            {
+                bool result = Movie.ResetMovieDatabase();
+                if (result)
+                {
+                    return Ok(true);
+                }
+                else
+                {
+                    return StatusCode(500, "Failed to reset movie database");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error resetting movie database: {ex.Message}");
+            }
         }
     }
 }
