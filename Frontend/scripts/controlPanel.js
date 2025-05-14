@@ -202,10 +202,7 @@ function showResetMoviesConfirmation() {
   $(".confirm-btn.danger-confirm").on("click", function () {
     resetMovieDatabase(
       function (result) {
-        // Show initial popup that database was reset
         showPopup("Movie database has been reset successfully. Adding movies...", true);
-
-        // Start adding movies with counter tracking
         sendMoviesToServer();
 
         $(".confirmation-dialog-overlay").fadeOut(300, function () {
